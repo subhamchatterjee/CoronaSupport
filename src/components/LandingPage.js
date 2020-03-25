@@ -111,7 +111,7 @@ export default class LandingPage extends Component {
 					<div className="filter-container">
 						<div className="filter">
 							<label className="control-label">District</label>
-							<Select size="large" value={this.state.district} onChange={this.districtChange} style={{ width: 120 }}>
+							<Select size="large" value={this.state.district} onChange={this.districtChange} style={{ width: 150 }}>
 								<Option value="">All</Option>
 								{this.state.districts.map(function(district, index) {
 									return (

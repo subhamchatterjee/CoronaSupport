@@ -10,6 +10,21 @@
 .pointer {
   cursor: pointer !important; }
 
+body {
+  margin: 0;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; }
+
+note, .note {
+  color: #ef5a20; }
+
+button.btn {
+  color: #fff;
+  background: #ef5a20; }
+button:disabled {
+  cursor: not-allowed; }
+
 .landing-page .banner {
   width: 100%;
   height: 320px;
@@ -65,10 +80,10 @@
     display: flex; }
     .landing-page .container-1 .content .left-container {
       width: 55%;
-      height: 400px;
       color: #2a2a2a;
       font-size: 18px;
       font-weight: 600;
+      min-height: 400px;
       margin-right: 20px;
       letter-spacing: 1px; }
       .landing-page .container-1 .content .left-container > div {
@@ -143,6 +158,7 @@
     display: flex;
     height: 180px;
     margin: 0 auto;
+    padding: 0 15px;
     align-items: center;
     background: #fafafa;
     letter-spacing: 0.5px;
@@ -153,7 +169,8 @@
       margin: 10px 0;
       font-size: 24px; }
     .landing-page .container-2 .requirements-container .no-materials > .sub-title {
-      font-size: 18px; }
+      font-size: 18px;
+      margin-bottom: 10px; }
   .landing-page .container-2 .requirements-container .req-row {
     color: #444;
     width: 100%;
@@ -429,19 +446,61 @@
       .manage-single-material-page .add-district-container .add-district-btn i.fa {
         margin-right: 8px; }
 
-body {
-  margin: 0;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; }
-
-note, .note {
-  color: #ef5a20; }
-
-button.btn {
-  color: #fff;
-  background: #ef5a20; }
-button:disabled {
-  cursor: not-allowed; }
+@media only screen and (max-width: 600px) {
+  .landing-page .banner {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-position: 70% -40px; }
+    .landing-page .banner .banner-container {
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      align-items: center;
+      box-shadow: inset 0 0 1px 1000px rgba(255, 255, 255, 0.8); }
+      .landing-page .banner .banner-container .logos-container {
+        flex-direction: column; }
+    .landing-page .banner .banner-heading {
+      transform: none; }
+  .landing-page .container-1 {
+    margin-top: 15px;
+    padding: 5px 25px; }
+    .landing-page .container-1 .content {
+      flex-direction: column-reverse; }
+      .landing-page .container-1 .content .left-container {
+        width: 100%;
+        height: auto;
+        text-align: justify; }
+        .landing-page .container-1 .content .left-container > div.heading {
+          text-align: center; }
+      .landing-page .container-1 .content .right-container {
+        padding: 0;
+        width: auto;
+        height: 200px; }
+  .landing-page .container-2 {
+    padding: 5px 25px; }
+    .landing-page .container-2 .heading {
+      text-align: center; }
+    .landing-page .container-2 .requirements-container {
+      overflow-x: auto; }
+      .landing-page .container-2 .requirements-container .heading {
+        height: 30px;
+        width: 1000px;
+        display: block; }
+        .landing-page .container-2 .requirements-container .heading .column-1 {
+          float: left;
+          width: 200px; }
+        .landing-page .container-2 .requirements-container .heading .column-2, .landing-page .container-2 .requirements-container .heading .column-4 {
+          float: left;
+          width: 200px; }
+        .landing-page .container-2 .requirements-container .heading .column-3 {
+          float: left;
+          width: 400px; }
+      .landing-page .container-2 .requirements-container .no-materials {
+        height: auto;
+        min-height: 180px;
+        text-align: center; }
+  .landing-page .container-3 .heading-container, .landing-page .container-3 .heading, .landing-page .container-3 .text-container {
+    padding: 15px 25px; } }
 
 /*# sourceMappingURL=style.css.map */
