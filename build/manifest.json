@@ -1,0 +1,15 @@
+{
+  "short_name": "COMBAT COVID",
+  "name": "AN INITIATIVE TO COMBAT COVID, TOGETHER",
+  "icons": [
+    {
+      "src": "/images/logo.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "red",
+  "background_color": "#ffffff"
+}

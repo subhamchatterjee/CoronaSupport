@@ -1,0 +1,506 @@
+@import url("https://fonts.googleapis.com/css?family=Delius+Swash+Caps|Merienda+One|Pangolin|Poppins|Quicksand|Lobster|Muli");
+@font-face {
+  font-family: "Proxima Nova";
+  src: url("https://assets.letsendorse.com/fonts/proxima_nova/Mark Simonson - Proxima Nova Alt Regular-webfont.eot");
+  src: url("https://assets.letsendorse.com/fonts/proxima_nova/Mark Simonson - Proxima Nova Alt Regular-webfont.woff") format("woff"), url("https://assets.letsendorse.com/fonts/proxima_nova/Mark Simonson - Proxima Nova Alt Regular-webfont.otf") format("opentype"), url("https://assets.letsendorse.com/fonts/proxima_nova/Mark Simonson - Proxima Nova Alt Regular-webfont.svg") format("svg"); }
+* {
+  outline: none !important;
+  font-family: "Proxima Nova", sans-serif; }
+
+.pointer {
+  cursor: pointer !important; }
+
+body {
+  margin: 0;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; }
+
+note, .note {
+  color: #ef5a20; }
+
+button.btn {
+  color: #fff;
+  background: #ef5a20; }
+button:disabled {
+  cursor: not-allowed; }
+
+.landing-page .banner {
+  width: 100%;
+  height: 320px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("/images/banner.png"); }
+  .landing-page .banner .banner-container {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px 0 15px 80px; }
+    .landing-page .banner .banner-container .black-text, .landing-page .banner .banner-container .red-text {
+      font-size: 36px;
+      font-weight: 600;
+      line-height: 38px;
+      letter-spacing: 1px; }
+    .landing-page .banner .banner-container .black-text {
+      color: #1a1a1a; }
+      .landing-page .banner .banner-container .black-text.small {
+        font-size: 16px;
+        line-height: 24px; }
+    .landing-page .banner .banner-container .red-text {
+      color: red; }
+    .landing-page .banner .banner-container .logos-container {
+      width: 100%;
+      display: flex;
+      align-items: center; }
+      .landing-page .banner .banner-container .logos-container img {
+        padding: 5px; }
+  .landing-page .banner .banner-heading {
+    color: #fff;
+    background: red;
+    padding: 10px 0;
+    font-size: 30px;
+    font-weight: 600;
+    text-align: center;
+    transform: translateY(100%); }
+.landing-page .container-1 {
+  margin-top: 65px;
+  padding: 20px 50px; }
+  .landing-page .container-1 .heading {
+    font-size: 30px;
+    letter-spacing: 0.8px; }
+    .landing-page .container-1 .heading > span {
+      margin-right: 10px; }
+    .landing-page .container-1 .heading .black-text {
+      color: #1a1a1a; }
+    .landing-page .container-1 .heading .red-text {
+      color: red; }
+  .landing-page .container-1 .content {
+    display: flex; }
+    .landing-page .container-1 .content .left-container {
+      width: 55%;
+      color: #2a2a2a;
+      font-size: 18px;
+      font-weight: 600;
+      min-height: 400px;
+      margin-right: 20px;
+      letter-spacing: 1px; }
+      .landing-page .container-1 .content .left-container > div {
+        margin-bottom: 15px; }
+        .landing-page .container-1 .content .left-container > div .red-text {
+          color: red; }
+    .landing-page .container-1 .content .right-container {
+      padding: 10px 20px;
+      width: calc(45% - 20px);
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: url("/images/map.png"); }
+.landing-page .container-2 {
+  padding: 20px 50px; }
+  .landing-page .container-2 .heading {
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: 0.8px; }
+    .landing-page .container-2 .heading > span {
+      margin-right: 10px; }
+    .landing-page .container-2 .heading .black-text {
+      color: #1a1a1a; }
+    .landing-page .container-2 .heading .red-text {
+      color: red; }
+  .landing-page .container-2 .filter-container {
+    display: flex;
+    margin: 5px 0;
+    align-items: center;
+    justify-content: space-between; }
+    .landing-page .container-2 .filter-container .filter .control-label {
+      color: #2a2a2a;
+      font-size: 18px;
+      font-weight: 600;
+      margin-right: 10px;
+      letter-spacing: 1px; }
+    .landing-page .container-2 .filter-container .filter .ant-select .ant-select-selection-item {
+      color: red; }
+    .landing-page .container-2 .filter-container .filter .ant-select .ant-select-selector {
+      border-color: #666; }
+    .landing-page .container-2 .filter-container .filter .ant-select .ant-select-arrow {
+      color: #666; }
+    .landing-page .container-2 .filter-container .last-updated-container {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.5px; }
+      .landing-page .container-2 .filter-container .last-updated-container .black-text {
+        color: #1a1a1a;
+        margin-right: 5px; }
+      .landing-page .container-2 .filter-container .last-updated-container .red-text {
+        color: red; }
+  .landing-page .container-2 .requirements-container .heading {
+    color: red;
+    display: flex;
+    font-size: 16px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #777; }
+    .landing-page .container-2 .requirements-container .heading .column-1 {
+      width: calc(70% - 380px); }
+    .landing-page .container-2 .requirements-container .heading .column-2 {
+      width: 200px; }
+    .landing-page .container-2 .requirements-container .heading .column-3 {
+      width: 30%; }
+    .landing-page .container-2 .requirements-container .heading .column-4 {
+      width: 180px;
+      text-align: center; }
+  .landing-page .container-2 .requirements-container .no-materials {
+    color: #444;
+    width: 100%;
+    display: flex;
+    height: 180px;
+    margin: 0 auto;
+    padding: 0 15px;
+    align-items: center;
+    background: #fafafa;
+    letter-spacing: 0.5px;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 0 1px #aaa; }
+    .landing-page .container-2 .requirements-container .no-materials > .title {
+      margin: 10px 0;
+      font-size: 24px; }
+    .landing-page .container-2 .requirements-container .no-materials > .sub-title {
+      font-size: 18px;
+      margin-bottom: 10px; }
+  .landing-page .container-2 .requirements-container .req-row {
+    color: #444;
+    width: 100%;
+    display: flex;
+    font-size: 16px;
+    min-height: 50px;
+    align-items: center;
+    letter-spacing: 0.5px; }
+    .landing-page .container-2 .requirements-container .req-row .column-1 {
+      width: calc(70% - 380px); }
+    .landing-page .container-2 .requirements-container .req-row .column-2 {
+      width: 200px; }
+    .landing-page .container-2 .requirements-container .req-row .column-3 {
+      width: 30%; }
+      .landing-page .container-2 .requirements-container .req-row .column-3 .box {
+        width: 75%;
+        height: 15px;
+        position: relative;
+        margin-bottom: 10px;
+        border: 1px solid #bbb; }
+        .landing-page .container-2 .requirements-container .req-row .column-3 .box .box-filled {
+          height: 13px;
+          position: relative;
+          background: rgba(255, 0, 0, 0.4); }
+          .landing-page .container-2 .requirements-container .req-row .column-3 .box .box-filled > span {
+            right: 0;
+            font-size: 12px;
+            position: absolute;
+            top: calc(100% + 5px);
+            transform: translateX(50%); }
+            .landing-page .container-2 .requirements-container .req-row .column-3 .box .box-filled > span:before {
+              width: 0;
+              height: 0;
+              left: 50%;
+              top: -3px;
+              content: "";
+              position: absolute;
+              transform: translateX(-50%);
+              border-left: 5px solid transparent;
+              border-right: 5px solid transparent;
+              border-bottom: 5px solid rgba(255, 0, 0, 0.4); }
+        .landing-page .container-2 .requirements-container .req-row .column-3 .box .box-total {
+          right: 0;
+          font-size: 12px;
+          position: absolute;
+          top: calc(100% + 5px);
+          transform: translateX(50%); }
+          .landing-page .container-2 .requirements-container .req-row .column-3 .box .box-total:before {
+            width: 0;
+            height: 0;
+            left: 50%;
+            top: -3px;
+            content: "";
+            position: absolute;
+            transform: translateX(-50%);
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid rgba(255, 0, 0, 0.4); }
+    .landing-page .container-2 .requirements-container .req-row .column-4 {
+      width: 180px;
+      text-align: center; }
+      .landing-page .container-2 .requirements-container .req-row .column-4 .btn.interest-btn {
+        color: #fff;
+        background: red;
+        text-transform: uppercase; }
+.landing-page .container-3 .heading-container {
+  color: #fff;
+  font-size: 18px;
+  margin-top: 26px;
+  padding: 10px 50px;
+  background: rgba(255, 0, 0, 0.5); }
+  .landing-page .container-3 .heading-container .link {
+    color: #fff;
+    cursor: pointer;
+    text-transform: uppercase;
+    text-decoration: underline; }
+.landing-page .container-3 .heading {
+  font-size: 30px;
+  font-weight: 600;
+  padding: 15px 50px;
+  letter-spacing: 0.8px; }
+  .landing-page .container-3 .heading > span {
+    margin-right: 10px; }
+  .landing-page .container-3 .heading .black-text {
+    color: #1a1a1a; }
+  .landing-page .container-3 .heading .red-text {
+    color: red; }
+.landing-page .container-3 .text-container {
+  padding: 10px 50px; }
+  .landing-page .container-3 .text-container > div {
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px;
+    margin-bottom: 20px;
+    letter-spacing: 1px; }
+    .landing-page .container-3 .text-container > div .red-text {
+      color: red; }
+.landing-page .footer-container {
+  margin-top: 40px;
+  position: relative;
+  text-align: center; }
+  .landing-page .footer-container:before {
+    left: 0;
+    z-index: 0;
+    top: -40px;
+    width: 100%;
+    content: "";
+    height: 30px;
+    position: absolute;
+    background: repeating-linear-gradient(-45deg, #fff, #fff 15px, rgba(255, 0, 0, 0.5) 0, rgba(255, 0, 0, 0.5) 40px); }
+  .landing-page .footer-container > div {
+    font-size: 30px;
+    margin-top: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: rgba(255, 0, 0, 0.5); }
+  .landing-page .footer-container > img {
+    margin-bottom: 20px; }
+
+.add-material-page {
+  padding: 50px; }
+  .add-material-page h2 {
+    margin-top: 15px;
+    margin-bottom: 30px; }
+  .add-material-page .question {
+    width: 70%;
+    margin: 15px auto;
+    align-items: center; }
+    .add-material-page .question label {
+      margin: 0;
+      width: 300px;
+      font-size: 20px;
+      font-weight: 600; }
+    .add-material-page .question input, .add-material-page .question textarea {
+      width: calc(100% - 300px); }
+    .add-material-page .question textarea {
+      min-height: 200px; }
+    .add-material-page .question .input-groups {
+      width: calc(100% - 300px); }
+      .add-material-page .question .input-groups > * {
+        flex-grow: 1;
+        margin-right: 10px; }
+        .add-material-page .question .input-groups > *:last-child {
+          margin-right: 0; }
+  .add-material-page .submit-btn {
+    color: #fff;
+    margin-top: 20px;
+    padding: 5px 25px;
+    background: #ef5a20; }
+
+.manage-materials-page {
+  padding: 40px 50px; }
+  .manage-materials-page h2 {
+    margin-top: 0;
+    margin-bottom: 30px; }
+  .manage-materials-page .heading {
+    color: red;
+    width: 70%;
+    display: flex;
+    font-size: 18px;
+    padding-bottom: 10px;
+    letter-spacing: 0.5px;
+    margin: 0 auto 10px auto;
+    border-bottom: 1px solid #777; }
+    .manage-materials-page .heading .column-1 {
+      width: calc(100% - 360px); }
+    .manage-materials-page .heading .column-1, .manage-materials-page .heading .column-2, .manage-materials-page .heading .column-3 {
+      padding: 5px; }
+    .manage-materials-page .heading .column-2, .manage-materials-page .heading .column-3 {
+      width: 180px;
+      text-align: center; }
+  .manage-materials-page .no-materials {
+    width: 70%;
+    color: #444;
+    display: flex;
+    height: 180px;
+    margin: 0 auto;
+    font-size: 20px;
+    align-items: center;
+    background: #fafafa;
+    letter-spacing: 0.5px;
+    justify-content: center;
+    box-shadow: 0 0 1px #aaa; }
+  .manage-materials-page .material-row {
+    width: 70%;
+    color: #444;
+    display: flex;
+    margin: 0 auto;
+    font-size: 16px;
+    min-height: 50px;
+    align-items: center;
+    letter-spacing: 0.5px; }
+    .manage-materials-page .material-row .column-1 {
+      width: calc(100% - 360px); }
+    .manage-materials-page .material-row .column-2, .manage-materials-page .material-row .column-3 {
+      width: 180px;
+      text-align: center; }
+    .manage-materials-page .material-row .column-1, .manage-materials-page .material-row .column-2, .manage-materials-page .material-row .column-3 {
+      padding: 5px; }
+      .manage-materials-page .material-row .column-1 .manage-material-btn, .manage-materials-page .material-row .column-1 .edit-material-btn, .manage-materials-page .material-row .column-2 .manage-material-btn, .manage-materials-page .material-row .column-2 .edit-material-btn, .manage-materials-page .material-row .column-3 .manage-material-btn, .manage-materials-page .material-row .column-3 .edit-material-btn {
+        color: #fff;
+        padding: 5px;
+        width: 150px;
+        margin-top: 20px;
+        text-align: center;
+        background: #ef5a20; }
+
+.manage-single-material-page {
+  padding: 30px 50px; }
+  .manage-single-material-page h2 {
+    margin-top: 0;
+    margin-bottom: 30px; }
+  .manage-single-material-page .heading {
+    color: red;
+    display: flex;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #777; }
+    .manage-single-material-page .heading .column-1, .manage-single-material-page .heading .column-2, .manage-single-material-page .heading .column-3, .manage-single-material-page .heading .column-4, .manage-single-material-page .heading .column-5 {
+      width: 20%;
+      padding: 5px;
+      text-align: center; }
+  .manage-single-material-page .no-materials {
+    width: 70%;
+    color: #444;
+    display: flex;
+    height: 180px;
+    margin: 0 auto;
+    font-size: 20px;
+    align-items: center;
+    background: #fafafa;
+    letter-spacing: 0.5px;
+    justify-content: center;
+    box-shadow: 0 0 1px #aaa; }
+  .manage-single-material-page .material-row {
+    color: #444;
+    width: 100%;
+    display: flex;
+    font-size: 16px;
+    min-height: 50px;
+    align-items: center;
+    letter-spacing: 0.5px; }
+    .manage-single-material-page .material-row:nth-child(2n) {
+      background: #f7f7f7; }
+    .manage-single-material-page .material-row .column-1, .manage-single-material-page .material-row .column-2, .manage-single-material-page .material-row .column-3, .manage-single-material-page .material-row .column-4, .manage-single-material-page .material-row .column-5 {
+      width: 20%;
+      padding: 5px;
+      text-align: center; }
+      .manage-single-material-page .material-row .column-1 .save-requirement-btn, .manage-single-material-page .material-row .column-2 .save-requirement-btn, .manage-single-material-page .material-row .column-3 .save-requirement-btn, .manage-single-material-page .material-row .column-4 .save-requirement-btn, .manage-single-material-page .material-row .column-5 .save-requirement-btn {
+        color: #fff;
+        background: #ef5a20; }
+      .manage-single-material-page .material-row .column-1 .add-fulfilment-btn, .manage-single-material-page .material-row .column-1 .edit-requirement-btn, .manage-single-material-page .material-row .column-2 .add-fulfilment-btn, .manage-single-material-page .material-row .column-2 .edit-requirement-btn, .manage-single-material-page .material-row .column-3 .add-fulfilment-btn, .manage-single-material-page .material-row .column-3 .edit-requirement-btn, .manage-single-material-page .material-row .column-4 .add-fulfilment-btn, .manage-single-material-page .material-row .column-4 .edit-requirement-btn, .manage-single-material-page .material-row .column-5 .add-fulfilment-btn, .manage-single-material-page .material-row .column-5 .edit-requirement-btn {
+        color: #ef5a20;
+        background: #fff;
+        border: 1px solid #ef5a20; }
+      .manage-single-material-page .material-row .column-1 .add-fulfilment-btn, .manage-single-material-page .material-row .column-1 .save-requirement-btn, .manage-single-material-page .material-row .column-1 .edit-requirement-btn, .manage-single-material-page .material-row .column-2 .add-fulfilment-btn, .manage-single-material-page .material-row .column-2 .save-requirement-btn, .manage-single-material-page .material-row .column-2 .edit-requirement-btn, .manage-single-material-page .material-row .column-3 .add-fulfilment-btn, .manage-single-material-page .material-row .column-3 .save-requirement-btn, .manage-single-material-page .material-row .column-3 .edit-requirement-btn, .manage-single-material-page .material-row .column-4 .add-fulfilment-btn, .manage-single-material-page .material-row .column-4 .save-requirement-btn, .manage-single-material-page .material-row .column-4 .edit-requirement-btn, .manage-single-material-page .material-row .column-5 .add-fulfilment-btn, .manage-single-material-page .material-row .column-5 .save-requirement-btn, .manage-single-material-page .material-row .column-5 .edit-requirement-btn {
+        padding: 5px;
+        width: 120px;
+        text-align: center; }
+  .manage-single-material-page .add-district-container {
+    text-align: center; }
+    .manage-single-material-page .add-district-container .add-district-btn {
+      color: #fff;
+      padding: 5px;
+      width: 150px;
+      margin-top: 30px;
+      text-align: center;
+      background: #ef5a20; }
+      .manage-single-material-page .add-district-container .add-district-btn i.fa {
+        margin-right: 8px; }
+
+@media only screen and (max-width: 600px) {
+  .landing-page .banner {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-position: 70% -40px; }
+    .landing-page .banner .banner-container {
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      align-items: center;
+      box-shadow: inset 0 0 1px 1000px rgba(255, 255, 255, 0.8); }
+      .landing-page .banner .banner-container .logos-container {
+        flex-direction: column; }
+    .landing-page .banner .banner-heading {
+      transform: none; }
+  .landing-page .container-1 {
+    margin-top: 15px;
+    padding: 5px 25px; }
+    .landing-page .container-1 .content {
+      flex-direction: column-reverse; }
+      .landing-page .container-1 .content .left-container {
+        width: 100%;
+        height: auto;
+        text-align: justify; }
+        .landing-page .container-1 .content .left-container > div.heading {
+          text-align: center; }
+      .landing-page .container-1 .content .right-container {
+        padding: 0;
+        width: auto;
+        height: 200px; }
+  .landing-page .container-2 {
+    padding: 5px 25px; }
+    .landing-page .container-2 .heading {
+      text-align: center; }
+    .landing-page .container-2 .requirements-container {
+      overflow-x: auto; }
+      .landing-page .container-2 .requirements-container .heading {
+        height: 30px;
+        width: 1000px;
+        display: block; }
+        .landing-page .container-2 .requirements-container .heading .column-1 {
+          float: left;
+          width: 200px; }
+        .landing-page .container-2 .requirements-container .heading .column-2, .landing-page .container-2 .requirements-container .heading .column-4 {
+          float: left;
+          width: 200px; }
+        .landing-page .container-2 .requirements-container .heading .column-3 {
+          float: left;
+          width: 400px; }
+      .landing-page .container-2 .requirements-container .no-materials {
+        height: auto;
+        min-height: 180px;
+        text-align: center; }
+  .landing-page .container-3 .heading-container, .landing-page .container-3 .heading, .landing-page .container-3 .text-container {
+    padding: 15px 25px; } }
+
+/*# sourceMappingURL=style.css.map */
