@@ -97,7 +97,7 @@ export default class LandingPage extends Component {
 								<span className="black-text">OUR</span>
 								<span className="red-text">ENDEAVOUR</span>
 							</div>
-							<div>We are currently in the midst of a pandemic. And we are aware that our healthcare capacity is not wellequipped to handle this burden. In collaboration with <span className="red-text"><u>Maharashtra State Innovation Society, a body of the Government of Maharashtra</u>, the various district hospitals and <u>LetsEndorse</u></span> to combat this.</div>
+							<div>We are currently in the midst of a pandemic. And we are aware that our healthcare capacity is not wellequipped to handle this burden. In collaboration with <span className="red-text"><a className="red-text" href="https://msins.in/" target="_blank">Maharashtra State Innovation Society, a body of the Government of Maharashtra</a>, the various district hospitals and <a className="red-text" href="https://letsendorse.com/" target="_blank">LetsEndorse</a></span> to combat this.</div>
 							<div>We are running against time to get the supplies that our public health system needs. And we need support from one and all in enabling our infrastructure and people to combat COVID-19.</div>
 						</div>
 						<div className="right-container"></div>
@@ -167,8 +167,8 @@ export default class LandingPage extends Component {
 						<span className="red-text">PLATFORM WORK?</span>
 					</div>
 					<div className="text-container">
-						<div>Built in collaboration with <u className="red-text">Maharashtra State Innovation Society</u> (a body of the Government of Maharashtra) and <u className="red-text">LetsEndorse</u>, this platform serves to provide real-time information about the gaps in and needs of the public health system of Maharashtra.</div>
-						<div>Our collective goal is to garner the precise needs from the ground (Government Hospitals serving COVID-19 patients) from across different districts of Maharashtra and offer a single and transparent channel to individuals and institutions <b>(through grants and CSR funds- <u className="red-text">Read regulation here</u>)</b> to make direct contribution and impact in fighting the current pandemic.</div>
+						<div>Built in collaboration with <a className="red-text" href="https://msins.in/" target="_blank">Maharashtra State Innovation Society</a> (a body of the Government of Maharashtra) and <a className="red-text" href="https://letsendorse.com/" target="_blank">LetsEndorse</a>, this platform serves to provide real-time information about the gaps in and needs of the public health system of Maharashtra.</div>
+						<div>Our collective goal is to garner the precise needs from the ground (Government Hospitals serving COVID-19 patients) from across different districts of Maharashtra and offer a single and transparent channel to individuals and institutions <b>(through grants and CSR funds- <a className="red-text" href="https://www.mca.gov.in/Ministry/pdf/Covid_23032020.pdf" target="_blank">Read regulation here</a>)</b> to make direct contribution and impact in fighting the current pandemic.</div>
 						<div>Once you gauge the gaps, you can click on "<span className="red-text">EXPRESS INTEREST</span>" button, mention the scale of your contribution, recommend any supplier, and our task-force team shall get in touch with you to channelize your support in the most appropriate manner.</div>
 						<div>To check how your contribution has reached the last mile, you can click on the hyperlinked name of the item and you would see the entire list of contributions in realtime.</div>
 						<div>To know further, get in touch with us at <a href="mailto:support@letsendorse.com" target="_blank" className="red-text">support@letsendorse.com</a>.</div>
