@@ -1,0 +1,79 @@
+import React, { Component } from 'react';
+import Swal from 'sweetalert2';
+
+export default class ManageMaterialsPage extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			materials: [
+				{
+					_id: '5asd67as7d6as7d565d6as',
+					name: 'N95 Mask'
+				}, {
+					_id: '5arb67as7ds5s7d951d4sb',
+					name: 'PPE'
+				}, {
+					_id: '5asd5asd5asd5asd5as5de',
+					name: 'Triple Layer Mask'
+				}
+			]
+		}
+	}
+
+	componentDidMount() {
+		this.getMaterials();
+	}
+
+	getMaterials = () => {
+		fetch(process.env.REACT_APP_API_URL + '/materials', {
+			method: 'GET'
+		}).then(data => data.json())
+		.then(data => {
+			this.setState({materials: data});
+		}).catch(err => {
+			console.log(err);
+			// Swal.fire(
+			//   'Oops!',
+			//   'An error occured! Please try again in sometime.',
+			//   'error'
+			// );
+		});
+	}
+
+	editMaterial = (materialId) => {
+		window.location.pathname = "/edit-material/" + materialId;
+	}
+
+	manageMaterial = (materialId) => {
+		window.location.pathname = "/manage-material/" + materialId;
+	}
+
+	render() {
+		return (
+			<div className="manage-materials-page">
+				<h2 className="text-center">MANAGE MATERIALS PAGE</h2>
+				<div className="heading">
+					<div className="column-1">Name of the material</div>
+					<div className="column-2">Manage Material</div>
+					<div className="column-3">Edit Material</div>
+				</div>
+				{!this.state.materials.length ? (
+					<div className="no-materials">Material not found</div>
+				) : (null)}
+				{this.state.materials.map((material, index) => {
+					return (
+						<div className="material-row" key={index}>
+							<div className="column-1">{material.name}</div>
+							<div className="column-2">
+								<button className="btn manage-material-btn" onClick={this.manageMaterial.bind(this, material._id)}>Manage</button>
+							</div>
+							<div className="column-3">
+								<button className="btn edit-material-btn" onClick={this.editMaterial.bind(this, material._id)}>Edit</button>
+							</div>
+						</div>
+					)
+				})}
+			</div>
+		);
+	}
+}
