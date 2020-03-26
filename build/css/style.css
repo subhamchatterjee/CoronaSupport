@@ -25,6 +25,29 @@ button.btn {
 button:disabled {
   cursor: not-allowed; }
 
+.control-label {
+  color: #6f6f6f;
+  display: block;
+  font-size: 15px;
+  margin-top: 15px;
+  margin-bottom: 0;
+  font-weight: bold;
+  letter-spacing: 0.1rem; }
+
+.is-imp::after {
+  content: "*";
+  color: #d5313e;
+  line-height: 1;
+  margin-top: 2px;
+  font-weight: 700;
+  padding-left: 2px;
+  font-size: 1.2rem;
+  position: absolute;
+  vertical-align: text-top; }
+
+.mb20 {
+  margin-bottom: 20px; }
+
 .landing-page .banner {
   width: 100%;
   height: 320px;
@@ -79,11 +102,11 @@ button:disabled {
   .landing-page .container-1 .content {
     display: flex; }
     .landing-page .container-1 .content .left-container {
-      width: 55%;
+      width: 70%;
       color: #2a2a2a;
       font-size: 18px;
       font-weight: 600;
-      min-height: 400px;
+      min-height: 270px;
       margin-right: 20px;
       letter-spacing: 1px; }
       .landing-page .container-1 .content .left-container > div {
@@ -92,11 +115,11 @@ button:disabled {
           color: red; }
     .landing-page .container-1 .content .right-container {
       padding: 10px 20px;
-      width: calc(45% - 20px);
+      width: calc(30% - 20px);
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
-      background-image: url("/images/map.png"); }
+      background-image: url("/images/map.svg"); }
 .landing-page .container-2 {
   padding: 20px 50px; }
   .landing-page .container-2 .heading {
@@ -292,6 +315,61 @@ button:disabled {
     margin-bottom: 20px; }
 .landing-page a.red-text {
   text-decoration: underline; }
+
+.express-interest-modal .express-interest-modal-body .radio-container {
+  display: flex;
+  margin-top: 15px;
+  align-items: flex-start; }
+  .express-interest-modal .express-interest-modal-body .radio-container > label.control-label {
+    margin-top: 0; }
+  .express-interest-modal .express-interest-modal-body .radio-container > input {
+    margin: 4px; }
+.express-interest-modal .express-interest-modal-body .footer-container {
+  display: flex;
+  margin: 15px 0;
+  align-items: center;
+  flex-direction: column; }
+  .express-interest-modal .express-interest-modal-body .footer-container > button {
+    margin-bottom: 10px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase; }
+
+.sharing-modal .modal-dialog.modal-lg {
+  width: 80%;
+  max-width: 80%; }
+.sharing-modal .sharing-modal-body .text-container img {
+  margin-bottom: 20px; }
+.sharing-modal .sharing-modal-body .text-container h2 {
+  color: red;
+  font-size: 36px;
+  line-height: 45px;
+  word-spacing: 2px;
+  margin-bottom: 15px;
+  letter-spacing: 0.8px; }
+.sharing-modal .sharing-modal-body .text-container h3 {
+  font-size: 30px;
+  line-height: 40px;
+  word-spacing: 2px;
+  margin-bottom: 15px;
+  letter-spacing: 0.8px; }
+.sharing-modal .sharing-modal-body .text-container h4 {
+  color: red;
+  font-size: 30px;
+  line-height: 40px; }
+.sharing-modal .sharing-modal-body .share-buttons {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  justify-content: center; }
+  .sharing-modal .sharing-modal-body .share-buttons > button {
+    margin: 0 5px; }
+.sharing-modal .sharing-modal-body .quote {
+  width: 100%;
+  font-size: 25px;
+  margin-top: 15px;
+  line-height: 30px;
+  text-align: center;
+  letter-spacing: 0.8px; }
 
 .add-material-page {
   padding: 50px; }
