@@ -29,7 +29,7 @@ export default class ManageMaterialsPage extends Component {
 			method: 'GET'
 		}).then(data => data.json())
 		.then(data => {
-			this.setState({materials: data});
+			this.setState({materials: data.materials});
 		}).catch(err => {
 			console.log(err);
 			// Swal.fire(

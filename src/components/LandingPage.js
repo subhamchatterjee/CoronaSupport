@@ -1,6 +1,6 @@
 import moment from 'moment';
 import Swal from 'sweetalert2';
-import { Select, Button } from 'antd';
+import { Select } from 'antd';
 import React, { Component } from 'react';
 
 const { Option } = Select;
@@ -29,7 +29,7 @@ export default class LandingPage extends Component {
 				method: 'GET'
 			}).then(data => data.json())
 			.then(data => {
-				this.setState({districts: data});
+				this.setState({districts: data.districts});
 			}).catch(err => {
 				console.log(err);
 				// Swal.fire(
@@ -59,7 +59,7 @@ export default class LandingPage extends Component {
 			method: 'GET'
 		}).then(data => data.json())
 		.then(data => {
-			this.setState({materials: data});
+			this.setState({materials: data.materials});
 		}).catch(err => {
 			console.log(err);
 			// Swal.fire(
@@ -115,7 +115,7 @@ export default class LandingPage extends Component {
 								<Option value="">All</Option>
 								{this.state.districts.map(function(district, index) {
 									return (
-										<Option value={district} key={index}>{district}</Option>
+										<Option value={district._id} key={index}>{district.name}</Option>
 									)
 								})}
 							</Select>

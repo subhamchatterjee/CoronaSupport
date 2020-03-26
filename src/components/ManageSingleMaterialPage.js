@@ -21,10 +21,9 @@ export default class ManageSingleMaterialPage extends Component {
 			method: 'GET'
 		}).then(data => data.json())
 		.then(data => {
-			this.setState({ districts: data });
+			this.setState({districts: data.districts});
 		}).catch(err => {
 			console.log(err);
-			this.setState({ districts: ['Gadchiroli', 'Chandrapur', 'Nanded', 'Nashik'] });
 			// Swal.fire(
 			//   'Oops!',
 			//   'An error occured! Please try again in sometime.',
