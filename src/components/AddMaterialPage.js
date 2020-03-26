@@ -55,10 +55,10 @@ export default class AddMaterialPage extends Component {
 		}
 		fetch(url, {
 			method,
-			// headers: {
+			headers: {
 			// 	'Auth': JSON.parse(readCookie('access_token')),
-			// 	'Content-Type': 'application/JSON'
-			// },
+				'Content-Type': 'application/JSON'
+			},
 			body: JSON.stringify(material)
 		}).then(data => data.json())
 		.then(data => {
