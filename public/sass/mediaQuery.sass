@@ -34,6 +34,15 @@
       padding: 5px 25px
       .heading
         text-align: center
+      .filter-container
+        margin-bottom: 15px
+        align-items: flex-end
+        > .filter
+          margin-right: 10px
+        > .last-updated-container
+          display: flex
+          text-align: right
+          flex-direction: column
       .requirements-container
         overflow-x: auto
         .heading
@@ -53,6 +62,21 @@
           height: auto
           min-height: 180px
           text-align: center
+        .req-row
+          width: 1000px
+          display: block
+          text-align: center
+          .column-1
+            float: left
+            width: 200px
+          .column-2, .column-4
+            float: left
+            width: 200px
+          .column-3
+            float: left
+            width: 400px
+            .box
+              width: 80%
     .container-3
       .heading-container, .heading, .text-container
         padding: 15px 25px

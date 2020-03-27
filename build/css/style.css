@@ -445,6 +445,7 @@ button:disabled {
     letter-spacing: 0.5px;
     border-bottom: 1px solid #777; }
     .landing-page .container-2 .requirements-container .heading .column-1 {
+      padding-left: 5px;
       width: calc(70% - 380px); }
     .landing-page .container-2 .requirements-container .heading .column-2 {
       width: 200px; }
@@ -480,7 +481,10 @@ button:disabled {
     min-height: 50px;
     align-items: center;
     letter-spacing: 0.5px; }
+    .landing-page .container-2 .requirements-container .req-row:nth-child(2n) {
+      background: #f9f9f9; }
     .landing-page .container-2 .requirements-container .req-row .column-1 {
+      padding-left: 5px;
       width: calc(70% - 380px); }
     .landing-page .container-2 .requirements-container .req-row .column-2 {
       width: 200px; }
@@ -514,22 +518,24 @@ button:disabled {
               border-right: 5px solid transparent;
               border-bottom: 5px solid rgba(255, 0, 0, 0.4); }
         .landing-page .container-2 .requirements-container .req-row .column-3 .box .box-total {
-          right: 0;
+          top: -4px;
+          left: 100%;
+          padding: 0 2px;
           font-size: 12px;
           position: absolute;
-          top: calc(100% + 5px);
-          transform: translateX(50%); }
+          transform: translateX(10px);
+          border: 1px solid rgba(255, 0, 0, 0.4); }
           .landing-page .container-2 .requirements-container .req-row .column-3 .box .box-total:before {
             width: 0;
+            top: 50%;
             height: 0;
-            left: 50%;
-            top: -3px;
+            left: -10px;
             content: "";
             position: absolute;
-            transform: translateX(-50%);
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-            border-bottom: 5px solid rgba(255, 0, 0, 0.4); }
+            transform: translateY(-50%);
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 8px solid rgba(255, 0, 0, 0.4); }
     .landing-page .container-2 .requirements-container .req-row .column-4 {
       width: 180px;
       text-align: center; }
@@ -839,6 +845,15 @@ button:disabled {
     padding: 5px 25px; }
     .landing-page .container-2 .heading {
       text-align: center; }
+    .landing-page .container-2 .filter-container {
+      margin-bottom: 15px;
+      align-items: flex-end; }
+      .landing-page .container-2 .filter-container > .filter {
+        margin-right: 10px; }
+      .landing-page .container-2 .filter-container > .last-updated-container {
+        display: flex;
+        text-align: right;
+        flex-direction: column; }
     .landing-page .container-2 .requirements-container {
       overflow-x: auto; }
       .landing-page .container-2 .requirements-container .heading {
@@ -858,6 +873,21 @@ button:disabled {
         height: auto;
         min-height: 180px;
         text-align: center; }
+      .landing-page .container-2 .requirements-container .req-row {
+        width: 1000px;
+        display: block;
+        text-align: center; }
+        .landing-page .container-2 .requirements-container .req-row .column-1 {
+          float: left;
+          width: 200px; }
+        .landing-page .container-2 .requirements-container .req-row .column-2, .landing-page .container-2 .requirements-container .req-row .column-4 {
+          float: left;
+          width: 200px; }
+        .landing-page .container-2 .requirements-container .req-row .column-3 {
+          float: left;
+          width: 400px; }
+          .landing-page .container-2 .requirements-container .req-row .column-3 .box {
+            width: 80%; }
   .landing-page .container-3 .heading-container, .landing-page .container-3 .heading, .landing-page .container-3 .text-container {
     padding: 15px 25px; } }
 
