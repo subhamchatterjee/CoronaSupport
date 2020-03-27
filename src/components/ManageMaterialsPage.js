@@ -5,18 +5,7 @@ export default class ManageMaterialsPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			materials: [
-				{
-					_id: '5asd67as7d6as7d565d6as',
-					name: 'N95 Mask'
-				}, {
-					_id: '5arb67as7ds5s7d951d4sb',
-					name: 'PPE'
-				}, {
-					_id: '5asd5asd5asd5asd5as5de',
-					name: 'Triple Layer Mask'
-				}
-			]
+			materials: []
 		}
 	}
 
