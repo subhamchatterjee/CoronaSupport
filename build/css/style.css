@@ -48,6 +48,284 @@ button:disabled {
 .mb20 {
   margin-bottom: 20px; }
 
+#login-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: #EDEFF0;
+  display: flex; }
+  #login-container a {
+    text-decoration: none;
+    color: #ef5a20;
+    transition: 0.5s ease; }
+    #login-container a:hover {
+      color: #CC3900; }
+  #login-container .sahaj-front {
+    width: 65%;
+    height: 100%;
+    display: flex;
+    padding: 0 50px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid #e3e3e3;
+    background: url("/images/social.png") center/contain no-repeat;
+    background-color: red; }
+    #login-container .sahaj-front #sahaj-heading {
+      color: #fff;
+      font-size: 4.5em;
+      margin: 20px auto;
+      text-align: center;
+      text-shadow: 3px 3px 1px #000;
+      font-family: "Berkshire Swash", cursive; }
+    #login-container .sahaj-front #sahaj-quote, #login-container .sahaj-front #sahaj-quote-small {
+      color: #fff;
+      font-size: 25px;
+      margin: 20px auto;
+      text-align: center;
+      text-shadow: 1px 2px 1px #222;
+      font-family: "Armata", sans-serif; }
+    #login-container .sahaj-front #points {
+      display: flex; }
+      #login-container .sahaj-front #points .point {
+        text-align: center;
+        color: #fff;
+        width: 220px;
+        height: 220px;
+        padding: 15px;
+        display: flex;
+        margin: 20px 10px;
+        border-radius: 50%;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        background: rgba(249, 90, 32, 0.8); }
+        #login-container .sahaj-front #points .point .icon {
+          font-size: 22px;
+          text-align: center;
+          margin: 0 0 10px 0; }
+        #login-container .sahaj-front #points .point .heading {
+          font-size: 20px;
+          font-weight: 600;
+          margin: 0 0 5px 0; }
+        #login-container .sahaj-front #points .point .desc {
+          color: #eaeaea;
+          font-size: 16px; }
+    #login-container .sahaj-front #sahaj-quote-small {
+      font-size: 20px;
+      text-shadow: 1px 1px 1px #000; }
+  #login-container .form {
+    width: 35%;
+    color: #999;
+    height: 100%;
+    display: flex;
+    background: #FFF;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center; }
+    #login-container .form .user-name-show {
+      padding: 10px;
+      margin-bottom: 10px; }
+      #login-container .form .user-name-show > h2 {
+        font-weight: 600;
+        text-decoration: none;
+        text-transform: capitalize;
+        color: #ef5a20 !important; }
+  #login-container .tab-group {
+    width: 70%;
+    padding: 0;
+    list-style: none;
+    margin: 0 auto 30px auto; }
+    #login-container .tab-group:after {
+      content: "";
+      clear: both;
+      display: table; }
+    #login-container .tab-group li a {
+      width: 50%;
+      float: left;
+      padding: 10px;
+      display: block;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.5s ease;
+      text-decoration: none;
+      color: var(--themeColorBlur85);
+      background: rgba(160, 179, 176, 0.25); }
+      #login-container .tab-group li a:hover {
+        color: #FFF;
+        background: #ef5a20; }
+    #login-container .tab-group .active a {
+      color: #FFF;
+      background: #ef5a20; }
+  #login-container .tab-content {
+    width: 70%;
+    height: 100%;
+    margin: 0 auto; }
+    #login-container .tab-content > div:last-child:not(#forgot-password, #user-type) {
+      display: none; }
+  #login-container div#signup, #login-container div#login {
+    width: 100%;
+    margin-top: 100px; }
+    #login-container div#signup h1, #login-container div#login h1 {
+      margin: 0;
+      color: #999;
+      font-size: 24px;
+      font-weight: 500;
+      text-align: center; }
+    #login-container div#signup #signup-form, #login-container div#signup #login-form, #login-container div#login #signup-form, #login-container div#login #login-form {
+      margin-top: 5px; }
+      #login-container div#signup #signup-form .field-wrap > select#org-type, #login-container div#signup #login-form .field-wrap > select#org-type, #login-container div#login #signup-form .field-wrap > select#org-type, #login-container div#login #login-form .field-wrap > select#org-type {
+        width: 100%; }
+    #login-container div#signup #signup-form select#org-type, #login-container div#login #signup-form select#org-type {
+      color: #999;
+      height: 40px;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 3px 10px; }
+  #login-container div#user-type {
+    width: 100%;
+    height: 60vh;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center; }
+    #login-container div#user-type h1 {
+      margin: 0;
+      color: #999;
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 20px; }
+    #login-container div#user-type h4 {
+      color: #ef5a20;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 40px; }
+    #login-container div#user-type .user-type-container {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center; }
+      #login-container div#user-type .user-type-container .user-types {
+        color: white;
+        width: 180px;
+        padding: 8px;
+        cursor: pointer;
+        font-size: 18px;
+        text-align: center;
+        background: #ef5a20;
+        border: 1px solid #ef5a20;
+        box-shadow: 1px 1px 1px #aaa; }
+        #login-container div#user-type .user-type-container .user-types:hover {
+          box-shadow: 3px 3px 3px #aaa; }
+  #login-container .show-div {
+    display: block !important; }
+  #login-container .hide-div {
+    display: none !important; }
+  #login-container #forgot-password {
+    width: 100%;
+    margin-top: 100px; }
+    #login-container #forgot-password h2 {
+      color: #ef5a20; }
+    #login-container #forgot-password h4 {
+      font-size: 16px;
+      margin-top: 10px; }
+  #login-container label {
+    position: absolute;
+    transform: translateY(9px);
+    left: 13px;
+    color: #999;
+    transition: all 0.25s ease;
+    -webkit-backface-visibility: hidden;
+    pointer-events: none;
+    font-size: 15px; }
+    #login-container label .req {
+      margin: 2px;
+      color: #ef5a20; }
+    #login-container label.active {
+      transform: translateY(-25px);
+      left: 2px;
+      font-size: 14px; }
+      #login-container label.active .req {
+        opacity: 0; }
+    #login-container label.highlight {
+      color: #999; }
+    #login-container label.wrong {
+      color: #d00 !important; }
+  #login-container input, #login-container textarea {
+    font-size: 14px;
+    display: block;
+    width: 100%;
+    height: 40px;
+    padding: 3px 10px;
+    background: none;
+    background-image: none;
+    border: 1px solid #aaa;
+    color: #999;
+    border-radius: 0;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease; }
+    #login-container input.wrong, #login-container textarea.wrong {
+      border: 1px solid #d00; }
+  #login-container input:focus {
+    outline: 0;
+    border-color: #ef5a20; }
+  #login-container textarea:focus {
+    outline: 0;
+    border-color: #ef5a20;
+    border: 2px solid #a0b3b0;
+    resize: vertical; }
+  #login-container .field-wrap {
+    position: relative;
+    margin-top: 30px; }
+  #login-container #login-form .field-wrap:nth-child(2) {
+    margin-bottom: 30px; }
+  #login-container .top-row:after {
+    content: "";
+    display: table;
+    clear: both; }
+  #login-container .top-row > div {
+    float: left;
+    width: 48%;
+    margin-right: 4%; }
+    #login-container .top-row > div:last-child {
+      margin: 0; }
+  #login-container .button {
+    border: 0;
+    color: #FFF;
+    outline: none;
+    padding: 10px 0;
+    font-weight: 600;
+    margin-top: 25px;
+    border-radius: 0;
+    font-size: 1.6rem;
+    letter-spacing: 0.1em;
+    -webkit-appearance: none;
+    transition: all 0.5s ease;
+    text-transform: uppercase;
+    background: rgba(239, 90, 32, 0.85); }
+    #login-container .button:hover, #login-container .button:focus {
+      background: #ef5a20; }
+  #login-container .button-block {
+    display: block;
+    width: 100%; }
+  #login-container .forgot:not(.form) {
+    text-align: center;
+    margin: 10px auto;
+    color: #ef5a20;
+    display: block; }
+    #login-container .forgot:not(.form):hover {
+      color: #ef5a20 !important; }
+    #login-container .forgot:not(.form) #forgot-span {
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer; }
+  #login-container .form.forgot > .tab-content > h2 {
+    color: #ef5a20;
+    font-weight: 600;
+    font-size: 20px; }
+
 .landing-page .banner {
   width: 100%;
   height: 320px;

@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { Select } from 'antd';
 
 const { Option } = Select;
+const readCookie = require('../cookie.js').readCookie;
 
 export default class ManageSingleMaterialPage extends Component {
 	constructor(props) {
@@ -35,36 +36,50 @@ export default class ManageSingleMaterialPage extends Component {
 			method: 'GET'
 		}).then(data => data.json())
 		.then(data => {
-			this.setState({material: data});
+			let material = data.material;
+			fetch(process.env.REACT_APP_API_URL + '/requirements?material=' + material.name, {
+				method: 'GET'
+			}).then(data => data.json())
+			.then(data => {
+				material.requirements = data.requirements;
+				this.setState({ material });
+			}).catch(err => {
+				console.log(err);
+				// Swal.fire(
+				//   'Oops!',
+				//   'An error occured! Please try again in sometime.',
+				//   'error'
+				// );
+			});
 		}).catch(err => {
 			console.log(err);
-			this.setState({
-				material: {
-					_id: '5asd5asd67sds6asd65as',
-					name: 'N95',
-					requirements: [{
-						_id: '5asd65as65sd65sad65sa',
-						district: 'Gadchiroli',
-						reqUnits: 30454,
-						fulfilledUnits: 123
-					}, {
-						_id: '5as5das5da5dwq556dffd',
-						district: 'Chandrapur',
-						reqUnits: 4500,
-						fulfilledUnits: 0
-					}, {
-						_id: '5fdg87dfg87df87gw7dse',
-						district: 'Nanded',
-						reqUnits: 2342,
-						fulfilledUnits: 32
-					}, {
-						_id: '5asbvqw65asd87sdf87ds',
-						district: 'Nashik',
-						reqUnits: 23331,
-						fulfilledUnits: 332
-					}]
-				}
-			});
+			// this.setState({
+			// 	material: {
+			// 		_id: '5asd5asd67sds6asd65as',
+			// 		name: 'N95',
+			// 		requirements: [{
+			// 			_id: '5asd65as65sd65sad65sa',
+			// 			district: 'Gadchiroli',
+			// 			required_qnty: 30454,
+			// 			fullfilled_qnty: 123
+			// 		}, {
+			// 			_id: '5as5das5da5dwq556dffd',
+			// 			district: 'Chandrapur',
+			// 			required_qnty: 4500,
+			// 			fullfilled_qnty: 0
+			// 		}, {
+			// 			_id: '5fdg87dfg87df87gw7dse',
+			// 			district: 'Nanded',
+			// 			required_qnty: 2342,
+			// 			fullfilled_qnty: 32
+			// 		}, {
+			// 			_id: '5asbvqw65asd87sdf87ds',
+			// 			district: 'Nashik',
+			// 			required_qnty: 23331,
+			// 			fullfilled_qnty: 332
+			// 		}]
+			// 	}
+			// });
 			// Swal.fire(
 			//   'Oops!',
 			//   'An error occured! Please try again in sometime.',
@@ -80,15 +95,15 @@ export default class ManageSingleMaterialPage extends Component {
 	addDistrict = () => {
 		let valid = true, material = this.state.material;
 		if(material.requirements.length) {
-			if(!material.requirements[material.requirements.length - 1].district || !material.requirements[material.requirements.length - 1].reqUnits) valid = false;
+			if(!material.requirements[material.requirements.length - 1].district || !material.requirements[material.requirements.length - 1].required_qnty) valid = false;
 		}
 
 		if(valid) {
 			material.requirements.push({
 				_id: '0',
 				district: '',
-				reqUnits: '',
-				fulfilledUnits: ''
+				required_qnty: '',
+				fullfilled_qnty: ''
 			});
 
 			this.setState({ material, editRequirement: '0' });
@@ -109,7 +124,7 @@ export default class ManageSingleMaterialPage extends Component {
 	saveRequirement = (req) => {
 		let requirement = {
 			district: req.district,
-			reqUnits: req.reqUnits
+			required_qnty: req.required_qnty
 		}, error = false, material = this.state.material;
 
 		if(material.requirements.length > 1) {
@@ -118,23 +133,30 @@ export default class ManageSingleMaterialPage extends Component {
 			}
 
 			if(!req.district) error = 'district';
-			else if(!req.reqUnits) error = 'reqUnits';
+			else if(!req.required_qnty) error = 'required_qnty';
 		}
 
+		requirement['material'] = material.name;
+
 		if(!error) {
-			fetch(process.env.REACT_APP_API_URL + '/update-requirement/' + req._id, {
-				method: 'PUT',
-				// headers: {
-				// 	'Auth': JSON.parse(readCookie('access_token')),
-				// 	'Content-Type': 'application/JSON'
-				// },
+			let url = process.env.REACT_APP_API_URL + '/update-requirement/' + req._id, method = 'PUT';
+			if(parseInt(req._id) === 0) {
+				method = 'POST';
+				url = process.env.REACT_APP_API_URL + '/add-requirement';
+			}
+			fetch(url, {
+				method,
+				headers: {
+					'Auth': readCookie('access_token'),
+					'Content-Type': 'application/json'
+				},
 				body: JSON.stringify(requirement)
 			}).then(data => data.json())
 			.then(data => {
-				Swal.fire({
-					title: 'Requirement successfully updated.',
-					type: 'success'
-				});
+				this.setState({ editRequirement: null });
+				let title = 'Requirement successfully updated.';
+				if(parseInt(req._id) === 0) title = 'Requirement added successfully.';
+				Swal.fire({ title, type: 'success' });
 			}).catch(err => {
 				console.log(err);
 				this.setState({ editRequirement: null });
@@ -146,7 +168,7 @@ export default class ManageSingleMaterialPage extends Component {
 			});
 		} else {
 			if(error === 'district') Swal.fire('', 'Please select a correct District', 'error');
-			else if(error === 'reqUnits') Swal.fire('', 'Please enter correct required units', 'error');
+			else if(error === 'required_qnty') Swal.fire('', 'Please enter correct required units', 'error');
 		}
 	}
 
@@ -170,10 +192,10 @@ export default class ManageSingleMaterialPage extends Component {
 							<div className="material-row" key={index}>
 								{this.state.editRequirement === req._id ? (
 									<div className="column-1">
-										<Select size="large" value={req.district} onChange={this.handleReqChange.bind(this, index, 'district')} style={{ width: "100%" }}>
+										<Select showSearch size="large" value={req.district} onChange={this.handleReqChange.bind(this, index, 'district')} style={{ width: "100%" }}>
 											{this.state.districts.map(function(district, index) {
 												return (
-													<Option value={district} key={index}>{district}</Option>
+													<Option value={district.name} key={index}>{district.name}</Option>
 												)
 											})}
 										</Select>
@@ -183,12 +205,12 @@ export default class ManageSingleMaterialPage extends Component {
 								)}
 								{this.state.editRequirement === req._id ? (
 									<div className="column-2">
-										<input className="form-control" type="number" value={req.reqUnits} onChange={this.handleReqChange.bind(this, index, 'reqUnits')} />
+										<input className="form-control" type="number" value={req.required_qnty} onChange={this.handleReqChange.bind(this, index, 'required_qnty')} />
 									</div>
 								) : (
-									<div className="column-2">{req.reqUnits}</div>
+									<div className="column-2">{req.required_qnty}</div>
 								)}
-								<div className="column-3">{req.fulfilledUnits}</div>
+								<div className="column-3">{req.fullfilled_qnty}</div>
 								<div className="column-4">
 									<button className="btn add-fulfilment-btn" disabled={this.state.editRequirement} onClick={this.addFulfilment.bind(this, req)}>Add</button>
 								</div>

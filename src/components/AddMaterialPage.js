@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Swal from 'sweetalert2';
 
+const readCookie = require('../cookie.js').readCookie;
+
 export default class AddMaterialPage extends Component {
 	constructor(props) {
 		super(props);
@@ -45,8 +47,8 @@ export default class AddMaterialPage extends Component {
 			material = {
 				name: this.state.name,
 				desc: this.state.desc,
-				minCost: this.state.minCost,
-				maxCost: this.state.maxCost
+				min_price: this.state.minCost,
+				max_price: this.state.maxCost
 			};
 
 		if(this.props.match.params.materialId) {
@@ -56,8 +58,8 @@ export default class AddMaterialPage extends Component {
 		fetch(url, {
 			method,
 			headers: {
-			// 	'Auth': JSON.parse(readCookie('access_token')),
-				'Content-Type': 'application/JSON'
+				'Auth': readCookie('access_token'),
+				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(material)
 		}).then(data => data.json())

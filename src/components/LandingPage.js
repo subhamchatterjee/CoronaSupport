@@ -12,15 +12,7 @@ export default class LandingPage extends Component {
 		super(props);
 		this.state = {
 			districts: [],
-			// materials: [
-			// {
-			// 	_id: '5asd67as7d6as7d565d6as',
-			// 	cost: 550,
-			// 	count: 12347,
-			// 	name: 'N95 Mask',
-			// 	totalCount: 30560
-			// }
-			// ],
+			materials: [],
 			requirements: [],
 			newContribution: {
 				districts: [],
@@ -60,6 +52,20 @@ export default class LandingPage extends Component {
 			});
 		}
 
+		fetch(process.env.REACT_APP_API_URL + '/materials', {
+			method: 'GET'
+		}).then(data => data.json())
+		.then(data => {
+			this.setState({materials: data.materials});
+		}).catch(err => {
+			console.log(err);
+			// Swal.fire(
+			//   'Oops!',
+			//   'An error occured! Please try again in sometime.',
+			//   'error'
+			// );
+		});
+
 		this.refreshReqs();
 	}
 
@@ -70,10 +76,8 @@ export default class LandingPage extends Component {
 	}
 
 	refreshReqs = () => {
-		let query = "";
-		if(this.state.district) query = "?district=" + this.state.district;
-		if(query) query += "&state=" + this.props.match.params.state;
-		else query = "?state=" + this.props.match.params.state;
+		let query = "?dashboard=true&state=" + this.props.match.params.state;
+		if(this.state.district) query += "&district=" + this.state.district;
 
 		fetch(process.env.REACT_APP_API_URL + '/requirements' + query, {
 			method: 'GET'
@@ -92,8 +96,8 @@ export default class LandingPage extends Component {
 
 	express = (requirement) => {
 		let newContribution = {
-			districts: [requirement.district],
-			materials: [requirement.material],
+			districts: [],
+			materials: [requirement._id],
 			amount: '',
 			contribute_as: '',
 			contributer_info: { name: '', phone: '', email: '' },
@@ -131,12 +135,10 @@ export default class LandingPage extends Component {
 		if(!error) {
 			newContribution.state = this.props.match.params.state;
 			newContribution.amount = parseInt(newContribution.amount);
-			newContribution.requirement_id = this.state.selectedRequirement._id;
 			fetch(process.env.REACT_APP_API_URL + '/add-contribute', {
 				method: 'POST',
 				headers: {
-				// 	'Auth': JSON.parse(readCookie('access_token')),
-					'Content-Type': 'application/JSON'
+					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify(newContribution)
 			}).then(data => data.json())
@@ -197,7 +199,7 @@ export default class LandingPage extends Component {
 								<span className="black-text">OUR</span>
 								<span className="red-text">ENDEAVOUR</span>
 							</div>
-							<div>We are currently in the midst of a pandemic. And we are aware that our healthcare capacity is not wellequipped to handle this burden. In collaboration with <span className="red-text"><a className="red-text" href="https://msins.in/" target="_blank">Maharashtra State Innovation Society, a body of the Government of Maharashtra</a>, the various district hospitals and <a className="red-text" href="https://letsendorse.com/" target="_blank">LetsEndorse</a></span> to combat this.</div>
+							<div>We are currently in the midst of a pandemic. And we are aware that our healthcare capacity is not well-equipped to handle this burden. Built in collaboration with <span className="red-text"><a className="red-text" href="https://msins.in/" target="_blank">Maharashtra State Innovation Society, a body of the Government of Maharashtra</a>, the various district hospitals and <a className="red-text" href="https://letsendorse.com/" target="_blank">LetsEndorse</a></span>, this platform serves to bring forth the real-time gaps in the existing public health system and solicit collective support to bridge the same.</div>
 							<div>We are running against time to get the supplies that our public health system needs. And we need support from one and all in enabling our infrastructure and people to combat COVID-19.</div>
 						</div>
 						<div className="right-container"></div>
@@ -211,11 +213,11 @@ export default class LandingPage extends Component {
 					<div className="filter-container">
 						<div className="filter">
 							<label className="control-label">District</label>
-							<Select size="large" value={this.state.district} onChange={this.districtChange} style={{ width: 150 }}>
+							<Select showSearch size="large" value={this.state.district} onChange={this.districtChange} style={{ width: 150 }}>
 								<Option value="">All</Option>
 								{this.state.districts.map(function(district, index) {
 									return (
-										<Option value={district._id} key={index}>{district.name}</Option>
+										<Option value={district.name} key={index}>{district.name}</Option>
 									)
 								})}
 							</Select>
@@ -241,7 +243,7 @@ export default class LandingPage extends Component {
 						{this.state.requirements.map((requirement, index) => {
 							return (
 								<div className="req-row" key={index}>
-									<div className="column-1">{requirement.material}</div>
+									<div className="column-1">{requirement._id}</div>
 									<div className="column-2">
 										{requirement.unit_min_price && requirement.unit_max_price ? (
 											<span>{requirement.unit_min_price + ' - ' + requirement.unit_max_price}</span>
@@ -311,9 +313,9 @@ export default class LandingPage extends Component {
 							<Col md={4}>
 								<label className="control-label is-imp">Materials</label>
 								<Select size="large" mode="multiple" style={{width: "100%"}} value={this.state.newContribution.materials} onChange={this.onChangeHandler.bind(this, 'materials')} placeholder="Select Material(s)">
-									{this.state.requirements.map(function(requirement, index) {
+									{this.state.materials.map(function(material, index) {
 										return (
-											<Option value={requirement.material} key={index}>{requirement.material}</Option>
+											<Option value={material.name} key={index}>{material.name}</Option>
 										)
 									})}
 								</Select>

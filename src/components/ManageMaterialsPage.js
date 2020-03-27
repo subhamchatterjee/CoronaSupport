@@ -55,7 +55,7 @@ export default class ManageMaterialsPage extends Component {
 				<div className="heading">
 					<div className="column-1">Name of the material</div>
 					<div className="column-2">Manage Material</div>
-					<div className="column-3">Edit Material</div>
+					{/*<div className="column-3">Edit Material</div>*/}
 				</div>
 				{!this.state.materials.length ? (
 					<div className="no-materials">Material not found</div>
@@ -67,9 +67,9 @@ export default class ManageMaterialsPage extends Component {
 							<div className="column-2">
 								<button className="btn manage-material-btn" onClick={this.manageMaterial.bind(this, material._id)}>Manage</button>
 							</div>
-							<div className="column-3">
+							{/*<div className="column-3">
 								<button className="btn edit-material-btn" onClick={this.editMaterial.bind(this, material._id)}>Edit</button>
-							</div>
+							</div>*/}
 						</div>
 					)
 				})}
