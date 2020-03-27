@@ -257,7 +257,7 @@ export default class LandingPage extends Component {
 									</div>
 									<div className="column-3">
 										<div className="box">
-											<div className="box-filled" style={{width: parseInt(requirement.fullfilled_qnty / requirement.required_qnty * 100) + "%"}}><span>{requirement.fullfilled_qnty}</span></div>
+											<div className="box-filled" style={parseInt(requirement.fullfilled_qnty / requirement.required_qnty * 100) > 100 ? {width: "100%"} : {width: parseInt(requirement.fullfilled_qnty / requirement.required_qnty * 100) + "%"}}><span>{requirement.fullfilled_qnty}</span></div>
 											<span className="box-total">{requirement.required_qnty}</span>
 										</div>
 									</div>

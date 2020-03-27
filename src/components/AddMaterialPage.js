@@ -9,22 +9,22 @@ export default class AddMaterialPage extends Component {
 		this.state = {
 			name: "",
 			desc: "",
-			minCost: "",
-			maxCost: ""
+			min_price: "",
+			max_price: ""
 		}
 	}
 
 	componentDidMount() {
 		if(this.props.match.params.materialId) {
-			fetch(process.env.REACT_APP_API_URL + '/get-material/' + this.props.match.params.materialId, {
+			fetch(process.env.REACT_APP_API_URL + '/material/' + this.props.match.params.materialId, {
 				method: 'GET'
 			}).then(data => data.json())
 			.then(data => {
 				let material = {
-					name: data.name,
-					desc: data.desc,
-					minCost: data.minCost,
-					maxCost: data.maxCost
+					name: data.material.name,
+					desc: data.material.desc,
+					min_price: data.material.min_price,
+					max_price: data.material.max_price
 				};
 				this.setState(material);
 			}).catch(err => {
@@ -47,8 +47,8 @@ export default class AddMaterialPage extends Component {
 			material = {
 				name: this.state.name,
 				desc: this.state.desc,
-				min_price: this.state.minCost,
-				max_price: this.state.maxCost
+				min_price: this.state.min_price,
+				max_price: this.state.max_price
 			};
 
 		if(this.props.match.params.materialId) {
@@ -95,8 +95,8 @@ export default class AddMaterialPage extends Component {
 				<div className="d-flex question">
 					<label className="control-label">Unit Price in INR</label>
 					<div className="d-flex input-groups">
-						<input className="form-control" type="number" placeholder="Minimum" value={this.state.minCost} onChange={this.changeHandler.bind(this, 'minCost')} />
-						<input className="form-control" type="number" placeholder="Maximum" value={this.state.maxCost} onChange={this.changeHandler.bind(this, 'maxCost')} />
+						<input className="form-control" type="number" placeholder="Minimum" value={this.state.min_price} onChange={this.changeHandler.bind(this, 'min_price')} />
+						<input className="form-control" type="number" placeholder="Maximum" value={this.state.max_price} onChange={this.changeHandler.bind(this, 'max_price')} />
 					</div>
 				</div>
 				<div className="text-center">

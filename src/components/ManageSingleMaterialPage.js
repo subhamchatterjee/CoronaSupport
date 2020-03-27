@@ -53,43 +53,11 @@ export default class ManageSingleMaterialPage extends Component {
 			});
 		}).catch(err => {
 			console.log(err);
-			// this.setState({
-			// 	material: {
-			// 		_id: '5asd5asd67sds6asd65as',
-			// 		name: 'N95',
-			// 		requirements: [{
-			// 			_id: '5asd65as65sd65sad65sa',
-			// 			district: 'Gadchiroli',
-			// 			required_qnty: 30454,
-			// 			fullfilled_qnty: 123
-			// 		}, {
-			// 			_id: '5as5das5da5dwq556dffd',
-			// 			district: 'Chandrapur',
-			// 			required_qnty: 4500,
-			// 			fullfilled_qnty: 0
-			// 		}, {
-			// 			_id: '5fdg87dfg87df87gw7dse',
-			// 			district: 'Nanded',
-			// 			required_qnty: 2342,
-			// 			fullfilled_qnty: 32
-			// 		}, {
-			// 			_id: '5asbvqw65asd87sdf87ds',
-			// 			district: 'Nashik',
-			// 			required_qnty: 23331,
-			// 			fullfilled_qnty: 332
-			// 		}]
-			// 	}
-			// });
-			// Swal.fire(
-			//   'Oops!',
-			//   'An error occured! Please try again in sometime.',
-			//   'error'
-			// );
 		});
 	}
 
-	addFulfilment = (req) => {
-		this.setState({ selectedRequirement: req, showFulfilmentModal: true });
+	manageFulfilment = (req_id) => {
+		window.location.pathname = "/fulfilments/" + req_id;
 	}
 
 	addDistrict = () => {
@@ -131,10 +99,9 @@ export default class ManageSingleMaterialPage extends Component {
 			for(let i = 0; i < material.requirements.length; i++) {
 				if(req._id !== material.requirements[i]._id && req.district === material.requirements[i].district) error = 'district';
 			}
-
-			if(!req.district) error = 'district';
-			else if(!req.required_qnty) error = 'required_qnty';
 		}
+		if(!req.district) error = 'district';
+		else if(!req.required_qnty) error = 'required_qnty';
 
 		requirement['material'] = material.name;
 
@@ -181,8 +148,8 @@ export default class ManageSingleMaterialPage extends Component {
 						<div className="column-1">District</div>
 						<div className="column-2">Required Units</div>
 						<div className="column-3">Fulfilled Units</div>
-						<div className="column-4">Add Fulfilment</div>
-						<div className="column-5">SAVE</div>
+						<div className="column-4">Manage Fulfilments</div>
+						<div className="column-5">EDIT / SAVE</div>
 					</div>
 					{!this.state.material.requirements.length ? (
 						<div className="no-materials">Requirements not found</div>
@@ -212,7 +179,7 @@ export default class ManageSingleMaterialPage extends Component {
 								)}
 								<div className="column-3">{req.fullfilled_qnty}</div>
 								<div className="column-4">
-									<button className="btn add-fulfilment-btn" disabled={this.state.editRequirement} onClick={this.addFulfilment.bind(this, req)}>Add</button>
+									<button className="btn add-fulfilment-btn" disabled={this.state.editRequirement} onClick={this.manageFulfilment.bind(this, req._id)}>Manage</button>
 								</div>
 								<div className="column-5">
 									{this.state.editRequirement === req._id ? (

@@ -6,6 +6,7 @@ import LoginPage from './components/LoginPage';
 import LandingPage from './components/LandingPage';
 import AddMaterialPage from './components/AddMaterialPage';
 import ManageMaterialsPage from './components/ManageMaterialsPage';
+import ManageFulfilmentsPage from './components/ManageFulfilmentsPage';
 import ManageSingleMaterialPage from './components/ManageSingleMaterialPage';
 
 const history = createBrowserHistory();
@@ -59,6 +60,7 @@ export default class Routes extends Component {
             <Route exact path="/edit-material/:materialId" component={AddMaterialPage} />
             <Route exact path="/manage-materials" component={ManageMaterialsPage} />
             <Route exact path="/manage-material/:materialId" component={ManageSingleMaterialPage} />
+            <Route exact path="/fulfilments/:requirementId" component={ManageFulfilmentsPage} />
             <Route exact path="/:state" component={LandingPage} />
             <Redirect path="*" to="/maharashtra" />
           </Switch>

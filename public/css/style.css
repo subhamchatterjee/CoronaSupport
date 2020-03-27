@@ -499,7 +499,7 @@ button:disabled {
         .landing-page .container-2 .requirements-container .req-row .column-3 .box .box-filled {
           height: 13px;
           position: relative;
-          background: rgba(255, 0, 0, 0.4); }
+          background: linear-gradient(to left, rgba(255, 0, 0, 0.6), rgba(255, 0, 0, 0.4)); }
           .landing-page .container-2 .requirements-container .req-row .column-3 .box .box-filled > span {
             right: 0;
             font-size: 12px;
