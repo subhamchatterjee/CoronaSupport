@@ -72,19 +72,6 @@ export default class LoginPage extends Component {
 
   componentDidMount() {
   	$('#login-spinner').css('display', 'none');
-    var subdomain = '';
-    if(window.location.hostname.split('.').length === 3 && window.location.hostname.split('.')[0] !== 'www') {
-      subdomain = window.location.hostname.split('.')[0];
-    }
-    if(subdomain === 'nf') {
-    	this.setState({ subdomain: 'nasscom' }, () => this.setLoginForm());
-    } else if(subdomain === 'nfcenter') {
-      this.setState({ subdomain: 'center' }, () => this.setLoginForm());
-    } else if(!subdomain) {
-    	this.setLoginForm();
-    } else {
-    	window.location.pathname = '/404';
-    }
   }
 
   setLoginForm = () => {
