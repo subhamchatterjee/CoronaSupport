@@ -1,0 +1,56 @@
+.dashboard-page
+  position: relative
+  padding: 40px 50px
+  min-height: calc(100vh - 60px)
+  > h2
+    color: red
+    margin-top: 0
+    font-size: 40px
+    font-weight: 600
+    margin-bottom: 10px
+    letter-spacing: 1px
+  > h3
+    font-size: 20px
+    margin-bottom: 30px
+    letter-spacing: 1px
+  .buttons-container
+    width: 80%
+    margin: 0 10%
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    justify-content: center
+    .button
+      height: 80px
+      display: flex
+      font-size: 20px
+      background: red
+      cursor: pointer
+      margin: 30px 15px
+      text-align: center
+      align-items: center
+      letter-spacing: 1px
+      color: #fff !important
+      width: calc(33% - 30px)
+      justify-content: center
+      box-shadow: 1px 1px 1px #fff
+      &:hover
+        box-shadow: 1px 1px 1px #444
+      &:nth-child(1)
+        margin: 30px 15px 30px 16%
+      &:nth-child(2)
+        margin: 30px 16% 30px 15px
+  > .footer-button
+    left: 50%
+    color: red
+    bottom: 10px
+    height: 45px
+    padding: 10px
+    display: flex
+    cursor: pointer
+    font-size: 25px
+    position: absolute
+    align-items: center
+    letter-spacing: 0.8px
+    justify-content: center
+    transform: translateX(-50%)

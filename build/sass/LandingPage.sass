@@ -1,11 +1,51 @@
 .landing-page
+  overflow: hidden
   .banner
     width: 100%
     height: 320px
+    position: relative
     background-size: cover
     background-position: center
     background-repeat: no-repeat
     background-image: url('/images/banner.png')
+    .menu-container
+      top: 25px
+      color: #fff
+      display: flex
+      position: absolute
+      align-items: center
+      justify-content: center
+      transition: all 0.5s ease
+      &.to-left
+        left: calc(100% - 25px)
+      &.to-right
+        left: calc(100% - 105px)
+        > .arrow > i.fa-chevron-left
+          transform: rotate(180deg)
+      > .arrow
+        width: 25px
+        text-align: center
+        background: rgba(255, 0, 0, 0.6)
+        &:hover
+          background: rgba(255, 0, 0, 0.7)
+        > i.fa-chevron-left
+          width: 25px
+          transition: all 0.3s ease
+      > *
+        width: 40px
+        height: 40px
+        display: flex
+        font-size: 20px
+        cursor: pointer
+        align-items: center
+        justify-content: center
+      > i.fa-sign-out-alt, > a
+        background: red
+        &:hover
+          box-shadow: inset 0 0 1000px rgba(0,0,0,0.1)
+      > a
+        color: #fff
+        background: red
     .banner-container
       width: 45%
       display: flex
@@ -111,6 +151,11 @@
           margin-right: 5px
         .red-text
           color: red
+    .btn.interest-btn
+      color: #fff
+      background: red
+      margin: 10px 0 15px 0
+      text-transform: uppercase
     .requirements-container
       .heading
         color: red
@@ -121,15 +166,14 @@
         letter-spacing: 0.5px
         border-bottom: 1px solid #777
         .column-1
-          padding-left: 5px
-          width: calc(70% - 380px)
-        .column-2
-          width: 200px
-        .column-3
           width: 30%
+          padding-left: 5px
+        .column-2
+          width: 250px
+        .column-3
+          flex-grow: 1
         .column-4
-          width: 180px
-          text-align: center
+          width: 200px
       .no-materials
         color: #444
         width: 100%
@@ -160,18 +204,18 @@
         &:nth-child(2n)
           background: #f9f9f9
         .column-1
-          padding-left: 5px
-          width: calc(70% - 380px)
-        .column-2
-          width: 200px
-        .column-3
           width: 30%
+          padding-left: 5px
+        .column-2
+          width: 250px
+        .column-3
+          flex-grow: 1
           .box
-            width: 75%
             height: 15px
             position: relative
             margin-bottom: 10px
             border: 1px solid #bbb
+            width: calc(100% - 100px)
             .box-filled
               height: 13px
               position: relative
@@ -213,11 +257,12 @@
                 border-bottom: 8px solid transparent
                 border-right: 8px solid rgba(255, 0, 0, 0.4)
         .column-4
-          width: 180px
+          width: 200px
           text-align: center
-          .btn.interest-btn
+          .view-contribution-btn
             color: #fff
             background: red
+            min-width: 100px
             text-transform: uppercase
   .container-3
     .heading-container
@@ -336,3 +381,20 @@
       line-height: 30px
       text-align: center
       letter-spacing: 0.8px
+
+.contribution-modal
+  .modal-dialog.modal-lg
+    width: 80%
+    max-width: 80%
+  .contribution-modal-body
+    > .row
+      margin: 10px
+    .no-contribution
+      color: #444
+      width: 100%
+      height: 100px
+      display: flex
+      font-size: 18px
+      align-items: center
+      background: #fafafa
+      justify-content: center
