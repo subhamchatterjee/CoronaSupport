@@ -5,12 +5,12 @@ import { Select } from 'antd';
 const { Option } = Select;
 const readCookie = require('../cookie.js').readCookie;
 
-export default class ManageSingleMaterialPage extends Component {
+export default class ManageSingleDistrictPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			districts: [],
-			material: null,
+			materials: [],
+			district: null,
 			editRequirement: null,
 			selectedRequirement: null,
 			showFulfilmentModal: false
@@ -18,11 +18,11 @@ export default class ManageSingleMaterialPage extends Component {
 	}
 
 	componentDidMount() {
-		fetch(process.env.REACT_APP_API_URL + '/districts', {
+		fetch(process.env.REACT_APP_API_URL + '/materials', {
 			method: 'GET'
 		}).then(data => data.json())
 		.then(data => {
-			this.setState({districts: data.districts});
+			this.setState({ materials: data.materials });
 		}).catch(err => {
 			console.log(err);
 			// Swal.fire(
@@ -32,17 +32,17 @@ export default class ManageSingleMaterialPage extends Component {
 			// );
 		});
 
-		fetch(process.env.REACT_APP_API_URL + '/material/' + this.props.match.params.materialId, {
+		fetch(process.env.REACT_APP_API_URL + '/district/' + this.props.match.params.districtId, {
 			method: 'GET'
 		}).then(data => data.json())
 		.then(data => {
-			let material = data.material;
-			fetch(process.env.REACT_APP_API_URL + '/requirements?material=' + material.name, {
+			let district = data.district;
+			fetch(process.env.REACT_APP_API_URL + '/requirements?district=' + district.name, {
 				method: 'GET'
 			}).then(data => data.json())
 			.then(data => {
-				material.requirements = data.requirements;
-				this.setState({ material });
+				district.requirements = data.requirements;
+				this.setState({ district });
 			}).catch(err => {
 				console.log(err);
 				// Swal.fire(
@@ -60,21 +60,21 @@ export default class ManageSingleMaterialPage extends Component {
 		window.location.pathname = "/fulfilments/" + req_id;
 	}
 
-	addDistrict = () => {
-		let valid = true, material = this.state.material;
-		if(material.requirements.length) {
-			if(!material.requirements[material.requirements.length - 1].district || !material.requirements[material.requirements.length - 1].required_qnty) valid = false;
+	addMaterial = () => {
+		let valid = true, district = this.state.district;
+		if(district.requirements.length) {
+			if(!district.requirements[district.requirements.length - 1].material || !district.requirements[district.requirements.length - 1].required_qnty) valid = false;
 		}
 
 		if(valid) {
-			material.requirements.push({
+			district.requirements.push({
 				_id: '0',
-				district: '',
+				material: '',
 				required_qnty: '',
 				fullfilled_qnty: ''
 			});
 
-			this.setState({ material, editRequirement: '0' });
+			this.setState({ district, editRequirement: '0' });
 		}
 	}
 
@@ -83,27 +83,27 @@ export default class ManageSingleMaterialPage extends Component {
 	}
 
 	handleReqChange = (index, type, value) => {
-		let material = this.state.material;
+		let district = this.state.district;
 		if(value.target) value = parseInt(value.target.value);
-		material.requirements[index][type] = value;
-		this.setState({ material });
+		district.requirements[index][type] = value;
+		this.setState({ district });
 	}
 
 	saveRequirement = (req) => {
 		let requirement = {
-			district: req.district,
+			material: req.material,
 			required_qnty: req.required_qnty
-		}, error = false, material = this.state.material;
+		}, error = false, district = this.state.district;
 
-		if(material.requirements.length > 1) {
-			for(let i = 0; i < material.requirements.length; i++) {
-				if(req._id !== material.requirements[i]._id && req.district === material.requirements[i].district) error = 'district';
+		if(district.requirements.length > 1) {
+			for(let i = 0; i < district.requirements.length; i++) {
+				if(req._id !== district.requirements[i]._id && req.material === district.requirements[i].material) error = 'material';
 			}
 		}
-		if(!req.district) error = 'district';
+		if(!req.material) error = 'material';
 		else if(!req.required_qnty) error = 'required_qnty';
 
-		requirement['material'] = material.name;
+		requirement['district'] = district.name;
 
 		if(!error) {
 			let url = process.env.REACT_APP_API_URL + '/update-requirement/' + req._id, method = 'PUT';
@@ -134,41 +134,41 @@ export default class ManageSingleMaterialPage extends Component {
 				// );
 			});
 		} else {
-			if(error === 'district') Swal.fire('', 'Please select a correct District', 'error');
+			if(error === 'material') Swal.fire('', 'Please select a correct Material', 'error');
 			else if(error === 'required_qnty') Swal.fire('', 'Please enter correct required units', 'error');
 		}
 	}
 
 	render() {
-		if(this.state.material !== null) {
+		if(this.state.district !== null) {
 			return (
-				<div className="manage-single-material-page">
-					<h2 className="text-center">{this.state.material.name}</h2>
+				<div className="manage-single-district-page">
+					<h2 className="text-center">{this.state.district.name}</h2>
 					<div className="heading">
-						<div className="column-1">District</div>
+						<div className="column-1">Material</div>
 						<div className="column-2">Required Units</div>
 						<div className="column-3">Fulfilled Units</div>
 						<div className="column-4">Manage Fulfilments</div>
 						<div className="column-5">EDIT / SAVE Required Units</div>
 					</div>
-					{!this.state.material.requirements.length ? (
-						<div className="no-materials">Requirements not found</div>
+					{!this.state.district.requirements.length ? (
+						<div className="no-districts">Requirements not found</div>
 					) : (null)}
-					{this.state.material.requirements.map((req, index) => {
+					{this.state.district.requirements.map((req, index) => {
 						return (
-							<div className="material-row" key={index}>
+							<div className="district-row" key={index}>
 								{this.state.editRequirement === req._id ? (
 									<div className="column-1">
-										<Select showSearch size="large" value={req.district} onChange={this.handleReqChange.bind(this, index, 'district')} style={{ width: "100%" }}>
-											{this.state.districts.map(function(district, index) {
+										<Select showSearch size="large" value={req.material} onChange={this.handleReqChange.bind(this, index, 'material')} style={{ width: "100%" }}>
+											{this.state.materials.map(function(material, index) {
 												return (
-													<Option value={district.name} key={index}>{district.name}</Option>
+													<Option value={material.name} key={index}>{material.name}</Option>
 												)
 											})}
 										</Select>
 									</div>
 								) : (
-									<div className="column-1">{req.district}</div>
+									<div className="column-1">{req.material}</div>
 								)}
 								{this.state.editRequirement === req._id ? (
 									<div className="column-2">
@@ -191,10 +191,10 @@ export default class ManageSingleMaterialPage extends Component {
 							</div>
 						)
 					})}
-					<div className="add-district-container">
-						<button className="btn add-district-btn" onClick={this.addDistrict} disabled={this.state.editRequirement}>
+					<div className="add-material-container">
+						<button className="btn add-material-btn" onClick={this.addMaterial} disabled={this.state.editRequirement}>
 							<i className="fa fa-plus"></i>
-							Add District
+							Add Material
 						</button>
 					</div>
 				</div>

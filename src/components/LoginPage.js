@@ -26,10 +26,7 @@ export default class LoginPage extends Component {
       $('#login-spinner').css('display', 'block');
       $('#login-span').addClass('d-none');
 
-      let data = {
-        'username': email,
-        'password': password,
-      };
+      let data = { email, password };
 
       fetch(process.env.REACT_APP_API_URL + '/login', {
         method: "POST",
@@ -43,6 +40,7 @@ export default class LoginPage extends Component {
         if (data.status === 'ok') {
           createCookie('access_token', data['accessToken'], 30);
           createCookie('refresh_token', data['refreshToken'], 30);
+          createCookie('userData', JSON.stringify(data['data']), 30);
           window.location.pathname = "";
         } else if (data.status === 'error') {
           $('#login-spinner').addClass('d-none');

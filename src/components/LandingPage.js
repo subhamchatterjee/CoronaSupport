@@ -2,10 +2,11 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import { Select } from 'antd';
 import React, { Component } from 'react';
-import {Row, Col, Modal} from 'react-bootstrap';
+import {Row, Col, Modal, Table} from 'react-bootstrap';
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton, WhatsappShareButton, WhatsappIcon } from 'react-share';
 
 const { Option } = Select;
+const readCookie = require('../cookie.js').readCookie;
 
 export default class LandingPage extends Component {
 	constructor(props) {
@@ -29,9 +30,12 @@ export default class LandingPage extends Component {
 			},
 			errorObj: {},
 			district: "",
+			contributions: [],
+			menuVisible: false,
 			showSharingModal: false,
 			showInterestModal: false,
-			selectedRequirement: null
+			showContributionModal: false,
+			selectedContributionMaterial: null
 		}
 	}
 
@@ -41,7 +45,10 @@ export default class LandingPage extends Component {
 				method: 'GET'
 			}).then(data => data.json())
 			.then(data => {
-				this.setState({districts: data.districts});
+				if(data.status === 'ok') {
+					if(!data.districts.length) window.location.pathname = "/";
+					else this.setState({ districts: data.districts });
+				}
 			}).catch(err => {
 				console.log(err);
 				// Swal.fire(
@@ -94,27 +101,31 @@ export default class LandingPage extends Component {
 		});
 	}
 
-	express = (requirement) => {
+	express = () => {
 		let newContribution = {
 			districts: [],
-			materials: [requirement._id],
+			materials: [],
 			amount: '',
 			contribute_as: '',
 			contributer_info: { name: '', phone: '', email: '' },
 			message: '',
 			preffered_supplier: ''
 		}
-		this.setState({ newContribution, selectedRequirement: requirement, showInterestModal: true });
+		this.setState({ newContribution, showInterestModal: true });
 	}
 
 	closeInterestModal = () => {
-		this.setState({ selectedRequirement: null, showInterestModal: false });
+		this.setState({ showInterestModal: false });
 	}
 
 	onChangeHandler = (type, value) => {
 		if(value.target) value = value.target.value;
 		let newContribution = this.state.newContribution;
-		if(type === 'districts' || type === 'materials' || type === 'amount' || type === 'contribute_as' || type === 'message' || type === 'preffered_supplier') {
+		if(type === 'districts' || type === 'materials') {
+			console.log(type, value);
+			if(value.indexOf('Any') > -1) newContribution[type] = ['Any'];
+			else newContribution[type] = value;
+		} else if(type === 'amount' || type === 'contribute_as' || type === 'message' || type === 'preffered_supplier') {
 			newContribution[type] = value;
 		} else if(type === 'contributer_info_name' || type === 'contributer_info_phone' || type === 'contributer_info_email' || type === 'contributer_info_organization' || type === 'contributer_info_designation') {
 			newContribution['contributer_info'][type.split('_')[2]] = value;
@@ -144,12 +155,12 @@ export default class LandingPage extends Component {
 			}).then(data => data.json())
 			.then(data => {
 				if(data.status === 'ok') {
-					this.setState({ selectedRequirement: null, showInterestModal: false, newContribution: { districts: [], materials: [], amount: '', contribute_as: '', contributer_info: { name: '', phone: '', email: '' }, message: '', preffered_supplier: '' }, showSharingModal: true });
+					this.setState({ showInterestModal: false, newContribution: { districts: [], materials: [], amount: '', contribute_as: '', contributer_info: { name: '', phone: '', email: '' }, message: '', preffered_supplier: '' }, showSharingModal: true });
 				} else {
 					Swal.fire(
-					  'Oops!',
-					  'An error occured! Please try again in sometime.',
-					  'error'
+						'Oops!',
+						'An error occured! Please try again in sometime.',
+						'error'
 					);
 				}
 			}).catch(err => {
@@ -176,10 +187,59 @@ export default class LandingPage extends Component {
 		}
 	}
 
+	logout = () => {
+		Swal.fire({
+			title: 'Are you sure you want to logout?',
+			type: 'warning',
+			showCancelButton: true,
+			cancelButtonText: 'No',
+			confirmButtonText: 'Yes, Logout'
+		}).then(res => {
+			if(res.value){
+				this.props.logoutUser();
+			}
+		});
+	}
+
+	toggleMenu = () => {
+		this.setState({ menuVisible: !this.state.menuVisible });
+	}
+
+	viewContributions = (material) => {
+		let query = "?material=" + material;
+		if(this.state.district) query += "&district=" + this.state.district;
+
+		fetch(process.env.REACT_APP_API_URL + '/contributions' + query, {
+			method: 'GET',
+			headers: {
+				'Auth': readCookie('access_token')
+			}
+		}).then(data => data.json())
+		.then(data => {
+			this.setState({ contributions: data.contributions, selectedContributionMaterial: material, showContributionModal: true });
+		}).catch(err => {
+			console.log(err);
+			// Swal.fire(
+			//   'Oops!',
+			//   'An error occured! Please try again in sometime.',
+			//   'error'
+			// );
+		});
+	}
+
+	closeContributionModal = () => {
+		this.setState({ contributions: [], selectedContributionMaterial: null, showContributionModal: false });
+	}
+
 	render() {
 		return (
 			<div className="landing-page">
 				<div className="banner">
+					<div className={this.state.menuVisible ? "menu-container to-right" : "menu-container to-left"}>
+						<div className="arrow" onClick={this.toggleMenu}><i className="fas fa-chevron-left"></i></div>
+						<a href="/dashboard"><i className="fas fa-laptop"></i></a>
+						<i className="fas fa-sign-out-alt" onClick={this.logout}></i>
+					</div>
 					<div className="banner-container">
 						<div className="black-text">COMBATING</div>
 						<div className="black-text">COVID,</div>
@@ -227,12 +287,15 @@ export default class LandingPage extends Component {
 							<span className="red-text">{moment().format('HH:mm') + ' | ' + moment().format('DD MMMM YYYY')}</span>
 						</div>
 					</div>
+					<button className="btn interest-btn" onClick={this.express}>Express Interest To Contribute</button>
 					<div className="requirements-container">
 						<div className="heading">
 							<div className="column-1">Requirement</div>
-							<div className="column-2">Unit Cost (INR)</div>
-							<div className="column-3">Status</div>
-							<div className="column-4">Pledge Contribution</div>
+							<div className="column-2">Indicative Unit Cost (INR){/* <span className="btn" title="The price range is based on the vendors who have been identified by Maharashtra State Innovation Society. However, this is not an endorsed or fixed price.">?</span>*/}</div>
+							<div className="column-3">Status (Progress of Fulfillment)</div>
+							{this.props.userData ? (
+								<div className="column-4">View Contribution History</div>
+							) : (null)}
 						</div>
 						{!this.state.requirements.length ? (
 							<div className="no-materials">
@@ -243,7 +306,7 @@ export default class LandingPage extends Component {
 						{this.state.requirements.map((requirement, index) => {
 							return (
 								<div className="req-row" key={index}>
-									<div className="column-1">{requirement._id}</div>
+									<div className="column-1" title={requirement.materialDesc}>{requirement._id}</div>
 									<div className="column-2">
 										{requirement.unit_min_price && requirement.unit_max_price ? (
 											<span>{requirement.unit_min_price + ' - ' + requirement.unit_max_price}</span>
@@ -261,9 +324,11 @@ export default class LandingPage extends Component {
 											<span className="box-total">{requirement.required_qnty}</span>
 										</div>
 									</div>
-									<div className="column-4">
-										<button className="btn interest-btn" onClick={this.express.bind(this, requirement)}>Express Interest</button>
-									</div>
+									{this.props.userData ? (
+										<div className="column-4">
+											<button className="btn view-contribution-btn" onClick={this.viewContributions.bind(this, requirement._id)}>View</button>
+										</div>
+									) : (null)}
 								</div>
 							)
 						})}
@@ -281,7 +346,7 @@ export default class LandingPage extends Component {
 					<div className="text-container">
 						<div>Built in collaboration with <a className="red-text" href="https://msins.in/" target="_blank">Maharashtra State Innovation Society</a> (a body of the Government of Maharashtra) and <a className="red-text" href="https://letsendorse.com/" target="_blank">LetsEndorse</a>, this platform serves to provide real-time information about the gaps in and needs of the public health system of Maharashtra.</div>
 						<div>Our collective goal is to garner the precise needs from the ground (Government Hospitals serving COVID-19 patients) from across different districts of Maharashtra and offer a single and transparent channel to individuals and institutions <b>(through grants and CSR funds- <a className="red-text" href="https://www.mca.gov.in/Ministry/pdf/Covid_23032020.pdf" target="_blank">Read regulation here</a>)</b> to make direct contribution and impact in fighting the current pandemic.</div>
-						<div>Once you gauge the gaps, you can click on "<span className="red-text">EXPRESS INTEREST</span>" button, mention the scale of your contribution, recommend any supplier, and our task-force team shall get in touch with you to channelize your support in the most appropriate manner.</div>
+						<div>Once you gauge the gaps, you can click on "<span className="red-text">EXPRESS INTEREST TO CONTRIBUTE</span>" button, mention the scale of your contribution, recommend any supplier, and our task-force team shall get in touch with you to channelize your support in the most appropriate manner.</div>
 						<div>To check how your contribution has reached the last mile, you can click on the hyperlinked name of the item and you would see the entire list of contributions in realtime.</div>
 						<div>To know further, get in touch with us at <a href="mailto:support@letsendorse.com" target="_blank" className="red-text">support@letsendorse.com</a>.</div>
 					</div>
@@ -297,67 +362,69 @@ export default class LandingPage extends Component {
 					</Modal.Header>
 					<Modal.Body className="express-interest-modal-body">
 						<Row>
-							<Col md={4}>
+							<Col md={6}>
 								<label className="control-label is-imp">Districts</label>
 								<Select size="large" mode="multiple" style={{width: "100%"}} value={this.state.newContribution.districts} onChange={this.onChangeHandler.bind(this, 'districts')} placeholder="Select District(s)">
-									{this.state.districts.map(function(district, index) {
+									<Option value="Any">Any District</Option>
+									{this.state.districts.map((district, index) => {
 										return (
-											<Option value={district.name} key={index}>{district.name}</Option>
+											<Option value={district.name} key={index} disabled={this.state.newContribution.districts.indexOf('Any') > -1 ? true : false}>{district.name}</Option>
 										)
 									})}
 								</Select>
 								{this.state.errorObj.districts ? (
-		    					<div style={{color: 'red'}}>{this.state.errorObj.districts}</div>
-		    				) : (null)}
+									<div style={{color: 'red'}}>{this.state.errorObj.districts}</div>
+								) : (null)}
 							</Col>
-							<Col md={4}>
+							<Col md={6}>
 								<label className="control-label is-imp">Materials</label>
 								<Select size="large" mode="multiple" style={{width: "100%"}} value={this.state.newContribution.materials} onChange={this.onChangeHandler.bind(this, 'materials')} placeholder="Select Material(s)">
-									{this.state.materials.map(function(material, index) {
+									<Option value="Any">Any Material</Option>
+									{this.state.materials.map((material, index) => {
 										return (
-											<Option value={material.name} key={index}>{material.name}</Option>
+											<Option value={material.name} key={index} disabled={this.state.newContribution.materials.indexOf('Any') > -1 ? true : false}>{material.name}</Option>
 										)
 									})}
 								</Select>
 								{this.state.errorObj.materials ? (
-		    					<div style={{color: 'red'}}>{this.state.errorObj.materials}</div>
-		    				) : (null)}
+									<div style={{color: 'red'}}>{this.state.errorObj.materials}</div>
+								) : (null)}
 							</Col>
-							<Col md={4}>
-								<label className="control-label is-imp">Contribution (INR)</label>
-								<input className="form-control" type="number" value={this.state.newContribution.amount} onChange={this.onChangeHandler.bind(this, 'amount')} placeholder="Contribution (INR)" />
+							<Col md={12}>
+								<label className="control-label is-imp">Total Contribution (in-kind/financial) (INR)</label>
+								<input className="form-control" type="number" value={this.state.newContribution.amount} onChange={this.onChangeHandler.bind(this, 'amount')} placeholder="Total Contribution (in-kind/financial) (INR)" />
 								{this.state.errorObj.amount ? (
 									<div style={{color: 'red'}}>{this.state.errorObj.amount}</div>
 								) : (null)}
 							</Col>
 							<Col md={6} className="radio-container">
-			    			<input type="radio" id="contribute_as_individual" value="individual" name="contribute_as" onChange={this.onChangeHandler.bind(this, 'contribute_as')} />
-			    			<label className="control-label" htmlFor="contribute_as_individual">I am contributing in my individual capacity.</label>
-			    		</Col>
-			    		<Col md={6} className="radio-container">
-			    			<input type="radio" id="contribute_as_organization" value="organization" name="contribute_as" onChange={this.onChangeHandler.bind(this, 'contribute_as')} />
-			    			<label className="control-label" htmlFor="contribute_as_organization">I am contributing on behalf of my organization.</label>
-			    		</Col>
-			    		{this.state.errorObj.contribute_as ? (
-			    			<Col md={12}>
-			    				<div style={{color: 'red'}}>{this.state.errorObj.contribute_as}</div>
-			    			</Col>
-			    		) : (null)}
-			    		<Col md={4}>
+								<input type="radio" id="contribute_as_individual" value="individual" name="contribute_as" onChange={this.onChangeHandler.bind(this, 'contribute_as')} />
+								<label className="control-label" htmlFor="contribute_as_individual">I am contributing in my individual capacity.</label>
+							</Col>
+							<Col md={6} className="radio-container">
+								<input type="radio" id="contribute_as_organization" value="organization" name="contribute_as" onChange={this.onChangeHandler.bind(this, 'contribute_as')} />
+								<label className="control-label" htmlFor="contribute_as_organization">I am contributing on behalf of my organization.</label>
+							</Col>
+							{this.state.errorObj.contribute_as ? (
+								<Col md={12}>
+									<div style={{color: 'red'}}>{this.state.errorObj.contribute_as}</div>
+								</Col>
+							) : (null)}
+							<Col md={4}>
 								<label className="control-label is-imp">Full Name</label>
 								<input className="form-control" type="text" value={this.state.newContribution.contributer_info.name} onChange={this.onChangeHandler.bind(this, 'contributer_info_name')} placeholder="Full Name" />
 								{this.state.errorObj.name ? (
 									<div style={{color: 'red'}}>{this.state.errorObj.name}</div>
 								) : (null)}
 							</Col>
-			    		<Col md={4}>
+							<Col md={4}>
 								<label className="control-label is-imp">Phone</label>
 								<input className="form-control" type="text" value={this.state.newContribution.contributer_info.phone} onChange={this.onChangeHandler.bind(this, 'contributer_info_phone')} placeholder="Phone Number" />
 								{this.state.errorObj.phone ? (
 									<div style={{color: 'red'}}>{this.state.errorObj.phone}</div>
 								) : (null)}
 							</Col>
-			    		<Col md={4}>
+							<Col md={4}>
 								<label className="control-label is-imp">Email</label>
 								<input className="form-control" type="email" value={this.state.newContribution.contributer_info.email} onChange={this.onChangeHandler.bind(this, 'contributer_info_email')} placeholder="Email Id" />
 								{this.state.errorObj.email ? (
@@ -365,7 +432,7 @@ export default class LandingPage extends Component {
 								) : (null)}
 							</Col>
 							{this.state.newContribution.contribute_as === 'organization' ? (
-				    		<Col md={6}>
+								<Col md={6}>
 									<label className="control-label is-imp">Organization</label>
 									<input className="form-control" type="text" value={this.state.newContribution.contributer_info.organization} onChange={this.onChangeHandler.bind(this, 'contributer_info_organization')} placeholder="Organization Name" />
 									{this.state.errorObj.organization ? (
@@ -374,7 +441,7 @@ export default class LandingPage extends Component {
 								</Col>
 							) : (null)}
 							{this.state.newContribution.contribute_as === 'organization' ? (
-				    		<Col md={6}>
+								<Col md={6}>
 									<label className="control-label is-imp">Designation</label>
 									<input className="form-control" type="text" value={this.state.newContribution.contributer_info.designation} onChange={this.onChangeHandler.bind(this, 'contributer_info_designation')} placeholder="Designation" />
 									{this.state.errorObj.designation ? (
@@ -382,7 +449,7 @@ export default class LandingPage extends Component {
 									) : (null)}
 								</Col>
 							) : (null)}
-			    		<Col md={12}>
+							<Col md={12}>
 								<label className="control-label">Message</label>
 								<textarea className="form-control" value={this.state.newContribution.message} onChange={this.onChangeHandler.bind(this, 'message')} placeholder="Enter your message here"></textarea>
 							</Col>
@@ -405,10 +472,10 @@ export default class LandingPage extends Component {
 								<img className="mb20" src="/images/hands.png" width="120" />
 								<h2>WE SINCERELY THANK YOU FOR DECIDING TO CONTRIBUTE TOWARDS STRENGTHENING THE HEALTH INFRASTRUCTURE TO FIGHT COVID-19</h2>
 								<h3>We shall get in touch with you shortly to process the contribution</h3>
-								<h4>Share about your contribution and motivate others</h4>
+								{/*<h4>Share about your contribution and motivate others</h4>*/}
 							</Col>
 
-							<Col md={12} className="share-buttons">
+							{/*<Col md={12} className="share-buttons">
 								<FacebookShareButton url="http://covid.letsendorse.com" quote="Maharashtra combats COVID-19 is an initiative of Maharashtra State Innovation Society (a body of the Maharashtra Government), district hospitals and LetsEndorse, to enable individuals and institutions to channel support directly towards strengthening the public health system to help combat COVID-19. I have just pledged my support and urge everyone to do their bit." hashtag={["#Covid-19", "#Corona", "#Maharashtra", "#LetsEndorse"]}>
 									<img src="/images/facebook.png" height="46" />
 								</FacebookShareButton>
@@ -424,8 +491,57 @@ export default class LandingPage extends Component {
 								<WhatsappShareButton title="Maharashtra Combats COVID-19 - An initiative of MH State Innovation Society & LetsEndorse" url="http://covid.letsendorse.com">
 									<img src="/images/whatsapp.png" height="48" />
 								</WhatsappShareButton>
-							</Col>
+							</Col>*/}
 							<div className="quote">Stay safe ! Stay home !</div>
+						</Row>
+					</Modal.Body>
+				</Modal>
+
+				<Modal className="contribution-modal" show={this.state.showContributionModal} onHide={this.closeContributionModal} size="lg" aria-labelledby="contained-modal-title-lg">
+					<Modal.Body className="contribution-modal-body">
+						<h3 className="text-center">{this.state.selectedContributionMaterial}</h3>
+						<Row>
+							<Table striped bordered responsive>
+								<thead>
+									<tr>
+										<th>District(s)</th>
+										<th>Material(s)</th>
+										<th style={{width: "300"}}>Total Contribution (in-kind/financial) (INR)</th>
+										<th>Contributed As</th>
+										<th>Full Name</th>
+										<th>Email</th>
+										<th>Phone</th>
+										<th>Organization</th>
+										<th>Designation</th>
+										<th>Message</th>
+										<th>Preffered Supplier</th>
+										<th>Submitted On</th>
+									</tr>
+								</thead>
+								<tbody>
+									{this.state.contributions.map((contribution, index) => {
+										return (
+											<tr>
+												<td>{contribution.districts.join(', ')}</td>
+												<td>{contribution.materials.join(', ')}</td>
+												<td style={{width: "300"}}>{contribution.amount}</td>
+												<td className="contributed-as">{contribution.contribute_as}</td>
+												<td>{contribution.contributer_info.name}</td>
+												<td>{contribution.contributer_info.email}</td>
+												<td>{contribution.contributer_info.phone}</td>
+												<td>{contribution.contributer_info.organization ? contribution.contributer_info.organization : 'N/A'}</td>
+												<td>{contribution.contributer_info.designation ? contribution.contributer_info.designation : 'N/A'}</td>
+												<td>{contribution.message}</td>
+												<td>{contribution.preffered_supplier}</td>
+												<td>{moment(contribution.timestamp).format('DD/MM/YYYY')}</td>
+											</tr>
+										)
+									})}
+								</tbody>
+							</Table>
+							{!this.state.contributions.length ? (
+								<div className="no-contribution">No contributions have been made yet!</div>
+							) : (null)}
 						</Row>
 					</Modal.Body>
 				</Modal>

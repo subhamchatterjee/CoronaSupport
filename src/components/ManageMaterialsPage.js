@@ -43,8 +43,8 @@ export default class ManageMaterialsPage extends Component {
 				<h2 className="text-center">MANAGE MATERIALS PAGE</h2>
 				<div className="heading">
 					<div className="column-1">Name of the material</div>
-					<div className="column-2">Manage Material</div>
-					<div className="column-3">Edit Material</div>
+					<div className="column-2">Manage Requirement and Fulfillment</div>
+					<div className="column-3">Edit Material Information</div>
 				</div>
 				{!this.state.materials.length ? (
 					<div className="no-materials">Material not found</div>
