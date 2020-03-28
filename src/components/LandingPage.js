@@ -235,11 +235,13 @@ export default class LandingPage extends Component {
 		return (
 			<div className="landing-page">
 				<div className="banner">
-					<div className={this.state.menuVisible ? "menu-container to-right" : "menu-container to-left"}>
-						<div className="arrow" onClick={this.toggleMenu}><i className="fas fa-chevron-left"></i></div>
-						<a href="/dashboard"><i className="fas fa-laptop"></i></a>
-						<i className="fas fa-sign-out-alt" onClick={this.logout}></i>
-					</div>
+					{this.props.userData ? (
+						<div className={this.state.menuVisible ? "menu-container to-right" : "menu-container to-left"}>
+							<div className="arrow" onClick={this.toggleMenu}><i className="fas fa-chevron-left"></i></div>
+							<a href="/dashboard"><i className="fas fa-laptop"></i></a>
+							<i className="fas fa-sign-out-alt" onClick={this.logout}></i>
+						</div>
+					) : (null)}
 					<div className="banner-container">
 						<div className="black-text">COMBATING</div>
 						<div className="black-text">COVID,</div>
