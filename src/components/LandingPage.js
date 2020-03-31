@@ -1,6 +1,6 @@
 import moment from 'moment';
-import Swal from 'sweetalert2';
 import { Select } from 'antd';
+import Swal from 'sweetalert2';
 import React, { Component } from 'react';
 import {Row, Col, Modal, Table} from 'react-bootstrap';
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton, WhatsappShareButton, WhatsappIcon } from 'react-share';
@@ -122,7 +122,6 @@ export default class LandingPage extends Component {
 		if(value.target) value = value.target.value;
 		let newContribution = this.state.newContribution;
 		if(type === 'districts' || type === 'materials') {
-			console.log(type, value);
 			if(value.indexOf('Any') > -1) newContribution[type] = ['Any'];
 			else newContribution[type] = value;
 		} else if(type === 'amount' || type === 'contribute_as' || type === 'message' || type === 'preffered_supplier') {
@@ -335,6 +334,10 @@ export default class LandingPage extends Component {
 							)
 						})}
 					</div>
+					<note style={{marginTop: 10, display: 'block'}}>
+						<b>Note:</b>
+						<span> The price range is based on the vendors who have been identified by Maharashtra State Innovation Society. However, this is not an endorsed or fixed price.</span>
+					</note>
 				</div>
 				<div className="container-3">
 					<div className="heading-container">

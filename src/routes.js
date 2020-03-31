@@ -7,6 +7,7 @@ import LoginPage from './components/LoginPage';
 import LandingPage from './components/LandingPage';
 import DashboardPage from './components/DashboardPage';
 import AddMaterialPage from './components/AddMaterialPage';
+import ManageUsersPage from './components/ManageUsersPage';
 import ManageDistrictsPage from './components/ManageDistrictsPage';
 import ManageMaterialsPage from './components/ManageMaterialsPage';
 import ManageFulfilmentsPage from './components/ManageFulfilmentsPage';
@@ -91,6 +92,7 @@ export default class Routes extends Component {
               <DefaultAppLayout exact path="/manage-material/:materialId" component={ManageSingleMaterialPage} userData={this.state.userData} logoutUser={this.logoutUser} />
               <DefaultAppLayout exact path="/manage-districts" component={ManageDistrictsPage} userData={this.state.userData} logoutUser={this.logoutUser} />
               <DefaultAppLayout exact path="/manage-district/:districtId" component={ManageSingleDistrictPage} userData={this.state.userData} logoutUser={this.logoutUser} />
+              <DefaultAppLayout exact path="/manage-users" component={ManageUsersPage} userData={this.state.userData} logoutUser={this.logoutUser} />
               <DefaultAppLayout exact path="/fulfilments/:requirementId" component={ManageFulfilmentsPage} userData={this.state.userData} logoutUser={this.logoutUser} />
               <LandingPageLayout exact path="/:state" component={LandingPage} userData={this.state.userData} logoutUser={this.logoutUser} />
               <Redirect path="*" to="/maharashtra" />

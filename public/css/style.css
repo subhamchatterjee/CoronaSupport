@@ -49,6 +49,69 @@ button:disabled {
 .mb20 {
   margin-bottom: 20px; }
 
+.page-container {
+  padding: 40px 50px; }
+  .page-container > h2 {
+    margin-top: 0;
+    text-align: center;
+    margin-bottom: 30px;
+    text-transform: uppercase; }
+  .page-container > .heading {
+    color: red;
+    width: 90%;
+    display: flex;
+    font-size: 16px;
+    padding-bottom: 0;
+    letter-spacing: 0.5px;
+    margin: 0 auto 10px auto;
+    border-bottom: 1px solid #777; }
+    .page-container > .heading .column {
+      padding: 5px;
+      min-width: 100px; }
+  .page-container > .no-items {
+    width: 90%;
+    color: #444;
+    display: flex;
+    height: 180px;
+    margin: 0 auto;
+    font-size: 20px;
+    align-items: center;
+    background: #fafafa;
+    letter-spacing: 0.5px;
+    justify-content: center;
+    box-shadow: 0 0 1px #aaa; }
+  .page-container > .item-row {
+    width: 90%;
+    color: #444;
+    display: flex;
+    margin: 0 auto;
+    font-size: 16px;
+    min-height: 50px;
+    align-items: center;
+    letter-spacing: 0.5px; }
+    .page-container > .item-row:nth-child(2n) {
+      background: #f5f5f5; }
+    .page-container > .item-row .column {
+      padding: 5px;
+      min-width: 100px; }
+      .page-container > .item-row .column .btn.column-btn {
+        color: #fff;
+        padding: 5px;
+        min-width: 120px;
+        text-align: center;
+        background: #ef5a20; }
+  .page-container > .add-item-container {
+    text-align: center; }
+    .page-container > .add-item-container button.add-item-btn {
+      color: #fff;
+      padding: 5px;
+      width: 150px;
+      margin-top: 30px;
+      text-align: center;
+      background: #ef5a20; }
+      .page-container > .add-item-container button.add-item-btn i.fa {
+        margin-right: 8px; }
+
 .top-menu {
   width: 100%;
   height: 60px;
@@ -860,6 +923,15 @@ button:disabled {
     padding: 5px 25px;
     background: #ef5a20; }
 
+.manage-users-page .heading .column {
+  width: 200px; }
+.manage-users-page .heading .column-7 {
+  width: 100px; }
+.manage-users-page .item-row .column {
+  width: 200px; }
+.manage-users-page .item-row .column-7 {
+  width: 100px; }
+
 .manage-materials-page {
   padding: 40px 50px; }
   .manage-materials-page h2 {
@@ -1160,36 +1232,30 @@ button:disabled {
       overflow-x: auto; }
       .landing-page .container-2 .requirements-container .heading {
         height: 30px;
-        width: 1000px;
-        display: block; }
+        width: 1000px; }
         .landing-page .container-2 .requirements-container .heading .column-1 {
-          float: left;
           width: 200px; }
         .landing-page .container-2 .requirements-container .heading .column-2 {
-          float: left;
           width: 200px; }
         .landing-page .container-2 .requirements-container .heading .column-3 {
-          float: left;
           width: 400px; }
+        .landing-page .container-2 .requirements-container .heading .column-4 {
+          width: 200px; }
       .landing-page .container-2 .requirements-container .no-materials {
         height: auto;
         min-height: 180px;
         text-align: center; }
       .landing-page .container-2 .requirements-container .req-row {
         width: 1000px;
-        display: block;
         text-align: center; }
         .landing-page .container-2 .requirements-container .req-row .column-1 {
-          float: left;
           width: 200px; }
         .landing-page .container-2 .requirements-container .req-row .column-2 {
-          float: left;
           width: 200px; }
         .landing-page .container-2 .requirements-container .req-row .column-3 {
-          float: left;
           width: 400px; }
-          .landing-page .container-2 .requirements-container .req-row .column-3 .box {
-            width: 80%; }
+        .landing-page .container-2 .requirements-container .req-row .column-4 {
+          width: 200px; }
   .landing-page .container-3 .heading-container, .landing-page .container-3 .heading, .landing-page .container-3 .text-container {
     padding: 15px 25px; } }
 
