@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Swal from 'sweetalert2';
 import $ from 'jquery';
 import {apiBaseUrl} from './config.jsx'
 
@@ -41,6 +42,7 @@ export default class LoginPage extends Component {
                     createCookie('access_token', data['accessToken'], 30);
                     createCookie('refresh_token', data['refreshToken'], 30);
                     createCookie('userData', JSON.stringify(data['data']), 30);
+                    createCookie('user_designation', data.data.role.name, 30);
                     window.location.pathname = "";
                 } else if (data.status === 'error') {
                     $('#login-spinner').addClass('d-none');
@@ -66,7 +68,7 @@ export default class LoginPage extends Component {
                 $('#login-span').removeClass('d-none');
             }
         }
-    };
+    }
 
     componentDidMount() {
         $('#login-spinner').css('display', 'none');
@@ -97,7 +99,7 @@ export default class LoginPage extends Component {
                 if (!$('input#password').siblings('label').hasClass('active')) $('input#password').siblings('label').addClass('active');
             }
         });
-    };
+    }
 
     componentDidUpdate() {
         this.setLoginForm();

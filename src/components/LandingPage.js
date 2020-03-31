@@ -66,11 +66,6 @@ export default class LandingPage extends Component {
                 this.setState({materials: data.material});
             }).catch(err => {
             console.log(err);
-            // Swal.fire(
-            //   'Oops!',
-            //   'An error occured! Please try again in sometime.',
-            //   'error'
-            // );
         });
 
         this.refreshReqs();
@@ -595,7 +590,7 @@ export default class LandingPage extends Component {
 								</TwitterShareButton>
 
 								<LinkedinShareButton title="Maharashtra Combats COVID-19 - An initiative of MH State Innovation Society & LetsEndorse" url="http://covid.letsendorse.com" source="http://covid.letsendorse.com" summary="Maharashtra combats COVID-19 is an initiative of Maharashtra State Innovation Society (a body of the Maharashtra Government), district hospitals and LetsEndorse, to enable individuals and institutions to channel support directly towards strengthening the public health system to help combat COVID-19. I have just pledged my support and urge everyone to do their bit.">
-									<img src="/images/linkedin.png" height="46" style={{borderRadius: 5}} />
+									<img        src="/images/linkedin.png" height="46" style={{borderRadius: 5}} />
 								</LinkedinShareButton>
 
 								<WhatsappShareButton title="Maharashtra Combats COVID-19 - An initiative of MH State Innovation Society & LetsEndorse" url="http://covid.letsendorse.com">

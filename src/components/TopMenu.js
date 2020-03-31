@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import Swal from 'sweetalert2';
 
+//Use authHeader() 
+// designation: Cookies.get('user_designation')
+//Apply  logic on this designation
 export default class TopMenu extends Component {
     constructor(props) {
         super(props);
