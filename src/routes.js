@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
-import {createBrowserHistory} from 'history';
+import { createBrowserHistory } from 'history';
+import { apiBaseUrl } from './components/config.jsx'
 
 import TopMenu from './components/TopMenu';
 import LoginPage from './components/LoginPage';
@@ -49,7 +50,7 @@ export default class Routes extends Component {
   }
 
   componentDidMount() {
-    if(readCookie('userData') !== null) {
+    if (readCookie('userData') !== null) {
       this.setState({ userData: JSON.parse(readCookie('userData')), loaded: true });
     } else {
       eraseCookie('userData');
@@ -60,7 +61,7 @@ export default class Routes extends Component {
   }
 
   logoutUser = () => {
-    fetch(process.env.REACT_APP_API_URL + '/logout', {
+    fetch(apiBaseUrl + '/logout', {
       method: "POST",
       headers: {
         'Auth': readCookie('access_token')
@@ -79,8 +80,8 @@ export default class Routes extends Component {
   }
 
   render() {
-    if(this.state.loaded) {
-      if(this.state.userData !== null) {
+    if (this.state.loaded) {
+      if (this.state.userData !== null) {
         return (
           <Router history={history}>
             <Switch>

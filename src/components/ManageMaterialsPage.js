@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Swal from 'sweetalert2';
+import { apiBaseUrl } from './config.jsx'
 
 export default class ManageMaterialsPage extends Component {
 	constructor(props) {
@@ -14,19 +15,19 @@ export default class ManageMaterialsPage extends Component {
 	}
 
 	getMaterials = () => {
-		fetch(process.env.REACT_APP_API_URL + '/materials', {
+		fetch(apiBaseUrl + '/materials', {
 			method: 'GET'
 		}).then(data => data.json())
-		.then(data => {
-			this.setState({materials: data.materials});
-		}).catch(err => {
-			console.log(err);
-			// Swal.fire(
-			//   'Oops!',
-			//   'An error occured! Please try again in sometime.',
-			//   'error'
-			// );
-		});
+			.then(data => {
+				this.setState({ materials: data.materials });
+			}).catch(err => {
+				console.log(err);
+				// Swal.fire(
+				//   'Oops!',
+				//   'An error occured! Please try again in sometime.',
+				//   'error'
+				// );
+			});
 	}
 
 	editMaterial = (materialId) => {

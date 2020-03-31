@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Swal from 'sweetalert2';
+import { apiBaseUrl } from './config.jsx'
 
 const readCookie = require('../cookie.js').readCookie;
 
@@ -15,26 +16,26 @@ export default class AddMaterialPage extends Component {
 	}
 
 	componentDidMount() {
-		if(this.props.match.params.materialId) {
-			fetch(process.env.REACT_APP_API_URL + '/material/' + this.props.match.params.materialId, {
+		if (this.props.match.params.materialId) {
+			fetch(apiBaseUrl + '/material/' + this.props.match.params.materialId, {
 				method: 'GET'
 			}).then(data => data.json())
-			.then(data => {
-				let material = {
-					name: data.material.name,
-					desc: data.material.desc,
-					min_price: data.material.min_price,
-					max_price: data.material.max_price
-				};
-				this.setState(material);
-			}).catch(err => {
-				console.log(err);
-				// Swal.fire(
-				//   'Oops!',
-				//   'An error occured! Please try again in sometime.',
-				//   'error'
-				// );
-			});
+				.then(data => {
+					let material = {
+						name: data.material.name,
+						desc: data.material.desc,
+						min_price: data.material.min_price,
+						max_price: data.material.max_price
+					};
+					this.setState(material);
+				}).catch(err => {
+					console.log(err);
+					// Swal.fire(
+					//   'Oops!',
+					//   'An error occured! Please try again in sometime.',
+					//   'error'
+					// );
+				});
 		}
 	}
 
@@ -43,7 +44,7 @@ export default class AddMaterialPage extends Component {
 	}
 
 	submit = () => {
-		let url = process.env.REACT_APP_API_URL + '/add-materials', method = 'POST',
+		let url = apiBaseUrl + '/add-materials', method = 'POST',
 			material = {
 				name: this.state.name,
 				desc: this.state.desc,
@@ -51,8 +52,8 @@ export default class AddMaterialPage extends Component {
 				max_price: this.state.max_price
 			};
 
-		if(this.props.match.params.materialId) {
-			url = process.env.REACT_APP_API_URL + '/edit-material/' + this.props.match.params.materialId;
+		if (this.props.match.params.materialId) {
+			url = apiBaseUrl + '/edit-material/' + this.props.match.params.materialId;
 			method = 'PUT';
 		}
 		fetch(url, {
@@ -63,21 +64,21 @@ export default class AddMaterialPage extends Component {
 			},
 			body: JSON.stringify(material)
 		}).then(data => data.json())
-		.then(data => {
-			let title = 'Material successfully added.';
-			if(this.props.match.params.materialId) title = 'Material updated successfully.';
-			Swal.fire({
-				title,
-				type: 'success'
+			.then(data => {
+				let title = 'Material successfully added.';
+				if (this.props.match.params.materialId) title = 'Material updated successfully.';
+				Swal.fire({
+					title,
+					type: 'success'
+				});
+			}).catch(err => {
+				console.log(err);
+				// Swal.fire(
+				//   'Oops!',
+				//   'An error occured! Please try again in sometime.',
+				//   'error'
+				// );
 			});
-		}).catch(err => {
-			console.log(err);
-			// Swal.fire(
-			//   'Oops!',
-			//   'An error occured! Please try again in sometime.',
-			//   'error'
-			// );
-		});
 	}
 
 	render() {

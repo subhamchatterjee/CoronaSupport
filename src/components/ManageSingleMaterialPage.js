@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Swal from 'sweetalert2';
 import { Select } from 'antd';
+import { apiBaseUrl } from './config.jsx'
 
 const { Option } = Select;
 const readCookie = require('../cookie.js').readCookie;
@@ -18,31 +19,11 @@ export default class ManageSingleMaterialPage extends Component {
 	}
 
 	componentDidMount() {
-		fetch(process.env.REACT_APP_API_URL + '/districts', {
+		fetch(apiBaseUrl + '/districts', {
 			method: 'GET'
 		}).then(data => data.json())
-		.then(data => {
-			this.setState({districts: data.districts});
-		}).catch(err => {
-			console.log(err);
-			// Swal.fire(
-			//   'Oops!',
-			//   'An error occured! Please try again in sometime.',
-			//   'error'
-			// );
-		});
-
-		fetch(process.env.REACT_APP_API_URL + '/material/' + this.props.match.params.materialId, {
-			method: 'GET'
-		}).then(data => data.json())
-		.then(data => {
-			let material = data.material;
-			fetch(process.env.REACT_APP_API_URL + '/requirements?material=' + material.name, {
-				method: 'GET'
-			}).then(data => data.json())
 			.then(data => {
-				material.requirements = data.requirements;
-				this.setState({ material });
+				this.setState({ districts: data.districts });
 			}).catch(err => {
 				console.log(err);
 				// Swal.fire(
@@ -51,9 +32,29 @@ export default class ManageSingleMaterialPage extends Component {
 				//   'error'
 				// );
 			});
-		}).catch(err => {
-			console.log(err);
-		});
+
+		fetch(apiBaseUrl + '/material/' + this.props.match.params.materialId, {
+			method: 'GET'
+		}).then(data => data.json())
+			.then(data => {
+				let material = data.material;
+				fetch(apiBaseUrl + '/requirements?material=' + material.name, {
+					method: 'GET'
+				}).then(data => data.json())
+					.then(data => {
+						material.requirements = data.requirements;
+						this.setState({ material });
+					}).catch(err => {
+						console.log(err);
+						// Swal.fire(
+						//   'Oops!',
+						//   'An error occured! Please try again in sometime.',
+						//   'error'
+						// );
+					});
+			}).catch(err => {
+				console.log(err);
+			});
 	}
 
 	manageFulfilment = (req_id) => {
@@ -62,11 +63,11 @@ export default class ManageSingleMaterialPage extends Component {
 
 	addDistrict = () => {
 		let valid = true, material = this.state.material;
-		if(material.requirements.length) {
-			if(!material.requirements[material.requirements.length - 1].district || !material.requirements[material.requirements.length - 1].required_qnty) valid = false;
+		if (material.requirements.length) {
+			if (!material.requirements[material.requirements.length - 1].district || !material.requirements[material.requirements.length - 1].required_qnty) valid = false;
 		}
 
-		if(valid) {
+		if (valid) {
 			material.requirements.push({
 				_id: '0',
 				district: '',
@@ -84,7 +85,7 @@ export default class ManageSingleMaterialPage extends Component {
 
 	handleReqChange = (index, type, value) => {
 		let material = this.state.material;
-		if(value.target) value = parseInt(value.target.value);
+		if (value.target) value = parseInt(value.target.value);
 		material.requirements[index][type] = value;
 		this.setState({ material });
 	}
@@ -95,21 +96,21 @@ export default class ManageSingleMaterialPage extends Component {
 			required_qnty: req.required_qnty
 		}, error = false, material = this.state.material;
 
-		if(material.requirements.length > 1) {
-			for(let i = 0; i < material.requirements.length; i++) {
-				if(req._id !== material.requirements[i]._id && req.district === material.requirements[i].district) error = 'district';
+		if (material.requirements.length > 1) {
+			for (let i = 0; i < material.requirements.length; i++) {
+				if (req._id !== material.requirements[i]._id && req.district === material.requirements[i].district) error = 'district';
 			}
 		}
-		if(!req.district) error = 'district';
-		else if(!req.required_qnty) error = 'required_qnty';
+		if (!req.district) error = 'district';
+		else if (!req.required_qnty) error = 'required_qnty';
 
 		requirement['material'] = material.name;
 
-		if(!error) {
-			let url = process.env.REACT_APP_API_URL + '/update-requirement/' + req._id, method = 'PUT';
-			if(parseInt(req._id) === 0) {
+		if (!error) {
+			let url = apiBaseUrl + '/update-requirement/' + req._id, method = 'PUT';
+			if (parseInt(req._id) === 0) {
 				method = 'POST';
-				url = process.env.REACT_APP_API_URL + '/add-requirement';
+				url = apiBaseUrl + '/add-requirement';
 			}
 			fetch(url, {
 				method,
@@ -119,28 +120,28 @@ export default class ManageSingleMaterialPage extends Component {
 				},
 				body: JSON.stringify(requirement)
 			}).then(data => data.json())
-			.then(data => {
-				this.setState({ editRequirement: null });
-				let title = 'Requirement successfully updated.';
-				if(parseInt(req._id) === 0) title = 'Requirement added successfully.';
-				Swal.fire({ title, type: 'success' });
-			}).catch(err => {
-				console.log(err);
-				this.setState({ editRequirement: null });
-				// Swal.fire(
-				//   'Oops!',
-				//   'An error occured! Please try again in sometime.',
-				//   'error'
-				// );
-			});
+				.then(data => {
+					this.setState({ editRequirement: null });
+					let title = 'Requirement successfully updated.';
+					if (parseInt(req._id) === 0) title = 'Requirement added successfully.';
+					Swal.fire({ title, type: 'success' });
+				}).catch(err => {
+					console.log(err);
+					this.setState({ editRequirement: null });
+					// Swal.fire(
+					//   'Oops!',
+					//   'An error occured! Please try again in sometime.',
+					//   'error'
+					// );
+				});
 		} else {
-			if(error === 'district') Swal.fire('', 'Please select a correct District', 'error');
-			else if(error === 'required_qnty') Swal.fire('', 'Please enter correct required units', 'error');
+			if (error === 'district') Swal.fire('', 'Please select a correct District', 'error');
+			else if (error === 'required_qnty') Swal.fire('', 'Please enter correct required units', 'error');
 		}
 	}
 
 	render() {
-		if(this.state.material !== null) {
+		if (this.state.material !== null) {
 			return (
 				<div className="manage-single-material-page">
 					<h2 className="text-center">{this.state.material.name}</h2>
@@ -160,7 +161,7 @@ export default class ManageSingleMaterialPage extends Component {
 								{this.state.editRequirement === req._id ? (
 									<div className="column-1">
 										<Select showSearch size="large" value={req.district} onChange={this.handleReqChange.bind(this, index, 'district')} style={{ width: "100%" }}>
-											{this.state.districts.map(function(district, index) {
+											{this.state.districts.map(function (district, index) {
 												return (
 													<Option value={district.name} key={index}>{district.name}</Option>
 												)
@@ -168,15 +169,15 @@ export default class ManageSingleMaterialPage extends Component {
 										</Select>
 									</div>
 								) : (
-									<div className="column-1">{req.district}</div>
-								)}
+										<div className="column-1">{req.district}</div>
+									)}
 								{this.state.editRequirement === req._id ? (
 									<div className="column-2">
 										<input className="form-control" type="number" value={req.required_qnty} onChange={this.handleReqChange.bind(this, index, 'required_qnty')} />
 									</div>
 								) : (
-									<div className="column-2">{req.required_qnty}</div>
-								)}
+										<div className="column-2">{req.required_qnty}</div>
+									)}
 								<div className="column-3">{req.fullfilled_qnty}</div>
 								<div className="column-4">
 									<button className="btn add-fulfilment-btn" disabled={this.state.editRequirement} onClick={this.manageFulfilment.bind(this, req._id)}>Manage</button>
@@ -185,8 +186,8 @@ export default class ManageSingleMaterialPage extends Component {
 									{this.state.editRequirement === req._id ? (
 										<button className="btn save-requirement-btn" onClick={this.saveRequirement.bind(this, req)}>Save</button>
 									) : (
-										<button className="btn edit-requirement-btn" disabled={this.state.editRequirement} onClick={this.editRequirement.bind(this, req._id)}>Edit</button>
-									)}
+											<button className="btn edit-requirement-btn" disabled={this.state.editRequirement} onClick={this.editRequirement.bind(this, req._id)}>Edit</button>
+										)}
 								</div>
 							</div>
 						)

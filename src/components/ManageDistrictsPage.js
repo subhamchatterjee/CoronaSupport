@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { apiBaseUrl } from './config.jsx'
 
 export default class ManageDistrictsPage extends Component {
 	constructor(props) {
@@ -9,19 +10,19 @@ export default class ManageDistrictsPage extends Component {
 	}
 
 	componentDidMount() {
-		fetch(process.env.REACT_APP_API_URL + '/districts', {
+		fetch(apiBaseUrl + '/districts', {
 			method: 'GET'
 		}).then(data => data.json())
-		.then(data => {
-			this.setState({ districts: data.districts });
-		}).catch(err => {
-			console.log(err);
-			// Swal.fire(
-			//   'Oops!',
-			//   'An error occured! Please try again in sometime.',
-			//   'error'
-			// );
-		});
+			.then(data => {
+				this.setState({ districts: data.districts });
+			}).catch(err => {
+				console.log(err);
+				// Swal.fire(
+				//   'Oops!',
+				//   'An error occured! Please try again in sometime.',
+				//   'error'
+				// );
+			});
 	}
 
 	manageDistrict = (districtId) => {
