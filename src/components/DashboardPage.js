@@ -9,7 +9,8 @@ export default class DashboardPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			districts: [],
+			items: [],
+			districts: []
 		}
 	}
 
@@ -76,6 +77,9 @@ export default class DashboardPage extends Component {
 						<div className="column-8">View History</div>
 						<div className="column-9">Items Received (Own efforts)</div>
 					</div>
+					{!this.state.items.length ? (
+						<div className="no-items">No Items found</div>
+					) : (null)}
 					{this.state.items.map((item, index) => {
 						return (
 							<div className="item-row" key={index}>
@@ -87,7 +91,7 @@ export default class DashboardPage extends Component {
 								<div className="column-6">{item.ordersDispatched}</div>
 								<div className="column-7">{item.remainingReq}</div>
 								<div className="column-8">
-									<button className="btn view-contribution-btn" onClick={this.viewHistory.bind(this, item._id)}>View</button>
+									<button className="btn column-btn" onClick={this.viewHistory.bind(this, item._id)}>View</button>
 								</div>
 								<div className="column-9">{item.receivedOwn}</div>
 							</div>

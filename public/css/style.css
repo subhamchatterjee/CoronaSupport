@@ -839,58 +839,54 @@ button:disabled {
   position: relative;
   padding: 40px 50px;
   min-height: calc(100vh - 60px); }
-  .dashboard-page > h2 {
-    color: red;
-    margin-top: 0;
-    font-size: 40px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    letter-spacing: 1px; }
   .dashboard-page > h3 {
     font-size: 20px;
     margin-bottom: 30px;
     letter-spacing: 1px; }
-  .dashboard-page .buttons-container {
-    width: 80%;
-    margin: 0 10%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center; }
-    .dashboard-page .buttons-container .button {
-      height: 80px;
-      display: flex;
-      font-size: 20px;
-      background: red;
-      cursor: pointer;
-      margin: 30px 15px;
-      text-align: center;
-      align-items: center;
-      letter-spacing: 1px;
-      color: #fff !important;
-      width: calc(33% - 30px);
-      justify-content: center;
-      box-shadow: 1px 1px 1px #fff; }
-      .dashboard-page .buttons-container .button:hover {
-        box-shadow: 1px 1px 1px #444; }
-      .dashboard-page .buttons-container .button:nth-child(1) {
-        margin: 30px 15px 30px 16%; }
-      .dashboard-page .buttons-container .button:nth-child(2) {
-        margin: 30px 16% 30px 15px; }
-  .dashboard-page > .footer-button {
-    left: 50%;
+  .dashboard-page .table-container > .heading {
     color: red;
-    bottom: 10px;
-    height: 45px;
-    padding: 10px;
+    width: 100%;
     display: flex;
-    cursor: pointer;
-    font-size: 25px;
-    position: absolute;
+    font-size: 16px;
+    padding-bottom: 0;
+    letter-spacing: 0.5px;
+    margin: 0 auto 10px auto;
+    border-bottom: 1px solid #777; }
+    .dashboard-page .table-container > .heading .column {
+      padding: 5px;
+      min-width: 100px; }
+  .dashboard-page .table-container > .no-items {
+    width: 100%;
+    color: #444;
+    display: flex;
+    height: 180px;
+    margin: 0 auto;
+    font-size: 20px;
     align-items: center;
-    letter-spacing: 0.8px;
+    background: #fafafa;
+    letter-spacing: 0.5px;
     justify-content: center;
-    transform: translateX(-50%); }
+    box-shadow: 0 0 1px #aaa; }
+  .dashboard-page .table-container > .item-row {
+    width: 100%;
+    color: #444;
+    display: flex;
+    margin: 0 auto;
+    font-size: 16px;
+    min-height: 50px;
+    align-items: center;
+    letter-spacing: 0.5px; }
+    .dashboard-page .table-container > .item-row:nth-child(2n) {
+      background: #f5f5f5; }
+    .dashboard-page .table-container > .item-row .column {
+      padding: 5px;
+      min-width: 100px; }
+      .dashboard-page .table-container > .item-row .column .btn.column-btn {
+        color: #fff;
+        padding: 5px;
+        min-width: 120px;
+        text-align: center;
+        background: #ef5a20; }
 
 .add-material-page {
   padding: 50px; }
