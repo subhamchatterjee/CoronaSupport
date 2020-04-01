@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import React, { Component } from 'react';
 import { Row, Col, Modal, Table } from 'react-bootstrap';
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton, WhatsappShareButton, WhatsappIcon } from 'react-share';
-import { apiBaseUrl } from './config.jsx'
+// import { process.env.REACT_APP_API_URL } from './config.jsx'
 
 const { Option } = Select;
 const readCookie = require('../cookie.js').readCookie;
@@ -43,7 +43,7 @@ export default class LandingPage extends Component {
 	componentDidMount() {
 		if (this.props.match.params.state) {
 			console.log(this.props.match.params.state)
-			fetch(apiBaseUrl + '/districts?state=' + this.props.match.params.state, {
+			fetch(process.env.REACT_APP_API_URL + '/districts?state=' + this.props.match.params.state, {
 				method: 'GET'
 			}).then(data => data.json())
 				.then(data => {
@@ -61,7 +61,7 @@ export default class LandingPage extends Component {
 				});
 		}
 
-		fetch(apiBaseUrl + '/materials', {
+		fetch(process.env.REACT_APP_API_URL + '/materials', {
 			method: 'GET'
 		}).then(data => data.json())
 			.then(data => {
@@ -91,7 +91,7 @@ export default class LandingPage extends Component {
 		if (this.state.districts) query += "&district=" + this.state.districts;
 		console.log(query)
 
-		fetch(apiBaseUrl + '/requirements' + query, {
+		fetch(process.env.REACT_APP_API_URL + '/requirements' + query, {
 			method: 'GET'
 		}).then(data => data.json())
 			.then(data => {
@@ -150,7 +150,7 @@ export default class LandingPage extends Component {
 		if (!error) {
 			newContribution.state = this.props.match.params.state;
 			newContribution.amount = parseInt(newContribution.amount);
-			fetch(apiBaseUrl + '/add-contribute', {
+			fetch(process.env.REACT_APP_API_URL + '/add-contribute', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -213,7 +213,7 @@ export default class LandingPage extends Component {
 		let query = "?material=" + material;
 		if (this.state.district) query += "&district=" + this.state.district;
 
-		fetch(apiBaseUrl + '/contributions' + query, {
+		fetch(process.env.REACT_APP_API_URL + '/contributions' + query, {
 			method: 'GET',
 			headers: {
 				'Auth': readCookie('access_token')
