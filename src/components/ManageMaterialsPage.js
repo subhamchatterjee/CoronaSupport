@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {apiBaseUrl} from './config.jsx'
+import React, { Component } from 'react';
+// import { apiBaseUrl } from './config.jsx'
 
 export default class ManageMaterialsPage extends Component {
     constructor(props) {
@@ -14,19 +14,19 @@ export default class ManageMaterialsPage extends Component {
     }
 
     getMaterials = () => {
-        fetch(apiBaseUrl + '/materials', {
+        fetch(process.env.REACT_APP_API_URL + '/materials', {
             method: 'GET'
         }).then(data => data.json())
             .then(data => {
-                this.setState({materials: data.materials});
+                this.setState({ materials: data.materials });
             }).catch(err => {
-            console.log(err);
-            // Swal.fire(
-            //   'Oops!',
-            //   'An error occured! Please try again in sometime.',
-            //   'error'
-            // );
-        });
+                console.log(err);
+                // Swal.fire(
+                //   'Oops!',
+                //   'An error occured! Please try again in sometime.',
+                //   'error'
+                // );
+            });
     };
 
     editMaterial = (materialId) => {
@@ -55,12 +55,12 @@ export default class ManageMaterialsPage extends Component {
                             <div className="column-1">{material.name}</div>
                             <div className="column-2">
                                 <button className="btn manage-material-btn"
-                                        onClick={this.manageMaterial.bind(this, material._id)}>Manage
+                                    onClick={this.manageMaterial.bind(this, material._id)}>Manage
                                 </button>
                             </div>
                             <div className="column-3">
                                 <button className="btn edit-material-btn"
-                                        onClick={this.editMaterial.bind(this, material._id)}>Edit
+                                    onClick={this.editMaterial.bind(this, material._id)}>Edit
                                 </button>
                             </div>
                         </div>

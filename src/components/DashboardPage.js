@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Swal from 'sweetalert2';
-import {Select} from 'antd';
-import {apiBaseUrl} from './config.jsx'
+import { Select } from 'antd';
+// import { process.env.REACT_APP_API_URL } from './config.jsx'
 
-const {Option} = Select;
+const { Option } = Select;
 const readCookie = require('../cookie.js').readCookie;
 
 export default class DashboardPage extends Component {
@@ -16,21 +16,21 @@ export default class DashboardPage extends Component {
     }
 
     componentDidMount() {
-        fetch(apiBaseUrl + '/districts', {
+        fetch(process.env.REACT_APP_API_URL + '/districts', {
             method: 'GET'
         }).then(data => data.json())
             .then(data => {
                 if (data.status === 'ok') {
-                    this.setState({districts: data.districts});
+                    this.setState({ districts: data.districts });
                 }
             }).catch(err => {
-            console.log(err);
-            // Swal.fire(
-            //   'Oops!',
-            //   'An error occured! Please try again in sometime.',
-            //   'error'
-            // );
-        });
+                console.log(err);
+                // Swal.fire(
+                //   'Oops!',
+                //   'An error occured! Please try again in sometime.',
+                //   'error'
+                // );
+            });
     }
 
     logout = () => {
@@ -59,7 +59,7 @@ export default class DashboardPage extends Component {
                     <div className="filter">
                         <label className="control-label">District</label>
                         <Select showSearch size="large" value={this.state.district} onChange={this.districtChange}
-                                style={{width: 150}}>
+                            style={{ width: 150 }}>
                             <Option value="">All</Option>
                             {this.state.districts.map(function (district, index) {
                                 return (
@@ -94,7 +94,7 @@ export default class DashboardPage extends Component {
                                 <div className="column-7">{item.remainingReq}</div>
                                 <div className="column-8">
                                     <button className="btn column-btn"
-                                            onClick={this.viewHistory.bind(this, item._id)}>View
+                                        onClick={this.viewHistory.bind(this, item._id)}>View
                                     </button>
                                 </div>
                                 <div className="column-9">{item.receivedOwn}</div>

@@ -6,7 +6,7 @@ import { Select } from 'antd';
 const { Option } = Select;
 const readCookie = require('../cookie.js').readCookie;
 
-export default class ManageSingleDistrictPage extends Component {
+export default class ManageSingleOrderPage extends Component {
     constructor(props) {
         super(props);
         this.state = {

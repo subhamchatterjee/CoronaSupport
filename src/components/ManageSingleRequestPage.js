@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Swal from 'sweetalert2';
 import { Select } from 'antd';
-// import { process.env.REACT_APP_API_URL } from './config.jsx'
+import { apiBaseUrl } from './config.jsx'
 
 const { Option } = Select;
 const readCookie = require('../cookie.js').readCookie;
 
-export default class ManageSingleDistrictPage extends Component {
+export default class ManageSingleRequestPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,7 +19,7 @@ export default class ManageSingleDistrictPage extends Component {
     }
 
     componentDidMount() {
-        fetch(process.env.REACT_APP_API_URL + '/materials', {
+        fetch(apiBaseUrl + '/requirement', {
             method: 'GET'
         }).then(data => data.json())
             .then(data => {
@@ -33,12 +33,12 @@ export default class ManageSingleDistrictPage extends Component {
                 // );
             });
 
-        fetch(process.env.REACT_APP_API_URL + '/district/' + this.props.match.params.districtId, {
+        fetch(apiBaseUrl + '/district/' + this.props.match.params.districtId, {
             method: 'GET'
         }).then(data => data.json())
             .then(data => {
                 let district = data.district;
-                fetch(process.env.REACT_APP_API_URL + '/requirements?district=' + district.name, {
+                fetch(apiBaseUrl + '/requirements?district=' + district.name, {
                     method: 'GET'
                 }).then(data => data.json())
                     .then(data => {
@@ -107,10 +107,10 @@ export default class ManageSingleDistrictPage extends Component {
         requirement['district'] = district.name;
 
         if (!error) {
-            let url = process.env.REACT_APP_API_URL + '/update-requirement/' + req._id, method = 'PUT';
+            let url = apiBaseUrl + '/update-requirement/' + req._id, method = 'PUT';
             if (parseInt(req._id) === 0) {
                 method = 'POST';
-                url = process.env.REACT_APP_API_URL + '/add-requirement';
+                url = apiBaseUrl + '/add-requirement';
             }
             fetch(url, {
                 method,
