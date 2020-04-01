@@ -17,7 +17,7 @@ export default class AddMaterialPage extends Component {
 
 	componentDidMount() {
 		if (this.props.match.params.materialId) {
-			fetch(apiBaseUrl + '/material/' + this.props.match.params.materialId, {
+			fetch(process.env.REACT_APP_API_URL + '/material/' + this.props.match.params.materialId, {
 				method: 'GET'
 			}).then(data => data.json())
 				.then(data => {

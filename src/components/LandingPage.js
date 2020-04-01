@@ -42,6 +42,7 @@ export default class LandingPage extends Component {
 
 	componentDidMount() {
 		if (this.props.match.params.state) {
+			console.log(this.props.match.params.state)
 			fetch(apiBaseUrl + '/districts?state=' + this.props.match.params.state, {
 				method: 'GET'
 			}).then(data => data.json())
@@ -64,7 +65,7 @@ export default class LandingPage extends Component {
 			method: 'GET'
 		}).then(data => data.json())
 			.then(data => {
-				this.setState({ materials: data.materials });
+				this.setState({ materials: data.material });
 			}).catch(err => {
 				console.log(err);
 				// Swal.fire(
@@ -78,14 +79,17 @@ export default class LandingPage extends Component {
 	}
 
 	districtChange = (value) => {
-		this.setState({ district: value }, () => {
+		this.setState({ districts: value }, () => {
 			this.refreshReqs();
 		});
 	}
 
 	refreshReqs = () => {
 		let query = "?dashboard=true&state=" + this.props.match.params.state;
-		if (this.state.district) query += "&district=" + this.state.district;
+
+		console.log(this.state.districts)
+		if (this.state.districts) query += "&district=" + this.state.districts;
+		console.log(query)
 
 		fetch(apiBaseUrl + '/requirements' + query, {
 			method: 'GET'
@@ -275,7 +279,7 @@ export default class LandingPage extends Component {
 					<div className="filter-container">
 						<div className="filter">
 							<label className="control-label">District</label>
-							<Select showSearch size="large" value={this.state.district} onChange={this.districtChange} style={{ width: 150 }}>
+							<Select showSearch size="large" value={this.state.districts} onChange={this.districtChange} style={{ width: 150 }}>
 								<Option value="">All</Option>
 								{this.state.districts.map(function (district, index) {
 									return (

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Swal from 'sweetalert2';
 import { Select } from 'antd';
-import { apiBaseUrl } from './config.jsx'
+// import { process.env.REACT_APP_API_URL } from './config.jsx'
 
 const { Option } = Select;
 const readCookie = require('../cookie.js').readCookie;
@@ -16,7 +16,7 @@ export default class DashboardPage extends Component {
 	}
 
 	componentDidMount() {
-		fetch(apiBaseUrl + '/districts', {
+		fetch(process.env.REACT_APP_API_URL + '/districts', {
 			method: 'GET'
 		}).then(data => data.json())
 			.then(data => {

@@ -3,20 +3,20 @@ import Swal from 'sweetalert2';
 
 export default class TopMenu extends Component {
 	constructor(props) {
-    super(props);
-    this.state = {
-      route: null
-    }
-  }
+		super(props);
+		this.state = {
+			route: null
+		}
+	}
 
 	componentDidMount() {
 		let pathname = window.location.pathname, route = null;
-		if(pathname === '/dashboard') route = 'Dashboard';
-		else if(pathname === '/manage-materials') route = 'Materials';
-		else if(pathname === '/manage-districts') route = 'Districts';
-		else if(pathname === '/manage-users') route = 'Users';
+		if (pathname === '/dashboard') route = 'Dashboard';
+		else if (pathname === '/manage-materials') route = 'Materials';
+		else if (pathname === '/manage-districts') route = 'Districts';
+		else if (pathname === '/manage-users') route = 'Users';
 
-		if(route) this.setState({ route });
+		if (route) this.setState({ route });
 	}
 
 	logout = () => {
@@ -27,13 +27,16 @@ export default class TopMenu extends Component {
 			cancelButtonText: 'No',
 			confirmButtonText: 'Yes, Logout'
 		}).then(res => {
-			if(res.value){
+			if (res.value) {
 				this.props.logoutUser();
 			}
 		});
 	}
 
 	render() {
+		// if (this.props.userData.fullName == 'Vinny') {
+		console.log(this.props.userData.fullName)
+		// }
 		return (
 			<div className="top-menu">
 				<div className="left-container">
