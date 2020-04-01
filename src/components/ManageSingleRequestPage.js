@@ -56,6 +56,28 @@ export default class ProcurerRequestPage extends Component {
     editRequirment = (req_id) => {
         this.setState({ editAllocation: req_id });
     };
+
+
+
+    addRequest = () => {
+        let valid = true, district = this.state.district;
+        if (district.requirements.length) {
+            if (!district.requirements[district.requirements.length - 1].material || !district.requirements[district.requirements.length - 1].orderedUnits) valid = false;
+        }
+
+        if (valid) {
+            district.requirements.push({
+                district: '',
+                material: '',
+                unit_min_price: '',
+                unit_max_price: '',
+                unit_max_price: '',
+                required_qnty: ''
+            });
+
+            this.setState({ district, editAllocation: '0' });
+        }
+    };
     render() {
         return (
             <div className="manage-districts-page">
@@ -109,6 +131,13 @@ export default class ProcurerRequestPage extends Component {
                         </div>
                     )
                 })}
+                <div className="add-material-container">
+                    <button className="btn add-material-btn" onClick={this.addRequest}
+                        disabled={this.state.editRequirment}>
+                        <i className="fa fa-plus"></i>
+                            Add Request
+                        </button>
+                </div>
 
             </div>
         );
