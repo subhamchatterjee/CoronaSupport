@@ -1,29 +1,26 @@
 import React, { Component } from 'react';
-import Swal from 'sweetalert2';
-import { Select } from 'antd';
-// import { process.env.REACT_APP_API_URL } from './config.jsx'
+import { apiBaseUrl } from './config.jsx'
 
-const { Option } = Select;
-const readCookie = require('../cookie.js').readCookie;
-
-export default class ManageSingleOrderPage extends Component {
+export default class ProcurerOrderPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            materials: [],
-            district: null,
-            editRequirement: null,
-            selectedRequirement: null,
-            showFulfilmentModal: false
+            orders: []
         }
     }
 
     componentDidMount() {
-        fetch(process.env.REACT_APP_API_URL + '/materials', {
-            method: 'GET'
+        fetch(apiBaseUrl + '/api/v1/orders', {
+            method: 'GET',
+            // headers: authHeader,
+            headers: {
+                'Auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlODM3OTNmNzkwZmM0NTk5MDQ5NWQyZSIsImlhdCI6MTU4NTcyMTkwMiwiZXhwIjoxNTg4MzEzOTAyfQ.dXALb-NgbO57Bo5iya3osu2FW73OnUfEdVFRRl4uijg',
+                'Content-Type': 'application/json'
+            }
         }).then(data => data.json())
             .then(data => {
-                this.setState({ materials: data.materials });
+                this.setState({ orders: data.data });
+                console.log(this.state.data.orders)
             }).catch(err => {
                 console.log(err);
                 // Swal.fire(
@@ -32,185 +29,125 @@ export default class ManageSingleOrderPage extends Component {
                 //   'error'
                 // );
             });
-
-        fetch(process.env.REACT_APP_API_URL + '/district/' + this.props.match.params.districtId, {
-            method: 'GET'
-        }).then(data => data.json())
-            .then(data => {
-                let district = data.district;
-                fetch(process.env.REACT_APP_API_URL + '/requirements?district=' + district.name, {
-                    method: 'GET'
-                }).then(data => data.json())
-                    .then(data => {
-                        district.requirements = data.requirements;
-                        this.setState({ district });
-                    }).catch(err => {
-                        console.log(err);
-                        // Swal.fire(
-                        //   'Oops!',
-                        //   'An error occured! Please try again in sometime.',
-                        //   'error'
-                        // );
-                    });
-            }).catch(err => {
-                console.log(err);
-            });
     }
 
-    manageFulfilment = (req_id) => {
-        window.location.pathname = "/fulfilments/" + req_id;
-    };
-
-    addMaterial = () => {
-        let valid = true, district = this.state.district;
-        if (district.requirements.length) {
-            if (!district.requirements[district.requirements.length - 1].material || !district.requirements[district.requirements.length - 1].required_qnty) valid = false;
-        }
-
-        if (valid) {
-            district.requirements.push({
-                _id: '0',
-                material: '',
-                required_qnty: '',
-                fullfilled_qnty: ''
-            });
-
-            this.setState({ district, editRequirement: '0' });
-        }
-    };
-
-    editRequirement = (req_id) => {
-        this.setState({ editRequirement: req_id });
+    procurerOrder = (districtId) => {
+        window.location.pathname = "/procurer-order/" + districtId;
     };
 
     handleReqChange = (index, type, value) => {
         let district = this.state.district;
         if (value.target) value = parseInt(value.target.value);
-        district.requirements[index][type] = value;
+        district.orders[index][type] = value;
         this.setState({ district });
     };
 
-    saveRequirement = (req) => {
-        let requirement = {
-            material: req.material,
-            required_qnty: req.required_qnty
-        }, error = false, district = this.state.district;
+    saveOrder = () => {
 
-        if (district.requirements.length > 1) {
-            for (let i = 0; i < district.requirements.length; i++) {
-                if (req._id !== district.requirements[i]._id && req.material === district.requirements[i].material) error = 'material';
-            }
+    };
+
+    editOrder = (req_id) => {
+        this.setState({ editOrder: req_id });
+    };
+    addOrder = () => {
+        let valid = true, district = this.state.district;
+        if (district.orders.length) {
+            if (!district.orders[district.orders.length - 1].material || !district.orders[district.orders.length - 1].orderedUnits) valid = false;
         }
-        if (!req.material) error = 'material';
-        else if (!req.required_qnty) error = 'required_qnty';
 
-        requirement['district'] = district.name;
+        if (valid) {
+            district.orders.push({
+                orderId: '',
+                district: '',
+                material: '',
+                orderedUnits: '',
+                orderedDate: '',
+                receivedUnits: '',
+                amount: '',
+                status: ''
+            });
 
-        if (!error) {
-            let url = process.env.REACT_APP_API_URL + '/update-requirement/' + req._id, method = 'PUT';
-            if (parseInt(req._id) === 0) {
-                method = 'POST';
-                url = process.env.REACT_APP_API_URL + '/add-requirement';
-            }
-            fetch(url, {
-                method,
-                headers: {
-                    'Auth': readCookie('access_token'),
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requirement)
-            }).then(data => data.json())
-                .then(data => {
-                    this.setState({ editRequirement: null });
-                    let title = 'Requirement successfully updated.';
-                    if (parseInt(req._id) === 0) title = 'Requirement added successfully.';
-                    Swal.fire({ title, type: 'success' });
-                }).catch(err => {
-                    console.log(err);
-                    this.setState({ editRequirement: null });
-                    // Swal.fire(
-                    //   'Oops!',
-                    //   'An error occured! Please try again in sometime.',
-                    //   'error'
-                    // );
-                });
-        } else {
-            if (error === 'material') Swal.fire('', 'Please select a correct Material', 'error');
-            else if (error === 'required_qnty') Swal.fire('', 'Please enter correct required units', 'error');
+            this.setState({ district, editAllocation: '0' });
         }
     };
 
     render() {
-        if (this.state.district !== null) {
-            return (
-                <div className="manage-single-district-page">
-                    <h2 className="text-center">{this.state.district.name}</h2>
-                    <div className="heading">
-                        <div className="column-1">Material</div>
-                        <div className="column-2">Required Units</div>
-                        <div className="column-3">Fulfilled Units</div>
-                        <div className="column-4">Manage Fulfilments</div>
-                        <div className="column-5">EDIT / SAVE Required Units</div>
-                    </div>
-                    {!this.state.district.requirements.length ? (
-                        <div className="no-districts">Requirements not found</div>
-                    ) : (null)}
-                    {this.state.district.requirements.map((req, index) => {
-                        return (
-                            <div className="district-row" key={index}>
-                                {this.state.editRequirement === req._id ? (
-                                    <div className="column-1">
-                                        <Select showSearch size="large" value={req.material}
-                                            onChange={this.handleReqChange.bind(this, index, 'material')}
-                                            style={{ width: "100%" }}>
-                                            {this.state.materials.map(function (material, index) {
-                                                return (
-                                                    <Option value={material.name} key={index}>{material.name}</Option>
-                                                )
-                                            })}
-                                        </Select>
-                                    </div>
-                                ) : (
-                                        <div className="column-1">{req.material}</div>
-                                    )}
-                                {this.state.editRequirement === req._id ? (
-                                    <div className="column-2">
-                                        <input className="form-control" type="number" value={req.required_qnty}
-                                            onChange={this.handleReqChange.bind(this, index, 'required_qnty')} />
-                                    </div>
-                                ) : (
-                                        <div className="column-2">{req.required_qnty}</div>
-                                    )}
-                                <div className="column-3">{req.fullfilled_qnty}</div>
-                                <div className="column-4">
-                                    <button className="btn add-fulfilment-btn" disabled={this.state.editRequirement}
-                                        onClick={this.manageFulfilment.bind(this, req._id)}>Manage
-                                    </button>
-                                </div>
-                                <div className="column-5">
-                                    {this.state.editRequirement === req._id ? (
-                                        <button className="btn save-requirement-btn"
-                                            onClick={this.saveRequirement.bind(this, req)}>Save</button>
-                                    ) : (
-                                            <button className="btn edit-requirement-btn"
-                                                disabled={this.state.editRequirement}
-                                                onClick={this.editRequirement.bind(this, req._id)}>Edit</button>
-                                        )}
-                                </div>
-                            </div>
-                        )
-                    })}
-                    <div className="add-material-container">
-                        <button className="btn add-material-btn" onClick={this.addMaterial}
-                            disabled={this.state.editRequirement}>
-                            <i className="fa fa-plus"></i>
-                            Add Material
-                        </button>
-                    </div>
+
+        return (
+            <div className="manage-districts-page">
+                <h2 className="text-center">MANAGE ORDERS PAGE</h2>
+                <div className="heading">
+                    <div className="column-2">Order ID</div>
+                    <div className="column-2">District</div>
+                    <div className="column-2">Material Name</div>
+                    <div className="column-2">Ordered Units</div>
+                    <div className="column-2">Ordered Date</div>
+                    <div className="column-2">Received Units</div>
+                    <div className="column-2">Amount</div>
+                    <div className="column-2">Status</div>
+                    <div className="column-2">Action</div>
                 </div>
-            );
-        } else {
-            return null;
-        }
+                {!this.state.orders.length ? (
+                    <div className="no-districts">Order Listings not found</div>
+                ) : (null)}
+                {this.state.orders.map((order, index) => {
+                    return (
+                        <div className="district-row" key={index}>
+                            <div className="column-2">
+                                <input className="form-control" type="text" value={order.orderId}
+                                    onChange={this.handleReqChange.bind(this, index, 'orderId')} />
+                            </div>
+                            <div className="column-2">
+                                <input className="form-control" type="text" value={order.district}
+                                    onChange={this.handleReqChange.bind(this, index, 'district')} />
+                            </div>
+                            <div className="column-2">
+                                <input className="form-control" type="text" value={order.material}
+                                    onChange={this.handleReqChange.bind(this, index, 'material')} />
+                            </div>
+                            <div className="column-2">
+                                <input className="form-control" type="text" value={order.orderedUnits}
+                                    onChange={this.handleReqChange.bind(this, index, 'orderId')} />
+                            </div>
+                            <div className="column-2">
+                                <input className="form-control" type="text" value={order.orderedDate}
+                                    onChange={this.handleReqChange.bind(this, index, 'orderedDate')} />
+                            </div>
+                            <div className="column-2">
+                                <input className="form-control" type="text" value={order.receivedUnits}
+                                    onChange={this.handleReqChange.bind(this, index, 'receivedUnits')} />
+                            </div>
+                            <div className="column-2">
+                                <input className="form-control" type="text" value={order.amount}
+                                    onChange={this.handleReqChange.bind(this, index, 'amount')} />
+                            </div>
+                            <div className="column-2">
+                                <input className="form-control" type="text" value={order.status}
+                                    onChange={this.handleReqChange.bind(this, index, 'status')} />
+                            </div>
+
+
+                            <div className="column-2">
+                                {this.state.editOrder === order._id ? (
+                                    <button className="btn save-requirement-btn"
+                                        onClick={this.saveOrder.bind(this, order)}>Save</button>
+                                ) : (
+                                        <button className="btn edit-requirement-btn"
+                                            disabled={this.state.editOrder}
+                                            onClick={this.editOrder.bind(this, order._id)}>Edit</button>
+                                    )}
+                            </div>
+                        </div>
+                    )
+                })}
+                <div className="add-material-container">
+                    <button className="btn add-material-btn" onClick={this.addOrder}
+                        disabled={this.state.editOrder}>
+                        <i className="fa fa-plus"></i>
+                            Add Order
+                        </button>
+                </div>
+            </div>
+        );
     }
 }
