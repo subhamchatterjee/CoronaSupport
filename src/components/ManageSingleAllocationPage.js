@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Swal from 'sweetalert2';
 import { Select } from 'antd';
-// import { process.env.REACT_APP_API_URL } from './config.jsx'
+import { apiBaseUrl } from './config.jsx'
 
 const { Option } = Select;
 const readCookie = require('../cookie.js').readCookie;
@@ -19,11 +19,16 @@ export default class ManageSingleDistrictPage extends Component {
     }
 
     componentDidMount() {
-        fetch(process.env.REACT_APP_API_URL + '/allocations', {
-            method: 'GET'
+        fetch(apiBaseUrl + '/allocations', {
+            method: 'GET',
+            // headers: authHeader,
+            headers: {
+                'Auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlODM3OTNmNzkwZmM0NTk5MDQ5NWQyZSIsImlhdCI6MTU4NTY3NDgwMSwiZXhwIjoxNTg4MjY2ODAxfQ.8Vh83pZiHERA04EbOwb_MAV2-kLBQcLoBh58SJ_z2EA',
+                'Content-Type': 'application/json'
+            }
         }).then(data => data.json())
             .then(data => {
-                this.setState({ allocations: data.allocations });
+                this.setState({ allocations: data.data });
             }).catch(err => {
                 console.log(err);
                 // Swal.fire(
@@ -33,12 +38,12 @@ export default class ManageSingleDistrictPage extends Component {
                 // );
             });
 
-        fetch(process.env.REACT_APP_API_URL + '/allocations/' + this.props.match.params.allocationId, {
+        fetch(apiBaseUrl + '/allocations/' + this.props.match.params.allocationId, {
             method: 'GET'
         }).then(data => data.json())
             .then(data => {
                 let district = data.district;
-                fetch(process.env.REACT_APP_API_URL + '/allocations?district=' + district.name, {
+                fetch(apiBaseUrl + '/allocations?district=' + district.name, {
                     method: 'GET'
                 }).then(data => data.json())
                     .then(data => {
@@ -107,10 +112,10 @@ export default class ManageSingleDistrictPage extends Component {
         requirement['district'] = district.name;
 
         if (!error) {
-            let url = process.env.REACT_APP_API_URL + '/update-requirement/' + req._id, method = 'PUT';
+            let url = apiBaseUrl + '/update-requirement/' + req._id, method = 'PUT';
             if (parseInt(req._id) === 0) {
                 method = 'POST';
-                url = process.env.REACT_APP_API_URL + '/add-requirement';
+                url = apiBaseUrl + '/add-requirement';
             }
             fetch(url, {
                 method,
@@ -146,8 +151,8 @@ export default class ManageSingleDistrictPage extends Component {
                 <div className="manage-single-district-page">
                     <h2 className="text-center">{this.state.district.name}</h2>
                     <div className="heading">
-                        <div className="column-1">Dispatched Id</div>
-                        <div className="column-2">Dispatched Date</div>
+                        <div className="column-1">Material</div>
+                        <div className="column-2">Units</div>
                         <div className="column-3">Material</div>
                         <div className="column-4">Units</div>
                         <div className="column-4">Allocation Date</div>
@@ -164,7 +169,7 @@ export default class ManageSingleDistrictPage extends Component {
                                         <Select showSearch size="large" value={req.material}
                                             onChange={this.handleReqChange.bind(this, index, 'material')}
                                             style={{ width: "100%" }}>
-                                            {this.state.materials.map(function (material, index) {
+                                            {this.state.allocations.map(function (material, index) {
                                                 return (
                                                     <Option value={material.name} key={index}>{material.name}</Option>
                                                 )
@@ -180,7 +185,7 @@ export default class ManageSingleDistrictPage extends Component {
                                             onChange={this.handleReqChange.bind(this, index, 'required_qnty')} />
                                     </div>
                                 ) : (
-                                        <div className="column-2">{req.required_qnty}</div>
+                                        <div className="column-2">{req.units}</div>
                                     )}
                                 <div className="column-3">{req.fullfilled_qnty}</div>
                                 <div className="column-4">

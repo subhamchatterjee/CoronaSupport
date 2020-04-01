@@ -10,7 +10,7 @@ export default class ProcurerOrderPage extends Component {
     }
 
     componentDidMount() {
-        fetch(apiBaseUrl + '/orders', {
+        fetch(apiBaseUrl + '/api/v1/orders', {
             method: 'GET',
             // headers: authHeader,
             headers: {
@@ -42,6 +42,7 @@ export default class ProcurerOrderPage extends Component {
                 <h2 className="text-center">MANAGE ORDERS PAGE</h2>
                 <div className="heading">
                     <div className="column-2">Order ID</div>
+                    <div className="column-2">District</div>
                     <div className="column-2">Material Name</div>
                     <div className="column-2">Ordered Units</div>
                     <div className="column-2">Ordered Date</div>
@@ -57,6 +58,7 @@ export default class ProcurerOrderPage extends Component {
                     return (
                         <div className="district-row" key={index}>
                             <div className="column-2">{order.orderId}</div>
+                            <div className="column-2">{order.district}</div>
                             <div className="column-2">{order.material}</div>
                             <div className="column-2">{order.orderedUnits}</div>
                             <div className="column-2">{order.orderedDate}</div>

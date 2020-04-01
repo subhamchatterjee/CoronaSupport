@@ -14,7 +14,7 @@ export default class ProcurerAllocationPage extends Component {
             method: 'GET',
             // headers: authHeader,
             headers: {
-                'Auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlODM3OTNmNzkwZmM0NTk5MDQ5NWQyZSIsImlhdCI6MTU4NTcyMTkwMiwiZXhwIjoxNTg4MzEzOTAyfQ.dXALb-NgbO57Bo5iya3osu2FW73OnUfEdVFRRl4uijg',
+                'Auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlODM3OTNmNzkwZmM0NTk5MDQ5NWQyZSIsImlhdCI6MTU4NTY3NDgwMSwiZXhwIjoxNTg4MjY2ODAxfQ.8Vh83pZiHERA04EbOwb_MAV2-kLBQcLoBh58SJ_z2EA',
                 'Content-Type': 'application/json'
             }
         }).then(data => data.json())
@@ -40,7 +40,7 @@ export default class ProcurerAllocationPage extends Component {
             <div className="manage-districts-page">
                 <h2 className="text-center">MANAGE ALLOCATIONS PAGE</h2>
                 <div className="heading">
-                    <div className="column-2">Dispatched Id</div>
+                    <div className="column-2">District</div>
                     <div className="column-2">Dispatched Date</div>
                     <div className="column-2">Material</div>
                     <div className="column-2">Units</div>
@@ -57,7 +57,7 @@ export default class ProcurerAllocationPage extends Component {
                 {this.state.allocations.map((allocation, index) => {
                     return (
                         <div className="district-row" key={index}>
-                            <div className="column-2">{allocation.dispatchId}</div>
+                            <div className="column-2">{allocation.district}</div>
                             <div className="column-2">{allocation.dispatchedDate}</div>
                             <div className="column-2">{allocation.material}</div>
                             <div className="column-2">{allocation.units}</div>
