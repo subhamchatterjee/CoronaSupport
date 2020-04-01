@@ -5,9 +5,6 @@ const config = {
     // process.env.REACT_APP_API_URL
 
 
-    // apiBaseUrl: 'http://127.0.0.1:8001', // local server
-
-
 };
 
 module.exports = config;
