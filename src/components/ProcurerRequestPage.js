@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { apiBaseUrl } from './config.jsx'
+import { authHeader } from '../helper/auth-header'
+
 
 export default class ProcurerRequestPage extends Component {
     constructor(props) {
@@ -10,11 +12,19 @@ export default class ProcurerRequestPage extends Component {
     }
 
     componentDidMount() {
-        fetch(apiBaseUrl + '/requirement', {
-            method: 'GET'
+        fetch(apiBaseUrl + '/api/v1/requirements', {
+            method: 'GET',
+            // headers: authHeader,
+            headers: {
+                'Auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlODM3OTNmNzkwZmM0NTk5MDQ5NWQyZSIsImlhdCI6MTU4NTcyMTkwMiwiZXhwIjoxNTg4MzEzOTAyfQ.dXALb-NgbO57Bo5iya3osu2FW73OnUfEdVFRRl4uijg',
+                'Content-Type': 'application/json'
+            }
+
         }).then(data => data.json())
             .then(data => {
-                this.setState({ requirements: data.districts });
+                console.log(data)
+                this.setState({ requirements: data.data });
+                // console.log(requirements)
             }).catch(err => {
                 console.log(err);
                 // Swal.fire(
@@ -34,8 +44,8 @@ export default class ProcurerRequestPage extends Component {
             <div className="manage-districts-page">
                 <h2 className="text-center">MANAGE REQUEST PAGE</h2>
                 <div className="heading">
-                    <div className="column-2">Material Id</div>
-                    <div className="column-2">District Id</div>
+                    <div className="column-2">Material</div>
+                    <div className="column-2">District</div>
                     <div className="column-2">Required Quantity</div>
                     <div className="column-2">Action</div>
                 </div>
@@ -45,8 +55,8 @@ export default class ProcurerRequestPage extends Component {
                 {this.state.requirements.map((requirement, index) => {
                     return (
                         <div className="district-row" key={index}>
-                            <div className="column-2">{requirement.materialId}</div>
-                            <div className="column-2">{requirement.districtId}</div>
+                            <div className="column-2">{requirement.material}</div>
+                            <div className="column-2">{requirement.district}</div>
                             <div className="column-2">{requirement.required_qnty}</div>
                             <div className="column-2">
                                 <button className="btn manage-district-btn"

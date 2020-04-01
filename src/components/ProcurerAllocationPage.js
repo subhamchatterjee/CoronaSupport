@@ -42,6 +42,9 @@ export default class ProcurerAllocationPage extends Component {
                     <div className="column-2">Action</div>
 
                 </div>
+
+
+
                 {!this.state.allocations.length ? (
                     <div className="no-districts">Allocation Listings not found</div>
                 ) : (null)}

@@ -10,20 +10,20 @@ export default class ManageSingleDistrictPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            materials: [],
+            allocations: [],
             district: null,
-            editRequirement: null,
+            editAllocation: null,
             selectedRequirement: null,
             showFulfilmentModal: false
         }
     }
 
     componentDidMount() {
-        fetch(process.env.REACT_APP_API_URL + '/materials', {
+        fetch(process.env.REACT_APP_API_URL + '/allocations', {
             method: 'GET'
         }).then(data => data.json())
             .then(data => {
-                this.setState({ materials: data.materials });
+                this.setState({ allocations: data.allocations });
             }).catch(err => {
                 console.log(err);
                 // Swal.fire(
@@ -33,16 +33,16 @@ export default class ManageSingleDistrictPage extends Component {
                 // );
             });
 
-        fetch(process.env.REACT_APP_API_URL + '/district/' + this.props.match.params.districtId, {
+        fetch(process.env.REACT_APP_API_URL + '/allocations/' + this.props.match.params.allocationId, {
             method: 'GET'
         }).then(data => data.json())
             .then(data => {
                 let district = data.district;
-                fetch(process.env.REACT_APP_API_URL + '/requirements?district=' + district.name, {
+                fetch(process.env.REACT_APP_API_URL + '/allocations?district=' + district.name, {
                     method: 'GET'
                 }).then(data => data.json())
                     .then(data => {
-                        district.requirements = data.requirements;
+                        district.allocations = data.allocations;
                         this.setState({ district });
                     }).catch(err => {
                         console.log(err);
@@ -61,44 +61,44 @@ export default class ManageSingleDistrictPage extends Component {
         window.location.pathname = "/fulfilments/" + req_id;
     };
 
-    addMaterial = () => {
+    addAllocation = () => {
         let valid = true, district = this.state.district;
-        if (district.requirements.length) {
-            if (!district.requirements[district.requirements.length - 1].material || !district.requirements[district.requirements.length - 1].required_qnty) valid = false;
+        if (district.allocations.length) {
+            if (!district.allocations[district.allocations.length - 1].material || !district.allocations[district.allocations.length - 1].required_qnty) valid = false;
         }
 
         if (valid) {
-            district.requirements.push({
+            district.allocations.push({
                 _id: '0',
                 material: '',
                 required_qnty: '',
                 fullfilled_qnty: ''
             });
 
-            this.setState({ district, editRequirement: '0' });
+            this.setState({ district, editAllocation: '0' });
         }
     };
 
-    editRequirement = (req_id) => {
-        this.setState({ editRequirement: req_id });
+    editAllocation = (req_id) => {
+        this.setState({ editAllocation: req_id });
     };
 
     handleReqChange = (index, type, value) => {
         let district = this.state.district;
         if (value.target) value = parseInt(value.target.value);
-        district.requirements[index][type] = value;
+        district.allocations[index][type] = value;
         this.setState({ district });
     };
 
-    saveRequirement = (req) => {
+    saveAllocation = (req) => {
         let requirement = {
             material: req.material,
             required_qnty: req.required_qnty
         }, error = false, district = this.state.district;
 
-        if (district.requirements.length > 1) {
-            for (let i = 0; i < district.requirements.length; i++) {
-                if (req._id !== district.requirements[i]._id && req.material === district.requirements[i].material) error = 'material';
+        if (district.allocations.length > 1) {
+            for (let i = 0; i < district.allocations.length; i++) {
+                if (req._id !== district.allocations[i]._id && req.material === district.allocations[i].material) error = 'material';
             }
         }
         if (!req.material) error = 'material';
@@ -121,13 +121,13 @@ export default class ManageSingleDistrictPage extends Component {
                 body: JSON.stringify(requirement)
             }).then(data => data.json())
                 .then(data => {
-                    this.setState({ editRequirement: null });
+                    this.setState({ editAllocation: null });
                     let title = 'Requirement successfully updated.';
                     if (parseInt(req._id) === 0) title = 'Requirement added successfully.';
                     Swal.fire({ title, type: 'success' });
                 }).catch(err => {
                     console.log(err);
-                    this.setState({ editRequirement: null });
+                    this.setState({ editAllocation: null });
                     // Swal.fire(
                     //   'Oops!',
                     //   'An error occured! Please try again in sometime.',
@@ -146,19 +146,20 @@ export default class ManageSingleDistrictPage extends Component {
                 <div className="manage-single-district-page">
                     <h2 className="text-center">{this.state.district.name}</h2>
                     <div className="heading">
-                        <div className="column-1">Material</div>
-                        <div className="column-2">Required Units</div>
-                        <div className="column-3">Fulfilled Units</div>
-                        <div className="column-4">Manage Fulfilments</div>
+                        <div className="column-1">Dispatched Id</div>
+                        <div className="column-2">Dispatched Date</div>
+                        <div className="column-3">Material</div>
+                        <div className="column-4">Units</div>
+                        <div className="column-4">Allocation Date</div>
                         <div className="column-5">EDIT / SAVE Required Units</div>
                     </div>
-                    {!this.state.district.requirements.length ? (
-                        <div className="no-districts">Requirements not found</div>
+                    {!this.state.district.allocations.length ? (
+                        <div className="no-districts">Allocation not found</div>
                     ) : (null)}
-                    {this.state.district.requirements.map((req, index) => {
+                    {this.state.district.allocations.map((req, index) => {
                         return (
                             <div className="district-row" key={index}>
-                                {this.state.editRequirement === req._id ? (
+                                {this.state.editAllocation === req._id ? (
                                     <div className="column-1">
                                         <Select showSearch size="large" value={req.material}
                                             onChange={this.handleReqChange.bind(this, index, 'material')}
@@ -173,7 +174,7 @@ export default class ManageSingleDistrictPage extends Component {
                                 ) : (
                                         <div className="column-1">{req.material}</div>
                                     )}
-                                {this.state.editRequirement === req._id ? (
+                                {this.state.editAllocation === req._id ? (
                                     <div className="column-2">
                                         <input className="form-control" type="number" value={req.required_qnty}
                                             onChange={this.handleReqChange.bind(this, index, 'required_qnty')} />
@@ -183,28 +184,28 @@ export default class ManageSingleDistrictPage extends Component {
                                     )}
                                 <div className="column-3">{req.fullfilled_qnty}</div>
                                 <div className="column-4">
-                                    <button className="btn add-fulfilment-btn" disabled={this.state.editRequirement}
+                                    <button className="btn add-fulfilment-btn" disabled={this.state.editAllocation}
                                         onClick={this.manageFulfilment.bind(this, req._id)}>Manage
                                     </button>
                                 </div>
                                 <div className="column-5">
-                                    {this.state.editRequirement === req._id ? (
+                                    {this.state.editAllocation === req._id ? (
                                         <button className="btn save-requirement-btn"
-                                            onClick={this.saveRequirement.bind(this, req)}>Save</button>
+                                            onClick={this.saveAllocation.bind(this, req)}>Save</button>
                                     ) : (
                                             <button className="btn edit-requirement-btn"
-                                                disabled={this.state.editRequirement}
-                                                onClick={this.editRequirement.bind(this, req._id)}>Edit</button>
+                                                disabled={this.state.editAllocation}
+                                                onClick={this.editAllocation.bind(this, req._id)}>Edit</button>
                                         )}
                                 </div>
                             </div>
                         )
                     })}
                     <div className="add-material-container">
-                        <button className="btn add-material-btn" onClick={this.addMaterial}
-                            disabled={this.state.editRequirement}>
+                        <button className="btn add-material-btn" onClick={this.addAllocation}
+                            disabled={this.state.editAllocation}>
                             <i className="fa fa-plus"></i>
-                            Add Material
+                            Add Allocation
                         </button>
                     </div>
                 </div>
