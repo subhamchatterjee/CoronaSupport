@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Swal from 'sweetalert2';
 
-//Use authHeader() 
+//Use authHeader()
 // designation: Cookies.get('user_designation')
 //Apply  logic on this designation
 export default class TopMenu extends Component {
@@ -12,15 +12,15 @@ export default class TopMenu extends Component {
         }
     }
 
-    componentDidMount() {
-        let pathname = window.location.pathname, route = null;
-        if (pathname === '/dashboard') route = 'Dashboard';
-        else if (pathname === '/manage-materials') route = 'Materials';
-        else if (pathname === '/manage-districts') route = 'Districts';
-        else if (pathname === '/manage-users') route = 'Users';
+	componentDidMount() {
+		let pathname = window.location.pathname, route = null;
+		if (pathname === '/dashboard') route = 'Dashboard';
+		else if (pathname === '/manage-materials') route = 'Materials';
+		else if (pathname === '/manage-districts') route = 'Districts';
+		else if (pathname === '/manage-users') route = 'Users';
 
-        if (route) this.setState({route});
-    }
+		if (route) this.setState({ route });
+	}
 
     logout = () => {
         Swal.fire({
@@ -37,6 +37,7 @@ export default class TopMenu extends Component {
     };
 
     render() {
+        console.log(this.props.userData.fullName)
         return (
             <div className="top-menu">
                 <div className="left-container">

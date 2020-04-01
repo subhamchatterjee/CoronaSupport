@@ -39,25 +39,26 @@ export default class LandingPage extends Component {
         }
     }
 
-    componentDidMount() {
-        if (this.props.match.params.state) {
-            fetch(apiBaseUrl + '/districts?state=' + this.props.match.params.state, {
-                method: 'GET'
-            }).then(data => data.json())
-                .then(data => {
-                    if (data.status === 'ok') {
-                        if (!data.districts.length) window.location.pathname = "/";
-                        else this.setState({districts: data.districts});
-                    }
-                }).catch(err => {
-                console.log(err);
-                // Swal.fire(
-                //   'Oops!',
-                //   'An error occured! Please try again in sometime.',
-                //   'error'
-                // );
-            });
-        }
+	componentDidMount() {
+		if (this.props.match.params.state) {
+			console.log(this.props.match.params.state)
+			fetch(apiBaseUrl + '/districts?state=' + this.props.match.params.state, {
+				method: 'GET'
+			}).then(data => data.json())
+				.then(data => {
+					if (data.status === 'ok') {
+						if (!data.districts.length) window.location.pathname = "/";
+						else this.setState({ districts: data.districts });
+					}
+				}).catch(err => {
+					console.log(err);
+					// Swal.fire(
+					//   'Oops!',
+					//   'An error occured! Please try again in sometime.',
+					//   'error'
+					// );
+				});
+		}
 
         fetch(apiBaseUrl + '/materials', {
             method: 'GET'
@@ -72,14 +73,17 @@ export default class LandingPage extends Component {
     }
 
     districtChange = (value) => {
-        this.setState({district: value}, () => {
+        this.setState({districts: value}, () => {
             this.refreshReqs();
         });
     };
 
-    refreshReqs = () => {
-        let query = "?dashboard=true&state=" + this.props.match.params.state;
-        if (this.state.district) query += "&district=" + this.state.district;
+	refreshReqs = () => {
+		let query = "?dashboard=true&state=" + this.props.match.params.state;
+
+		console.log(this.state.districts)
+		if (this.state.districts) query += "&district=" + this.state.districts;
+		console.log(query)
 
         fetch(apiBaseUrl + '/requirements' + query, {
             method: 'GET'
@@ -241,182 +245,136 @@ export default class LandingPage extends Component {
         this.setState({contributions: [], selectedContributionMaterial: null, showContributionModal: false});
     };
 
-    render() {
-        return (
-            <div className="landing-page">
-                <div className="banner">
-                    {this.props.userData ? (
-                        <div className={this.state.menuVisible ? "menu-container to-right" : "menu-container to-left"}>
-                            <div className="arrow" onClick={this.toggleMenu}><i className="fas fa-chevron-left"></i>
-                            </div>
-                            <a href="/dashboard"><i className="fas fa-laptop"></i></a>
-                            <i className="fas fa-sign-out-alt" onClick={this.logout}></i>
-                        </div>
-                    ) : (null)}
-                    <div className="banner-container">
-                        <div className="black-text">COMBATING</div>
-                        <div className="black-text">COVID,</div>
-                        <div className="red-text">TOGETHER</div>
-                        <div className="black-text small">AN INITIATIVE OF</div>
-                        <div className="logos-container">
-                            <img src="/images/MSINS.png" width="200" height="80" style={{padding: "15px 5px 0 0"}}/>
-                            <img
-                                src="https://www.letsendorse.com/images/xletsEndorse-Logo-Black-Transparent.png.pagespeed.ic.ySi4ImWpcY.webp"
-                                width="200" height="80"/>
-                        </div>
-                    </div>
-                    <div className="banner-heading">LET'S JOIN HAND IN FIGHTING THE PANDEMIC</div>
-                </div>
-                <div className="container-1">
-                    <div className="content">
-                        <div className="left-container">
-                            <div className="heading">
-                                <span className="black-text">OUR</span>
-                                <span className="red-text">ENDEAVOUR</span>
-                            </div>
-                            <div>We are currently in the midst of a pandemic. And we are aware that our healthcare
-                                capacity is not well-equipped to handle this burden. Built in collaboration with <span
-                                    className="red-text"><a className="red-text" href="https://msins.in/"
-                                                            target="_blank">Maharashtra State Innovation Society, a body of the Government of Maharashtra</a>, the various district hospitals and <a
-                                    className="red-text" href="https://letsendorse.com/" target="_blank">LetsEndorse</a></span>,
-                                this platform serves to bring forth the real-time gaps in the existing public health
-                                system and solicit collective support to bridge the same.
-                            </div>
-                            <div>We are running against time to get the supplies that our public health system needs.
-                                And we need support from one and all in enabling our infrastructure and people to combat
-                                COVID-19.
-                            </div>
-                        </div>
-                        <div className="right-container"></div>
-                    </div>
-                </div>
-                <div className="container-2">
-                    <div className="heading">
-                        <span className="black-text">LET'S ENABLE OUR</span>
-                        <span className="red-text">FRONTLINE</span>
-                    </div>
-                    <div className="filter-container">
-                        <div className="filter">
-                            <label className="control-label">District</label>
-                            <Select showSearch size="large" value={this.state.district} onChange={this.districtChange}
-                                    style={{width: 150}}>
-                                <Option value="">All</Option>
-                                {this.state.districts.map(function (district, index) {
-                                    return (
-                                        <Option value={district.name} key={index}>{district.name}</Option>
-                                    )
-                                })}
-                            </Select>
-                        </div>
-                        <div className="last-updated-container">
-                            <span className="black-text">Last Updated:</span>
-                            <span
-                                className="red-text">{moment().format('HH:mm') + ' | ' + moment().format('DD MMMM YYYY')}</span>
-                        </div>
-                    </div>
-                    <button className="btn interest-btn" onClick={this.express}>Express Interest To Contribute</button>
-                    <div className="requirements-container">
-                        <div className="heading">
-                            <div className="column-1">Requirement</div>
-                            <div className="column-2">Indicative Unit Cost
-                                (INR){/* <span className="btn" title="The price range is based on the vendors who have been identified by Maharashtra State Innovation Society. However, this is not an endorsed or fixed price.">?</span>*/}</div>
-                            <div className="column-3">Status (Progress of Fulfillment)</div>
-                            {this.props.userData ? (
-                                <div className="column-4">View Contribution History</div>
-                            ) : (null)}
-                        </div>
-                        {!this.state.requirements.length ? (
-                            <div className="no-materials">
-                                <span className="title">No requirements available currently!</span>
-                                <span className="sub-title">Please wait until requirements are added.</span>
-                            </div>
-                        ) : (null)}
-                        {this.state.requirements.map((requirement, index) => {
-                            return (
-                                <div className="req-row" key={index}>
-                                    <div className="column-1" title={requirement.materialDesc}>{requirement._id}</div>
-                                    <div className="column-2">
-                                        {requirement.unit_min_price && requirement.unit_max_price ? (
-                                            <span>{requirement.unit_min_price + ' - ' + requirement.unit_max_price}</span>
-                                        ) : (
-                                            requirement.unit_min_price ? (
-                                                requirement.unit_min_price
-                                            ) : (
-                                                requirement.unit_max_price
-                                            )
-                                        )}
-                                    </div>
-                                    <div className="column-3">
-                                        <div className="box">
-                                            <div className="box-filled"
-                                                 style={parseInt(requirement.fullfilled_qnty / requirement.required_qnty * 100) > 100 ? {width: "100%"} : {width: parseInt(requirement.fullfilled_qnty / requirement.required_qnty * 100) + "%"}}>
-                                                <span>{requirement.fullfilled_qnty}</span></div>
-                                            <span className="box-total">{requirement.required_qnty}</span>
-                                        </div>
-                                    </div>
-                                    {this.props.userData ? (
-                                        <div className="column-4">
-                                            <button className="btn view-contribution-btn"
-                                                    onClick={this.viewContributions.bind(this, requirement._id)}>View
-                                            </button>
-                                        </div>
-                                    ) : (null)}
-                                </div>
-                            )
-                        })}
-                    </div>
-                    <note style={{marginTop: 10, display: 'block'}}>
-                        <b>Note:</b>
-                        <span> The price range is based on the vendors who have been identified by Maharashtra State Innovation Society. However, this is not an endorsed or fixed price.</span>
-                    </note>
-                </div>
-                <div className="container-3">
-                    <div className="heading-container">
-                        <a className="link" href="https://bit.ly/CovidMahSupply" target="_blank">CLICK HERE TO VIEW THE
-                            LIST AND INVENTORY OF VETTED MATERIAL SUPPLIERS.</a>
-                        <div className="text">(We would nonetheless encourage you to do your due-diligence on the
-                            suppliers.)
-                        </div>
-                    </div>
-                    <div className="heading">
-                        <span className="black-text">HOW DOES THIS</span>
-                        <span className="red-text">PLATFORM WORK?</span>
-                    </div>
-                    <div className="text-container">
-                        <div>Built in collaboration with <a className="red-text" href="https://msins.in/"
-                                                            target="_blank">Maharashtra State Innovation Society</a> (a
-                            body of the Government of Maharashtra) and <a className="red-text"
-                                                                          href="https://letsendorse.com/"
-                                                                          target="_blank">LetsEndorse</a>, this platform
-                            serves to provide real-time information about the gaps in and needs of the public health
-                            system of Maharashtra.
-                        </div>
-                        <div>Our collective goal is to garner the precise needs from the ground (Government Hospitals
-                            serving COVID-19 patients) from across different districts of Maharashtra and offer a single
-                            and transparent channel to individuals and institutions <b>(through grants and CSR funds- <a
-                                className="red-text" href="https://www.mca.gov.in/Ministry/pdf/Covid_23032020.pdf"
-                                target="_blank">Read regulation here</a>)</b> to make direct contribution and impact in
-                            fighting the current pandemic.
-                        </div>
-                        <div>Once you gauge the gaps, you can click on "<span className="red-text">EXPRESS INTEREST TO CONTRIBUTE</span>"
-                            button, mention the scale of your contribution, recommend any supplier, and our task-force
-                            team shall get in touch with you to channelize your support in the most appropriate manner.
-                        </div>
-                        <div>To check how your contribution has reached the last mile, you can click on the hyperlinked
-                            name of the item and you would see the entire list of contributions in realtime.
-                        </div>
-                        <div>To know further, get in touch with us at <a href="mailto:support@letsendorse.com"
-                                                                         target="_blank"
-                                                                         className="red-text">support@letsendorse.com</a>.
-                        </div>
-                    </div>
-                </div>
-                <div className="footer-container">
-                    <div>PLATFORM AND UPDATES POWERED BY</div>
-                    <img
-                        src="https://www.letsendorse.com/images/xletsEndorse-Logo-Black-Transparent.png.pagespeed.ic.ySi4ImWpcY.webp"
-                        width="200" height="70"/>
-                </div>
+	render() {
+		return (
+			<div className="landing-page">
+				<div className="banner">
+					{this.props.userData ? (
+						<div className={this.state.menuVisible ? "menu-container to-right" : "menu-container to-left"}>
+							<div className="arrow" onClick={this.toggleMenu}><i className="fas fa-chevron-left"></i></div>
+							<a href="/dashboard"><i className="fas fa-laptop"></i></a>
+							<i className="fas fa-sign-out-alt" onClick={this.logout}></i>
+						</div>
+					) : (null)}
+					<div className="banner-container">
+						<div className="black-text">COMBATING</div>
+						<div className="black-text">COVID,</div>
+						<div className="red-text">TOGETHER</div>
+						<div className="black-text small">AN INITIATIVE OF</div>
+						<div className="logos-container">
+							<img src="/images/MSINS.png" width="200" height="80" style={{ padding: "15px 5px 0 0" }} />
+							<img src="https://www.letsendorse.com/images/xletsEndorse-Logo-Black-Transparent.png.pagespeed.ic.ySi4ImWpcY.webp" width="200" height="80" />
+						</div>
+					</div>
+					<div className="banner-heading">LET'S JOIN HAND IN FIGHTING THE PANDEMIC</div>
+				</div>
+				<div className="container-1">
+					<div className="content">
+						<div className="left-container">
+							<div className="heading">
+								<span className="black-text">OUR</span>
+								<span className="red-text">ENDEAVOUR</span>
+							</div>
+							<div>We are currently in the midst of a pandemic. And we are aware that our healthcare capacity is not well-equipped to handle this burden. Built in collaboration with <span className="red-text"><a className="red-text" href="https://msins.in/" target="_blank">Maharashtra State Innovation Society, a body of the Government of Maharashtra</a>, the various district hospitals and <a className="red-text" href="https://letsendorse.com/" target="_blank">LetsEndorse</a></span>, this platform serves to bring forth the real-time gaps in the existing public health system and solicit collective support to bridge the same.</div>
+							<div>We are running against time to get the supplies that our public health system needs. And we need support from one and all in enabling our infrastructure and people to combat COVID-19.</div>
+						</div>
+						<div className="right-container"></div>
+					</div>
+				</div>
+				<div className="container-2">
+					<div className="heading">
+						<span className="black-text">LET'S ENABLE OUR</span>
+						<span className="red-text">FRONTLINE</span>
+					</div>
+					<div className="filter-container">
+						<div className="filter">
+							<label className="control-label">District</label>
+							<Select showSearch size="large" value={this.state.districts} onChange={this.districtChange} style={{ width: 150 }}>
+								<Option value="">All</Option>
+								{this.state.districts.map(function (district, index) {
+									return (
+										<Option value={district.name} key={index}>{district.name}</Option>
+									)
+								})}
+							</Select>
+						</div>
+						<div className="last-updated-container">
+							<span className="black-text">Last Updated:</span>
+							<span className="red-text">{moment().format('HH:mm') + ' | ' + moment().format('DD MMMM YYYY')}</span>
+						</div>
+					</div>
+					<button className="btn interest-btn" onClick={this.express}>Express Interest To Contribute</button>
+					<div className="requirements-container">
+						<div className="heading">
+							<div className="column-1">Requirement</div>
+							<div className="column-2">Indicative Unit Cost (INR){/* <span className="btn" title="The price range is based on the vendors who have been identified by Maharashtra State Innovation Society. However, this is not an endorsed or fixed price.">?</span>*/}</div>
+							<div className="column-3">Status (Progress of Fulfillment)</div>
+							{this.props.userData ? (
+								<div className="column-4">View Contribution History</div>
+							) : (null)}
+						</div>
+						{!this.state.requirements.length ? (
+							<div className="no-materials">
+								<span className="title">No requirements available currently!</span>
+								<span className="sub-title">Please wait until requirements are added.</span>
+							</div>
+						) : (null)}
+						{this.state.requirements.map((requirement, index) => {
+							return (
+								<div className="req-row" key={index}>
+									<div className="column-1" title={requirement.materialDesc}>{requirement._id}</div>
+									<div className="column-2">
+										{requirement.unit_min_price && requirement.unit_max_price ? (
+											<span>{requirement.unit_min_price + ' - ' + requirement.unit_max_price}</span>
+										) : (
+												requirement.unit_min_price ? (
+													requirement.unit_min_price
+												) : (
+														requirement.unit_max_price
+													)
+											)}
+									</div>
+									<div className="column-3">
+										<div className="box">
+											<div className="box-filled" style={parseInt(requirement.fullfilled_qnty / requirement.required_qnty * 100) > 100 ? { width: "100%" } : { width: parseInt(requirement.fullfilled_qnty / requirement.required_qnty * 100) + "%" }}><span>{requirement.fullfilled_qnty}</span></div>
+											<span className="box-total">{requirement.required_qnty}</span>
+										</div>
+									</div>
+									{this.props.userData ? (
+										<div className="column-4">
+											<button className="btn view-contribution-btn" onClick={this.viewContributions.bind(this, requirement._id)}>View</button>
+										</div>
+									) : (null)}
+								</div>
+							)
+						})}
+					</div>
+					<note style={{ marginTop: 10, display: 'block' }}>
+						<b>Note:</b>
+						<span> The price range is based on the vendors who have been identified by Maharashtra State Innovation Society. However, this is not an endorsed or fixed price.</span>
+					</note>
+				</div>
+				<div className="container-3">
+					<div className="heading-container">
+						<a className="link" href="https://bit.ly/CovidMahSupply" target="_blank">CLICK HERE TO VIEW THE LIST AND INVENTORY OF VETTED MATERIAL SUPPLIERS.</a>
+						<div className="text">(We would nonetheless encourage you to do your due-diligence on the suppliers.)</div>
+					</div>
+					<div className="heading">
+						<span className="black-text">HOW DOES THIS</span>
+						<span className="red-text">PLATFORM WORK?</span>
+					</div>
+					<div className="text-container">
+						<div>Built in collaboration with <a className="red-text" href="https://msins.in/" target="_blank">Maharashtra State Innovation Society</a> (a body of the Government of Maharashtra) and <a className="red-text" href="https://letsendorse.com/" target="_blank">LetsEndorse</a>, this platform serves to provide real-time information about the gaps in and needs of the public health system of Maharashtra.</div>
+						<div>Our collective goal is to garner the precise needs from the ground (Government Hospitals serving COVID-19 patients) from across different districts of Maharashtra and offer a single and transparent channel to individuals and institutions <b>(through grants and CSR funds- <a className="red-text" href="https://www.mca.gov.in/Ministry/pdf/Covid_23032020.pdf" target="_blank">Read regulation here</a>)</b> to make direct contribution and impact in fighting the current pandemic.</div>
+						<div>Once you gauge the gaps, you can click on "<span className="red-text">EXPRESS INTEREST TO CONTRIBUTE</span>" button, mention the scale of your contribution, recommend any supplier, and our task-force team shall get in touch with you to channelize your support in the most appropriate manner.</div>
+						<div>To check how your contribution has reached the last mile, you can click on the hyperlinked name of the item and you would see the entire list of contributions in realtime.</div>
+						<div>To know further, get in touch with us at <a href="mailto:support@letsendorse.com" target="_blank" className="red-text">support@letsendorse.com</a>.</div>
+					</div>
+				</div>
+				<div className="footer-container">
+					<div>PLATFORM AND UPDATES POWERED BY</div>
+					<img src="https://www.letsendorse.com/images/xletsEndorse-Logo-Black-Transparent.png.pagespeed.ic.ySi4ImWpcY.webp" width="200" height="70" />
+				</div>
 
                 <Modal className="express-interest-modal" show={this.state.showInterestModal}
                        onHide={this.closeInterestModal} size="lg" aria-labelledby="contained-modal-title-lg">
