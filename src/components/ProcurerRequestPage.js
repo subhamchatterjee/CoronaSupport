@@ -44,8 +44,11 @@ export default class ProcurerRequestPage extends Component {
             <div className="manage-districts-page">
                 <h2 className="text-center">MANAGE REQUEST PAGE</h2>
                 <div className="heading">
-                    <div className="column-2">Material</div>
                     <div className="column-2">District</div>
+                    <div className="column-2">Material</div>
+
+                    <div className="column-2">Min Price</div>
+                    <div className="column-2">Max Price</div>
                     <div className="column-2">Required Quantity</div>
                     <div className="column-2">Action</div>
                 </div>
@@ -55,8 +58,11 @@ export default class ProcurerRequestPage extends Component {
                 {this.state.requirements.map((requirement, index) => {
                     return (
                         <div className="district-row" key={index}>
-                            <div className="column-2">{requirement.material}</div>
                             <div className="column-2">{requirement.district}</div>
+                            <div className="column-2">{requirement.material}</div>
+
+                            <div className="column-2">{requirement.unit_min_price}</div>
+                            <div className="column-2">{requirement.unit_max_price}</div>
                             <div className="column-2">{requirement.required_qnty}</div>
                             <div className="column-2">
                                 <button className="btn manage-district-btn"

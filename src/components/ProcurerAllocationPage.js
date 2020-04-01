@@ -10,10 +10,16 @@ export default class ProcurerAllocationPage extends Component {
     }
 
     componentDidMount() {
-        fetch(apiBaseUrl + '/allocations', {
-            method: 'GET'
+        fetch(apiBaseUrl + '/api/v1/allocations', {
+            method: 'GET',
+            // headers: authHeader,
+            headers: {
+                'Auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlODM3OTNmNzkwZmM0NTk5MDQ5NWQyZSIsImlhdCI6MTU4NTcyMTkwMiwiZXhwIjoxNTg4MzEzOTAyfQ.dXALb-NgbO57Bo5iya3osu2FW73OnUfEdVFRRl4uijg',
+                'Content-Type': 'application/json'
+            }
         }).then(data => data.json())
             .then(data => {
+                console.log(data)
                 this.setState({ allocations: data.data });
             }).catch(err => {
                 console.log(err);
