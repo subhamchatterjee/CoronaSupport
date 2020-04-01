@@ -43,7 +43,7 @@ export default class ProcurerAllocationPage extends Component {
 
                 </div>
                 {!this.state.allocations.length ? (
-                    <div className="no-districts">Districts not found</div>
+                    <div className="no-districts">Allocation Listings not found</div>
                 ) : (null)}
                 {this.state.allocations.map((allocation, index) => {
                     return (

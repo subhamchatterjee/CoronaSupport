@@ -46,7 +46,7 @@ export default class ProcurerOrderPage extends Component {
                     <div className="column-2">Action</div>
                 </div>
                 {!this.state.orders.length ? (
-                    <div className="no-districts">Districts not found</div>
+                    <div className="no-districts">Order Listings not found</div>
                 ) : (null)}
                 {this.state.orders.map((order, index) => {
                     return (

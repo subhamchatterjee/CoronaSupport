@@ -40,7 +40,7 @@ export default class ProcurerRequestPage extends Component {
                     <div className="column-2">Action</div>
                 </div>
                 {!this.state.requirements.length ? (
-                    <div className="no-districts">Districts not found</div>
+                    <div className="no-districts">Requirement Listings not found</div>
                 ) : (null)}
                 {this.state.requirements.map((requirement, index) => {
                     return (
