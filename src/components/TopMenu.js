@@ -19,6 +19,7 @@ export default class TopMenu extends Component {
         else if (pathname === '/DHS1DashboardPage') route = 'DHS1DashboardPage';
         else if (pathname === '/DORequest') route = 'DORequest';
         else if (pathname === '/DOReceive') route = 'DOReceive';
+        else if (pathname === '/HaffkineViewInventory') route = 'HaffkineViewInventory';
         else if (pathname === '/manage-materials') route = 'Materials';
         else if (pathname === '/manage-districts') route = 'Districts';
         else if (pathname === '/procurer-allocations') route = 'Procurers';
@@ -60,6 +61,8 @@ export default class TopMenu extends Component {
                             href={window.location.pathname === '/DORequest' ? null : '/DORequest'}>DORequest</a>
                         <a className={this.state.route === "DOReceive" ? "menu-item selected" : "menu-item"}
                             href={window.location.pathname === '/DOReceive' ? null : '/DOReceive'}>DOReceive</a>
+                        <a className={this.state.route === "HaffkineViewInventory" ? "menu-item selected" : "menu-item"}
+                            href={window.location.pathname === '/HaffkineViewInventory' ? null : '/HaffkineViewInventory'}>HaffkineViewInventory</a>
                         <a className={this.state.route === "Materials" ? "menu-item selected" : "menu-item"}
                             href={window.location.pathname === '/manage-materials' ? null : '/manage-materials'}>Manage
                             Materials</a>

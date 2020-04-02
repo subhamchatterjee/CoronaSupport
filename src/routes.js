@@ -24,6 +24,7 @@ import ProcurerOrderPage from './components/ProcurerOrderPage';
 import ManageSingleOrderPage from './components/ManageSingleOrderPage';
 import ProcurerRequestPage from './components/ProcurerRequestPage';
 import ManageSingleRequestPage from './components/ManageSingleRequestPage';
+import HaffkineViewInventory from './components/HaffkineViewInventory';
 
 
 const history = createBrowserHistory();
@@ -106,6 +107,8 @@ export default class Routes extends Component {
                             <DefaultAppLayout exact path="/DORequest" component={DORequest}
                                 userData={this.state.userData} logoutUser={this.logoutUser} />
                             <DefaultAppLayout exact path="/DOReceive" component={DOReceiveItems}
+                                userData={this.state.userData} logoutUser={this.logoutUser} />
+                            <DefaultAppLayout exact path="/HaffkineViewInventory" component={HaffkineViewInventory}
                                 userData={this.state.userData} logoutUser={this.logoutUser} />
 
                             <DefaultAppLayout exact path="/add-material" component={AddMaterialPage}
