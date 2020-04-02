@@ -7,8 +7,7 @@ import TopMenu from './components/TopMenu';
 import LoginPage from './components/LoginPage';
 import LandingPage from './components/LandingPage';
 import DashboardPage from './components/DashboardPage';
-import DOReceiveItems from './components/DOReceiveItems';
-import DORequest from './components/DORequest';
+
 import DODashboardPage from './components/DODashboardPage';
 import DHS1DashboardPage from './components/DHS1DashboardPage';
 import AddMaterialPage from './components/AddMaterialPage';
@@ -25,6 +24,7 @@ import ManageSingleOrderPage from './components/ManageSingleOrderPage';
 import ProcurerRequestPage from './components/ProcurerRequestPage';
 import ManageSingleRequestPage from './components/ManageSingleRequestPage';
 import HaffkineViewInventory from './components/HaffkineViewInventory';
+import DORequestPage from './components/DORequestPage';
 
 
 const history = createBrowserHistory();
@@ -104,10 +104,9 @@ export default class Routes extends Component {
                                 userData={this.state.userData} logoutUser={this.logoutUser} />
                             <DefaultAppLayout exact path="/DHS1DashboardPage" component={DHS1DashboardPage}
                                 userData={this.state.userData} logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/DORequest" component={DORequest}
+                            <DefaultAppLayout exact path="/DORequestPage" component={DORequestPage}
                                 userData={this.state.userData} logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/DOReceive" component={DOReceiveItems}
-                                userData={this.state.userData} logoutUser={this.logoutUser} />
+
                             <DefaultAppLayout exact path="/HaffkineViewInventory" component={HaffkineViewInventory}
                                 userData={this.state.userData} logoutUser={this.logoutUser} />
 

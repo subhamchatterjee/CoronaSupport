@@ -42,28 +42,35 @@ export default class DhsRequest extends Component {
     render() {
         return (
             <div className="manage-materials-page">
-                <h2 className="text-center">MANAGE MATERIALS PAGE</h2>
+                <h2 className="text-center">MANAGE REQUESTS</h2>
                 <div className="heading">
-                    <div className="column-1">Name of the material</div>
-                    <div className="column-2">Manage Requirement and Fulfillment</div>
-                    <div className="column-3">Edit Material Information</div>
+                     <div className="column-2">Item</div>
+                        <div className="column-2">Requested Unit</div>
+                        <div className="column-2">Requested Date</div>
+                        <div className="column-2">Requested Status</div>
+                        <div className="column-2">Approved Units</div>
+                        <div className="column-2">District</div>
+                        <div className="column-2">Approve</div> 
                 </div>
                 {!this.state.materials.length ? (
-                    <div className="no-materials">Material not found</div>
+                    <div className="no-materials"> Request not found</div>
                 ) : (null)}
                 {this.state.materials.map((material, index) => {
                     return (
                         <div className="material-row" key={index}>
-                            <div className="column-1">{material.name}</div>
-                            <div className="column-2">
-                                <button className="btn manage-material-btn"
-                                        onClick={this.manageMaterial.bind(this, material._id)}>Manage
-                                </button>
-                            </div>
-                            <div className="column-3">
-                                <button className="btn edit-material-btn"
-                                        onClick={this.editMaterial.bind(this, material._id)}>Edit
-                                </button>
+                             <div className="column-2" >{item.name}</div>
+                                <div className="column-2">{item.itemsRequested}</div>
+                                <div className="column-2">{item.itemsApproved}</div>
+                                <div className="column-2">{item.itemsReceived}</div>
+                                <div className="column-2">{item.ordersPlaced}</div>
+                                <div className="column-2">{item.ordersDispatched}</div>
+                                <div className="column-2">{item.remainingRequirement}</div>
+                                <div className="column-2">
+                                    <button className="btn column-btn"
+                                        onClick={this.viewHistory.bind(this, item._id)}>View
+                                    </button>
+                                </div>
+                                <div className="column-2">{item.itemsReceivedOwnEffort}</div>
                             </div>
                         </div>
                     )

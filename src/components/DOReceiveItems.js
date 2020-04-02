@@ -12,7 +12,7 @@ export default class DORecieveItems extends Component {
     }
 
     componentDidMount() {
-        fetch(apiBaseUrl + '/api/v1/requirements', {
+        fetch(apiBaseUrl + '/api/v1/requestor/received-items', {
             method: 'GET',
             // headers: authHeader,
             headers: {
@@ -53,18 +53,18 @@ export default class DORecieveItems extends Component {
                     <div className="column-2">Received and added to stock</div>
                 </div>
                 {!this.state.receive.length ? (
-                    <div className="no-districts">Requirement Listings not found</div>
+                    <div className="no-districts">Receive Items Listings not found</div>
                 ) : (null)}
                 {this.state.receive.map((received, index) => {
                     return (
                         <div className="district-row" key={index}>
-                            <div className="column-2">{received.dispatchNumber}</div>
-                            <div className="column-2">{received.dispatchDate}</div>
-                            <div className="column-2">{received.items}</div>
-                            <div className="column-2">{received.unitsDipatched}</div>
-                            <div className="column-2">{received.unitsReceived}</div>
-                            <div className="column-2">{received.comments}</div>
-                            <div className="column-2">{received.Recieved}</div>
+                            <div className="column-2">{received.dispatchId}</div>
+                            <div className="column-2">{received.dispatchedDate}</div>
+                            <div className="column-2">{received.material}</div>
+                            <div className="column-2">{received.units}</div>
+                            <div className="column-2">{received.receivedUnits}</div>
+                            <div className="column-2">{received.comment}</div>
+                            <div className="column-2">{received.status}</div>
                         </div>
                     )
                 })}

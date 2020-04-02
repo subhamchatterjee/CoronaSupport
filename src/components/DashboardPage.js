@@ -6,7 +6,7 @@ import { apiBaseUrl } from './config.jsx'
 const { Option } = Select;
 const readCookie = require('../cookie.js').readCookie;
 
-export default class DashboardPage extends Component {
+export default class DODashboardPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -26,7 +26,7 @@ export default class DashboardPage extends Component {
         }).then(data => data.json())
             .then(data => {
                 if (data.status === 'ok') {
-                    this.setState({ districts: data.data });
+                    this.setState({ items: data.data });
                 }
             }).catch(err => {
                 console.log(err);
@@ -58,55 +58,57 @@ export default class DashboardPage extends Component {
 
     render() {
         return (
-            <div className="dashboard-page">
-                <h3 className="text-center">Dashboard</h3>
-                <div className="table-container">
-                    <div className="filter">
-                        <label className="control-label">District</label>
-                        <Select showSearch size="large" value={this.state.district} onChange={this.districtChange}
-                            style={{ width: 150 }}>
-                            <Option value="">All</Option>
-                            {this.state.districts.map(function (district, index) {
-                                return (
-                                    <Option value={district.name} key={index}>{district.name}</Option>
-                                )
-                            })}
-                        </Select>
-                    </div>
-                    <div className="heading">
-                        <div className="column-2">Item</div>
-                        <div className="column-2">Items Requested</div>
-                        <div className="column-2">Items Approved</div>
-                        <div className="column-2">Items Received (State-Efforts)</div>
-                        <div className="column-2">Orders Placed (Not yet received)</div>
-                        <div className="column-2">Orders Dispatched</div>
-                        <div className="column-2">Remaining requirement</div>
-                        <div className="column-2">View History</div>
-                        <div className="column-2">Items Received (Own efforts)</div>
-                    </div>
-                    {!this.state.items.length ? (
-                        <div className="no-items">No Items found</div>
-                    ) : (null)}
-                    {this.state.items.map((item, index) => {
-                        return (
-                            <div className="item-row" key={index}>
-                                <div className="column-2" >{item.name}</div>
-                                <div className="column-2">{item.itemsRequested}</div>
-                                <div className="column-2">{item.itemsApproved}</div>
-                                <div className="column-2">{item.itemsReceived}</div>
-                                <div className="column-2">{item.ordersPlaced}</div>
-                                <div className="column-2">{item.ordersDispatched}</div>
-                                <div className="column-2">{item.remainingRequirement}</div>
-                                <div className="column-2">
-                                    <button className="btn column-btn"
-                                        onClick={this.viewHistory.bind(this, item._id)}>View
-                                    </button>
-                                </div>
-                                <div className="column-2">{item.itemsReceivedOwnEffort}</div>
-                            </div>
-                        )
-                    })}
+
+
+            <div className="manage-districts-page">
+
+                <h2 className="text-center">Dashboard</h2>
+                <div className="filter">
+                    <label className="control-label">District</label>
+                    <Select showSearch size="large" value={this.state.district} onChange={this.districtChange}
+                        style={{ width: 150 }}>
+                        <Option value="">All</Option>
+                        {this.state.districts.map(function (district, index) {
+                            return (
+                                <Option value={district.name} key={index}>{district.name}</Option>
+                            )
+                        })}
+                    </Select>
                 </div>
+                <div className="heading">
+                    <div className="column-2">Item</div>
+                    <div className="column-2">Items Requested</div>
+                    <div className="column-2">Items Approved</div>
+                    <div className="column-2">Items Received (State-Efforts)</div>
+                    <div className="column-2">Orders Placed (Not yet received)</div>
+                    <div className="column-2">Orders Dispatched</div>
+                    <div className="column-2">Remaining requirement</div>
+                    <div className="column-2">View History</div>
+                    <div className="column-2">Items Received (Own efforts)</div>
+                </div>
+                {!this.state.items.length ? (
+                    <div className="no-districts
+                        ">No Items found</div>
+                ) : (null)}
+                {this.state.items.map((item, index) => {
+                    return (
+                        <div className="district-row" key={index}>
+                            <div className="column-2" >{item.name}</div>
+                            <div className="column-2">{item.itemsRequested}</div>
+                            <div className="column-2">{item.itemsApproved}</div>
+                            <div className="column-2">{item.itemsReceived}</div>
+                            <div className="column-2">{item.ordersPlaced}</div>
+                            <div className="column-2">{item.ordersDispatched}</div>
+                            <div className="column-2">{item.remainingRequirement}</div>
+                            <div className="column-2">
+                                <button className="btn column-btn"
+                                    onClick={this.viewHistory.bind(this, item._id)}>View
+                                    </button>
+                            </div>
+                            <div className="column-2">{item.itemsReceivedOwnEffort}</div>
+                        </div>
+                    )
+                })}
             </div>
         );
     }

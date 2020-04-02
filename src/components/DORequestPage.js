@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 // import { process.env.REACT_APP_API_URL } from './config.jsx'
 import { authHeader } from '../helper/auth-header'
+import { apiBaseUrl } from './config.jsx'
 
 
-export default class DORequest extends Component {
+export default class DORequestPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,7 +13,7 @@ export default class DORequest extends Component {
     }
 
     componentDidMount() {
-        fetch(process.env.REACT_APP_API_URL + '/api/v1/requestor/received-items', {
+        fetch(process.env.REACT_APP_API_URL + '/api/v1/requirements', {
             method: 'GET',
             // headers: authHeader,
             headers: {
@@ -46,7 +47,6 @@ export default class DORequest extends Component {
                 <div className="heading">
                     <div className="column-2">Item</div>
                     <div className="column-2">Requested Unit</div>
-
                     <div className="column-2">Request Date</div>
                     <div className="column-2">Request Status</div>
                     <div className="column-2">Approved Units</div>
@@ -59,12 +59,11 @@ export default class DORequest extends Component {
                     return (
                         <div className="district-row" key={index}>
                             <div className="column-2">{request.material}</div>
-                            <div className="column-2">{request.receivedUnits}</div>
-
-                            <div className="column-2">{request.receivedDate}</div>
+                            <div className="column-2">{request.required_qnty}</div>
+                            <div className="column-2">{request.updatedAt}</div>
                             <div className="column-2">{request.status}</div>
-                            <div className="column-2">{request.units}</div>
-                            <div className="column-2">{request.allocationedDate}</div>
+                            <div className="column-2">{request.approved_qnty}</div>
+                            <div className="column-2">{request.approvedAt}</div>
 
                         </div>
                     )

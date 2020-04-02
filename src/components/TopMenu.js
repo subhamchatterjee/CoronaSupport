@@ -17,8 +17,7 @@ export default class TopMenu extends Component {
         if (pathname === '/dashboard') route = 'Dashboard';
         else if (pathname === '/DOdashboard') route = 'DODashboard';
         else if (pathname === '/DHS1DashboardPage') route = 'DHS1DashboardPage';
-        else if (pathname === '/DORequest') route = 'DORequest';
-        else if (pathname === '/DOReceive') route = 'DOReceive';
+        else if (pathname === '/DORequestPage') route = 'DORequestPage';
         else if (pathname === '/HaffkineViewInventory') route = 'HaffkineViewInventory';
         else if (pathname === '/manage-materials') route = 'Materials';
         else if (pathname === '/manage-districts') route = 'Districts';
@@ -57,10 +56,9 @@ export default class TopMenu extends Component {
                             href={window.location.pathname === '/DOdashboard' ? null : '/DOdashboard'}>DODashboard</a>
                         <a className={this.state.route === "DHS1DashboardPage" ? "menu-item selected" : "menu-item"}
                             href={window.location.pathname === '/DHS1DashboardPage' ? null : '/DHS1DashboardPage'}>DHS1DashboardPage</a>
-                        <a className={this.state.route === "DORequest" ? "menu-item selected" : "menu-item"}
-                            href={window.location.pathname === '/DORequest' ? null : '/DORequest'}>DORequest</a>
-                        <a className={this.state.route === "DOReceive" ? "menu-item selected" : "menu-item"}
-                            href={window.location.pathname === '/DOReceive' ? null : '/DOReceive'}>DOReceive</a>
+                        <a className={this.state.route === "DORequestPage" ? "menu-item selected" : "menu-item"}
+                            href={window.location.pathname === '/DORequestPage' ? null : '/DORequestPage'}>DORequestPage</a>
+
                         <a className={this.state.route === "HaffkineViewInventory" ? "menu-item selected" : "menu-item"}
                             href={window.location.pathname === '/HaffkineViewInventory' ? null : '/HaffkineViewInventory'}>HaffkineViewInventory</a>
                         <a className={this.state.route === "Materials" ? "menu-item selected" : "menu-item"}
