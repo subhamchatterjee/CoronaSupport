@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import React, { Component } from 'react';
 import { Row, Col, Modal, Table } from 'react-bootstrap';
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton, WhatsappShareButton, WhatsappIcon } from 'react-share';
-// import { process.env.REACT_APP_API_URL } from './config.jsx'
+
 const { Option } = Select;
 const readCookie = require('../cookie.js').readCookie;
 
@@ -41,7 +41,6 @@ export default class LandingPage extends Component {
 
 	componentDidMount() {
 		if (this.props.match.params.state) {
-			console.log(this.props.match.params.state)
 			fetch(process.env.REACT_APP_API_URL + '/districts?state=' + this.props.match.params.state, {
 				method: 'GET'
 			}).then(data => data.json())
@@ -78,23 +77,20 @@ export default class LandingPage extends Component {
 	}
 
 	districtChange = (value) => {
-		this.setState({ districts: value }, () => {
+		this.setState({ district: value }, () => {
 			this.refreshReqs();
 		});
 	};
 
 	refreshReqs = () => {
 		let query = "?dashboard=true&state=" + this.props.match.params.state;
+		if(this.state.district) query += "&district=" + this.state.district;
 
-		console.log(this.state.districts)
-		if (this.state.districts) query += "&district=" + this.state.districts;
-		console.log(query)
-
-		fetch(process.env.REACT_APP_API_URL + '/requirements' + query, {
+		fetch(process.env.REACT_APP_API_URL + '/api/v1/public-overview' + query, {
 			method: 'GET'
 		}).then(data => data.json())
 			.then(data => {
-				this.setState({ requirements: data.requirement });
+				if(data.status === 'ok') this.setState({ requirements: data.data });
 			}).catch(err => {
 				console.log(err);
 				// Swal.fire(
@@ -294,7 +290,7 @@ export default class LandingPage extends Component {
 					<div className="filter-container">
 						<div className="filter">
 							<label className="control-label">District</label>
-							<Select showSearch size="large" value={this.state.districts} onChange={this.districtChange} style={{ width: 150 }}>
+							<Select showSearch size="large" value={this.state.district} onChange={this.districtChange} style={{ width: 150 }}>
 								<Option value="">All</Option>
 								{this.state.districts.map(function (district, index) {
 									return (
@@ -327,17 +323,17 @@ export default class LandingPage extends Component {
 						{this.state.requirements.map((requirement, index) => {
 							return (
 								<div className="req-row" key={index}>
-									<div className="column-1" title={requirement.materialDesc}>{requirement._id}</div>
+									<div className="column-1" title={requirement.desc}>{requirement.name}</div>
 									<div className="column-2">
-										{requirement.unit_min_price && requirement.unit_max_price ? (
-											<span>{requirement.unit_min_price + ' - ' + requirement.unit_max_price}</span>
+										{requirement.min_price && requirement.max_price ? (
+											<span>{requirement.min_price + ' - ' + requirement.max_price}</span>
 										) : (
-												requirement.unit_min_price ? (
-													requirement.unit_min_price
-												) : (
-														requirement.unit_max_price
-													)
-											)}
+											requirement.min_price ? (
+												requirement.min_price
+											) : (
+												requirement.max_price
+											)
+										)}
 									</div>
 									<div className="column-3">
 										<div className="box">

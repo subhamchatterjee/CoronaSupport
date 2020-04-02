@@ -36,6 +36,8 @@ export default class DashboardPage extends Component {
 				// );
 			});
 		}
+
+		this.getDashboardData();
 	}
 
 	logout = () => {
@@ -56,6 +58,34 @@ export default class DashboardPage extends Component {
 
 	}
 
+	districtChange = (district) => {
+		this.setState({ district }, () => { this.getDashboardData() });
+	}
+
+	getDashboardData = () => {
+		let query = "";
+		if(this.state.district) query += "?district=" + this.state.district;
+
+		fetch(apiBaseUrl + '/api/v1/overview' + query, {
+			method: 'GET',
+			headers:  {
+				'Auth': readCookie('access_token')
+			}
+		}).then(data => data.json())
+		.then(data => {
+			if (data.status === 'ok') {
+				this.setState({ items: data.data });
+			}
+		}).catch(err => {
+			console.log(err);
+			// Swal.fire(
+			//   'Oops!',
+			//   'An error occured! Please try again in sometime.',
+			//   'error'
+			// );
+		});
+	}
+
 	render() {
 		return (
 			<div className="dashboard-page">
@@ -63,12 +93,11 @@ export default class DashboardPage extends Component {
 				<div className="table-container">
 					<div className="filter">
 						<label className="control-label">District</label>
-						<Select showSearch size="large" value={this.state.district} onChange={this.districtChange}
-							style={{ width: 150 }}>
+						<Select showSearch size="large" value={this.state.district} onChange={this.districtChange} style={{ width: 150 }}>
 							<Option value="">All</Option>
 							{this.state.districts.map(function (district, index) {
 								return (
-									<Option value={district._id} key={index}>{district.name}</Option>
+									<Option value={district.name} key={index}>{district.name}</Option>
 								)
 							})}
 						</Select>
@@ -91,18 +120,16 @@ export default class DashboardPage extends Component {
 						return (
 							<div className="item-row" key={index}>
 								<div className="column column-1" title={item.name}>{item.name}</div>
-								<div className="column column-2">{item.requested}</div>
-								<div className="column column-3">{item.approved}</div>
-								<div className="column column-4">{item.received}</div>
+								<div className="column column-2">{item.itemsRequested}</div>
+								<div className="column column-3">{item.itemsApproved}</div>
+								<div className="column column-4">{item.itemsReceived}</div>
 								<div className="column column-5">{item.ordersPlaced}</div>
 								<div className="column column-6">{item.ordersDispatched}</div>
-								<div className="column column-7">{item.remainingReq}</div>
+								<div className="column column-7">{item.remainingRequirement}</div>
 								<div className="column column-8">
-									<button className="btn column-btn"
-										onClick={this.viewHistory.bind(this, item._id)}>View
-									</button>
+									<button className="btn column-btn" onClick={this.viewHistory.bind(this, item._id)}>View</button>
 								</div>
-								<div className="column column-9">{item.receivedOwn}</div>
+								<div className="column column-9">{item.itemsReceivedOwnEffort}</div>
 							</div>
 						)
 					})}

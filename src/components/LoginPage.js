@@ -71,6 +71,7 @@ export default class LoginPage extends Component {
 	}
 
 	componentDidMount() {
+    this.setLoginForm();
 		$('#login-spinner').css('display', 'none');
 	}
 
