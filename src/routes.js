@@ -17,19 +17,21 @@ import DhsRequest from './components/DhsRequest';
 
 import AddMaterialPage from './components/AddMaterialPage';
 import AdminOrders from './components/AdminOrders';
-
+import AdminViewInventory from './components/AdminViewInventory';
 import ManageUsersPage from './components/ManageUsersPage';
+
+import ProcurerReceiveItems from './components/ProcurerReceiveItems';
+
+import ProcurerRequestPage from './components/ProcurerRequestPage';
+import ProcurerViewInventory from './components/ProcurerViewInventory';
+import ProcurerAllocationPage from './components/ProcurerAllocationPage';
+import ManageSingleAllocationPage from './components/ManageSingleAllocationPage';
+
 import ManageDistrictsPage from './components/ManageDistrictsPage';
 import ManageMaterialsPage from './components/ManageMaterialsPage';
 import ManageFulfilmentsPage from './components/ManageFulfilmentsPage';
 import ManageSingleMaterialPage from './components/ManageSingleMaterialPage';
 import ManageSingleDistrictPage from './components/ManageSingleDistrictPage';
-import ProcurerAllocationPage from './components/ProcurerAllocationPage';
-import ManageSingleAllocationPage from './components/ManageSingleAllocationPage';
-import ProcurerOrderPage from './components/ProcurerOrderPage';
-import ManageSingleOrderPage from './components/ManageSingleOrderPage';
-import ProcurerRequestPage from './components/ProcurerRequestPage';
-import ManageSingleRequestPage from './components/ManageSingleRequestPage';
 
 const history = createBrowserHistory();
 
@@ -38,67 +40,67 @@ const eraseCookie = require('./cookie.js').eraseCookie;
 const createCookie = require('./cookie.js').createCookie;
 
 const DefaultAppLayout = ({ component: Component, ...rest }) => {
-	return (
-		<Route {...rest} render={matchProps => (
-			<>
-				<TopMenu logoutUser={rest.logoutUser} userData={rest.userData} />
-				<Component {...matchProps} userData={rest.userData} logoutUser={rest.logoutUser} />
-			</>
-		)} />
-	)
+  return (
+    <Route {...rest} render={matchProps => (
+      <>
+        <TopMenu logoutUser={rest.logoutUser} userData={rest.userData} />
+        <Component {...matchProps} userData={rest.userData} logoutUser={rest.logoutUser} />
+      </>
+    )} />
+  )
 };
 
 const LandingPageLayout = ({ component: Component, ...rest }) => {
-	return (
-		<Route {...rest} render={matchProps => (
-			<Component {...matchProps} userData={rest.userData} logoutUser={rest.logoutUser} />
-		)} />
-	)
+  return (
+    <Route {...rest} render={matchProps => (
+      <Component {...matchProps} userData={rest.userData} logoutUser={rest.logoutUser} />
+    )} />
+  )
 };
 
 export default class Routes extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			loaded: false,
-			userData: null
-		}
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      loaded: false,
+      userData: null
+    }
+  }
 
-	componentDidMount() {
-		if (readCookie('userData') !== null) {
-			console.log(JSON.parse(readCookie('userData')))
-			this.setState({ userData: JSON.parse(readCookie('userData')), loaded: true });
-		} else {
-			eraseCookie('userData');
-			eraseCookie('access_token');
-			eraseCookie('refresh_token');
-			this.setState({ userData: null, loaded: true });
-		}
-	}
+  componentDidMount() {
+    if (readCookie('userData') !== null) {
+      console.log(JSON.parse(readCookie('userData')))
+      this.setState({ userData: JSON.parse(readCookie('userData')), loaded: true });
+    } else {
+      eraseCookie('userData');
+      eraseCookie('access_token');
+      eraseCookie('refresh_token');
+      this.setState({ userData: null, loaded: true });
+    }
+  }
 
-	logoutUser = () => {
-		fetch(apiBaseUrl + '/logout', {
-			method: "GET",
-			headers: {
-				'Auth': readCookie('access_token')
-			}
-		}).then((response) => {
-			return response.json();
-		}).then((data) => {
-			eraseCookie('userData');
-			eraseCookie('access_token');
-			eraseCookie('refresh_token');
-			this.setState({ userData: null });
-		}).catch((error) => {
-			console.log('There has been a problem with your fetch operation: ' + error.message);
-		});
-	};
+  logoutUser = () => {
+    fetch(apiBaseUrl + '/logout', {
+      method: "GET",
+      headers: {
+        'Auth': readCookie('access_token')
+      }
+    }).then((response) => {
+      return response.json();
+    }).then((data) => {
+      eraseCookie('userData');
+      eraseCookie('access_token');
+      eraseCookie('refresh_token');
+      this.setState({ userData: null });
+    }).catch((error) => {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+    });
+  };
 
-	render() {
-		if(this.state.loaded) {
-			if(this.state.userData !== null) {
-				if(this.state.userData.role.name === "REQUESTOR") {
+  render() {
+    if(this.state.loaded) {
+      if(this.state.userData !== null) {
+        if(this.state.userData.role.name === "REQUESTOR") {
           return (
             <Router history={history}>
               <Switch>
@@ -139,7 +141,13 @@ export default class Routes extends Component {
                   userData={this.state.userData} logoutUser={this.logoutUser} />
                 <DefaultAppLayout exact path="/create-material" component={AddMaterialPage}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
+                <DefaultAppLayout exact path="/edit-material/:materialId" component={AddMaterialPage}
+                  userData={this.state.userData} logoutUser={this.logoutUser} />
                 <DefaultAppLayout exact path="/declare-placed-orders" component={AdminOrders}
+                  userData={this.state.userData} logoutUser={this.logoutUser} />
+                <DefaultAppLayout exact path="/view-inventory" component={AdminViewInventory}
+                  userData={this.state.userData} logoutUser={this.logoutUser} />
+                <DefaultAppLayout exact path="/manage-users" component={ManageUsersPage}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
                 <LandingPageLayout exact path="/:state" component={LandingPage}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
@@ -152,39 +160,17 @@ export default class Routes extends Component {
             <Router history={history}>
               <Switch>
                 <Redirect exact from="/" to="/maharashtra" />
-                <DefaultAppLayout exact path="/add-material" component={AddMaterialPage}
+                <DefaultAppLayout exact path="/dashboard" component={DashboardPage}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/edit-material/:materialId" component={AddMaterialPage}
+                <DefaultAppLayout exact path="/receive-items" component={ProcurerReceiveItems}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/manage-materials" component={ManageMaterialsPage}
+                <DefaultAppLayout exact path="/view-inventory" component={ProcurerViewInventory}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/manage-material/:materialId"
-                  component={ManageSingleMaterialPage} userData={this.state.userData}
-                  logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/manage-districts" component={ManageDistrictsPage}
-                  userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/manage-district/:districtId"
-                  component={ManageSingleDistrictPage} userData={this.state.userData}
-                  logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/procurer-allocations" component={ProcurerAllocationPage}
+                <DefaultAppLayout exact path="/allocate-items" component={ProcurerAllocationPage}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
                 <DefaultAppLayout exact path="/procurer-allocation/:districtId"
                   component={ManageSingleAllocationPage} userData={this.state.userData}
                   logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/procurer-orders" component={ProcurerOrderPage}
-                  userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/procurer-order/:districtId"
-                  component={ManageSingleOrderPage} userData={this.state.userData}
-                  logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/procurer-requests" component={ProcurerRequestPage}
-                  userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/procurer-request/:districtId"
-                  component={ManageSingleRequestPage} userData={this.state.userData}
-                  logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/manage-users" component={ManageUsersPage}
-                  userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/fulfilments/:requirementId" component={ManageFulfilmentsPage}
-                  userData={this.state.userData} logoutUser={this.logoutUser} />
                 <LandingPageLayout exact path="/:state" component={LandingPage}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
                 <Redirect path="*" to="/dashboard" />
@@ -192,20 +178,20 @@ export default class Routes extends Component {
             </Router>
           )
         }
-			} else {
-				return (
-					<Router history={history}>
-						<Switch>
-							<Redirect exact from="/" to="/maharashtra" />
-							<Route exact path="/login" component={LoginPage} />
-							<Route exact path="/:state" component={LandingPage} />
-							<Redirect path="*" to="/maharashtra" />
-						</Switch>
-					</Router>
-				)
-			}
-		} else {
-			return null;
-		}
-	}
+      } else {
+        return (
+          <Router history={history}>
+            <Switch>
+              <Redirect exact from="/" to="/maharashtra" />
+              <Route exact path="/login" component={LoginPage} />
+              <Route exact path="/:state" component={LandingPage} />
+              <Redirect path="*" to="/maharashtra" />
+            </Switch>
+          </Router>
+        )
+      }
+    } else {
+      return null;
+    }
+  }
 }

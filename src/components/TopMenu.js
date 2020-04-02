@@ -18,12 +18,14 @@ export default class TopMenu extends Component {
 		else if (pathname === '/procurer-allocations') route = 'Procurers';
 		else if (pathname === '/procurer-orders') route = 'Orders';
 		else if (pathname === '/procurer-requests') route = 'Requests';
-		else if (pathname === '/manage-users') route = 'Users';
 		else if (pathname === '/request-items') route = 'Request Items';
 		else if (pathname === '/receive-items') route = 'Receive Items';
 		else if (pathname === '/manage-requests') route = 'Manage Requests';
 		else if (pathname === '/create-material') route = 'Create Material';
 		else if (pathname === '/declare-placed-orders') route = 'Declare Placed Orders';
+		else if (pathname === '/view-inventory') route = 'View Inventory';
+		else if (pathname === '/manage-users') route = 'Users';
+		else if (pathname === '/allocate-items') route = 'Allocate Items';
 
 		if (route) this.setState({ route });
 	}
@@ -56,7 +58,7 @@ export default class TopMenu extends Component {
 							href={window.location.pathname === '/request-items' ? null : '/request-items'}>Request Items</a>
 						) : (null)}
 
-						{this.props.userData.role.name === "REQUESTOR" ? (
+						{this.props.userData.role.name === "REQUESTOR" || this.props.userData.role.name === "PROCURER" ? (
 							<a className={this.state.route === "Receive Items" ? "menu-item selected" : "menu-item"}
 							href={window.location.pathname === '/receive-items' ? null : '/receive-items'}>Receive Items</a>
 						) : (null)}
@@ -76,24 +78,19 @@ export default class TopMenu extends Component {
 							href={window.location.pathname === '/declare-placed-orders' ? null : '/declare-placed-orders'}>Declare Placed Orders</a>
 						) : (null)}
 
-						{this.props.userData.role.name === "PROCURER" ? (
-							<a className={this.state.route === "Procurers" ? "menu-item selected" : "menu-item"}
-							href={window.location.pathname === '/procurer-allocations' ? null : '/procurer-allocations'}>Allocation</a>
+						{this.props.userData.role.name === "FUNDRAISER" || this.props.userData.role.name === "PROCURER" ? (
+							<a className={this.state.route === "View Inventory" ? "menu-item selected" : "menu-item"}
+							href={window.location.pathname === '/view-inventory' ? null : '/view-inventory'}>View Inventory</a>
 						) : (null)}
 
-						{this.props.userData.role.name === "PROCURER" ? (
-							<a className={this.state.route === "Orders" ? "menu-item selected" : "menu-item"}
-							href={window.location.pathname === '/procurer-orders' ? null : '/procurer-orders'}>Orders</a>
-						) : (null)}
-
-						{this.props.userData.role.name === "PROCURER" ? (
-							<a className={this.state.route === "Requests" ? "menu-item selected" : "menu-item"}
-							href={window.location.pathname === '/procurer-requests' ? null : '/procurer-requests'}>Requests</a>
-						) : (null)}
-
-						{this.props.userData.role.name === "PROCURER" ? (
+						{this.props.userData.role.name === "FUNDRAISER" ? (
 							<a className={this.state.route === "Users" ? "menu-item selected" : "menu-item"}
 							href={window.location.pathname === '/manage-users' ? null : '/manage-users'}>Manage Users</a>
+						) : (null)}
+
+						{this.props.userData.role.name === "PROCURER" ? (
+							<a className={this.state.route === "Allocate Items" ? "menu-item selected" : "menu-item"}
+							href={window.location.pathname === '/allocate-items' ? null : '/allocate-items'}>Allocate Items</a>
 						) : (null)}
 					</div>
 				</div>

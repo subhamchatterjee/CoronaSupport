@@ -47,6 +47,25 @@ button
 
 .page-container
   padding: 40px 50px
+  > .table-buttons
+    display: flex
+    margin: 10px 0
+    align-items: center
+    flex-direction: row-reverse
+    button.btn
+      color: #fff
+      margin: 5px
+      background: red
+      min-width: 150px
+      padding: 5px 10px
+      text-align: center
+      > i
+        margin-right: 5px
+      &.btn-alt
+        color: red
+        background: #fff
+        border: 1px solid red
+
   > h2
     margin-top: 0
     text-align: center
@@ -54,10 +73,11 @@ button
     text-transform: uppercase
   > .heading
     color: red
-    width: 90%
+    width: 100%
     display: flex
     font-size: 16px
     padding-bottom: 0
+    align-items: flex-end
     letter-spacing: 0.5px
     margin: 0 auto 10px auto
     border-bottom: 1px solid #777
@@ -65,7 +85,7 @@ button
       padding: 5px
       min-width: 100px
   > .no-items
-    width: 90%
+    width: 100%
     color: #444
     display: flex
     height: 180px
@@ -77,7 +97,7 @@ button
     justify-content: center
     box-shadow: 0 0 1px #aaa
   > .item-row
-    width: 90%
+    width: 100%
     color: #444
     display: flex
     margin: 0 auto
@@ -96,6 +116,10 @@ button
         min-width: 120px
         text-align: center
         background: #ef5a20
+        &.btn-alt
+          color: #ef5a20
+          background: #fff
+          border: 1px solid #ef5a20
   > .add-item-container
     text-align: center
     button.add-item-btn
