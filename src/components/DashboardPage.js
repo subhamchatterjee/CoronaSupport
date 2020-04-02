@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Swal from 'sweetalert2';
 import { Select } from 'antd';
-import {apiBaseUrl} from './config.jsx';
+import { apiBaseUrl } from './config.jsx'
 
 const { Option } = Select;
 const readCookie = require('../cookie.js').readCookie;

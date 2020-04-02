@@ -7,6 +7,10 @@ import TopMenu from './components/TopMenu';
 import LoginPage from './components/LoginPage';
 import LandingPage from './components/LandingPage';
 import DashboardPage from './components/DashboardPage';
+import DOReceiveItems from './components/DOReceiveItems';
+import DORequest from './components/DORequest';
+import DODashboardPage from './components/DODashboardPage';
+import DHS1DashboardPage from './components/DHS1DashboardPage';
 import AddMaterialPage from './components/AddMaterialPage';
 import ManageUsersPage from './components/ManageUsersPage';
 import ManageDistrictsPage from './components/ManageDistrictsPage';
@@ -20,6 +24,7 @@ import ProcurerOrderPage from './components/ProcurerOrderPage';
 import ManageSingleOrderPage from './components/ManageSingleOrderPage';
 import ProcurerRequestPage from './components/ProcurerRequestPage';
 import ManageSingleRequestPage from './components/ManageSingleRequestPage';
+
 
 const history = createBrowserHistory();
 
