@@ -6,7 +6,7 @@ import { apiBaseUrl } from './config.jsx'
 const { Option } = Select;
 const readCookie = require('../cookie.js').readCookie;
 
-export default class DashboardPage extends Component {
+export default class DODashboardPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
