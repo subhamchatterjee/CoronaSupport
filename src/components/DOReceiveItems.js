@@ -3,11 +3,11 @@ import { apiBaseUrl } from './config.jsx'
 import { authHeader } from '../helper/auth-header'
 
 
-export default class DORecieveItemsPage extends Component {
+export default class DORecieveItems extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            requirements: []
+            receive: []
         }
     }
 
@@ -23,7 +23,7 @@ export default class DORecieveItemsPage extends Component {
         }).then(data => data.json())
             .then(data => {
                 console.log(data)
-                this.setState({ requirements: data.data });
+                this.setState({ receive: data.data });
                 // console.log(requirements)
             }).catch(err => {
                 console.log(err);
@@ -46,30 +46,25 @@ export default class DORecieveItemsPage extends Component {
                 <div className="heading">
                     <div className="column-2">Dispatch Number</div>
                     <div className="column-2">Dispatch Date</div>
-
                     <div className="column-2">Items</div>
                     <div className="column-2">Units Dispatched</div>
                     <div className="column-2">Units Received</div>
                     <div className="column-2">Comments</div>
-                    <div className="column-2">Received</div>
+                    <div className="column-2">Received and added to stock</div>
                 </div>
-                {!this.state.requirements.length ? (
+                {!this.state.receive.length ? (
                     <div className="no-districts">Requirement Listings not found</div>
                 ) : (null)}
-                {this.state.requirements.map((requirement, index) => {
+                {this.state.receive.map((received, index) => {
                     return (
                         <div className="district-row" key={index}>
-                            <div className="column-2">{requirement.district}</div>
-                            <div className="column-2">{requirement.material}</div>
-
-                            <div className="column-2">{requirement.unit_min_price}</div>
-                            <div className="column-2">{requirement.unit_max_price}</div>
-                            <div className="column-2">{requirement.required_qnty}</div>
-                            <div className="column-2">
-                                <button className="btn manage-district-btn"
-                                    onClick={this.procurerRequest.bind(this, requirement._id)}>Manage
-                                </button>
-                            </div>
+                            <div className="column-2">{received.dispatchNumber}</div>
+                            <div className="column-2">{received.dispatchDate}</div>
+                            <div className="column-2">{received.items}</div>
+                            <div className="column-2">{received.unitsDipatched}</div>
+                            <div className="column-2">{received.unitsReceived}</div>
+                            <div className="column-2">{received.comments}</div>
+                            <div className="column-2">{received.Recieved}</div>
                         </div>
                     )
                 })}

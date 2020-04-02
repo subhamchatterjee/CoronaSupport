@@ -15,6 +15,10 @@ export default class TopMenu extends Component {
     componentDidMount() {
         let pathname = window.location.pathname, route = null;
         if (pathname === '/dashboard') route = 'Dashboard';
+        else if (pathname === '/DOdashboard') route = 'DODashboard';
+        else if (pathname === '/DHS1DashboardPage') route = 'DHS1DashboardPage';
+        else if (pathname === '/DORequest') route = 'DORequest';
+        else if (pathname === '/DOReceive') route = 'DOReceive';
         else if (pathname === '/manage-materials') route = 'Materials';
         else if (pathname === '/manage-districts') route = 'Districts';
         else if (pathname === '/procurer-allocations') route = 'Procurers';
@@ -48,7 +52,14 @@ export default class TopMenu extends Component {
                     <div className="menu-items">
                         <a className={this.state.route === "Dashboard" ? "menu-item selected" : "menu-item"}
                             href={window.location.pathname === '/dashboard' ? null : '/dashboard'}>Dashboard</a>
-
+                        <a className={this.state.route === "DODashboard" ? "menu-item selected" : "menu-item"}
+                            href={window.location.pathname === '/DOdashboard' ? null : '/DOdashboard'}>DODashboard</a>
+                        <a className={this.state.route === "DHS1DashboardPage" ? "menu-item selected" : "menu-item"}
+                            href={window.location.pathname === '/DHS1DashboardPage' ? null : '/DHS1DashboardPage'}>DHS1DashboardPage</a>
+                        <a className={this.state.route === "DORequest" ? "menu-item selected" : "menu-item"}
+                            href={window.location.pathname === '/DORequest' ? null : '/DORequest'}>DORequest</a>
+                        <a className={this.state.route === "DOReceive" ? "menu-item selected" : "menu-item"}
+                            href={window.location.pathname === '/DOReceive' ? null : '/DOReceive'}>DOReceive</a>
                         <a className={this.state.route === "Materials" ? "menu-item selected" : "menu-item"}
                             href={window.location.pathname === '/manage-materials' ? null : '/manage-materials'}>Manage
                             Materials</a>

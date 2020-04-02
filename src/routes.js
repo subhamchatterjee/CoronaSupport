@@ -7,6 +7,10 @@ import TopMenu from './components/TopMenu';
 import LoginPage from './components/LoginPage';
 import LandingPage from './components/LandingPage';
 import DashboardPage from './components/DashboardPage';
+import DOReceiveItems from './components/DOReceiveItems';
+import DORequest from './components/DORequest';
+import DODashboardPage from './components/DODashboardPage';
+import DHS1DashboardPage from './components/DHS1DashboardPage';
 import AddMaterialPage from './components/AddMaterialPage';
 import ManageUsersPage from './components/ManageUsersPage';
 import ManageDistrictsPage from './components/ManageDistrictsPage';
@@ -95,6 +99,15 @@ export default class Routes extends Component {
                             <Redirect exact from="/" to="/maharashtra" />
                             <DefaultAppLayout exact path="/dashboard" component={DashboardPage}
                                 userData={this.state.userData} logoutUser={this.logoutUser} />
+                            <DefaultAppLayout exact path="/DOdashboard" component={DODashboardPage}
+                                userData={this.state.userData} logoutUser={this.logoutUser} />
+                            <DefaultAppLayout exact path="/DHS1DashboardPage" component={DHS1DashboardPage}
+                                userData={this.state.userData} logoutUser={this.logoutUser} />
+                            <DefaultAppLayout exact path="/DORequest" component={DORequest}
+                                userData={this.state.userData} logoutUser={this.logoutUser} />
+                            <DefaultAppLayout exact path="/DOReceive" component={DOReceiveItems}
+                                userData={this.state.userData} logoutUser={this.logoutUser} />
+
                             <DefaultAppLayout exact path="/add-material" component={AddMaterialPage}
                                 userData={this.state.userData} logoutUser={this.logoutUser} />
                             <DefaultAppLayout exact path="/edit-material/:materialId" component={AddMaterialPage}

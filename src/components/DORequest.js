@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import { apiBaseUrl } from './config.jsx'
+// import { process.env.REACT_APP_API_URL } from './config.jsx'
 import { authHeader } from '../helper/auth-header'
 
 
-export default class DORequestPage extends Component {
+export default class DORequest extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            requirements: []
+            requests: []
         }
     }
 
     componentDidMount() {
-        fetch(apiBaseUrl + '/api/v1/requestor/received-items', {
+        fetch(process.env.REACT_APP_API_URL + '/api/v1/requestor/received-items', {
             method: 'GET',
             // headers: authHeader,
             headers: {
@@ -23,8 +23,8 @@ export default class DORequestPage extends Component {
         }).then(data => data.json())
             .then(data => {
                 console.log(data)
-                this.setState({ requirements: data.data });
-                // console.log(requirements)
+                this.setState({ requests: data.data });
+                // console.log(requests)
             }).catch(err => {
                 console.log(err);
                 // Swal.fire(
@@ -52,19 +52,19 @@ export default class DORequestPage extends Component {
                     <div className="column-2">Approved Units</div>
                     <div className="column-2">Approval Date</div>
                 </div>
-                {!this.state.requirements.length ? (
-                    <div className="no-districts">Requirement Listings not found</div>
+                {!this.state.requests.length ? (
+                    <div className="no-districts">Request Listings not found</div>
                 ) : (null)}
-                {this.state.requirements.map((requirement, index) => {
+                {this.state.requests.map((request, index) => {
                     return (
                         <div className="district-row" key={index}>
-                            <div className="column-2">{requirement.material}</div>
-                            <div className="column-2">{requirement.receivedUnits}</div>
+                            <div className="column-2">{request.material}</div>
+                            <div className="column-2">{request.receivedUnits}</div>
 
-                            <div className="column-2">{requirement.receivedDate}</div>
-                            <div className="column-2">{requirement.status}</div>
-                            <div className="column-2">{requirement.units}</div>
-                            <div className="column-2">{requirement.allocationedDate}</div>
+                            <div className="column-2">{request.receivedDate}</div>
+                            <div className="column-2">{request.status}</div>
+                            <div className="column-2">{request.units}</div>
+                            <div className="column-2">{request.allocationedDate}</div>
 
                         </div>
                     )
