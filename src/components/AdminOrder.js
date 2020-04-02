@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { apiBaseUrl } from './config.jsx'
 
-export default class AdminOrderPage extends Component {
+export default class AdminOrder extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,7 +20,7 @@ export default class AdminOrderPage extends Component {
         }).then(data => data.json())
             .then(data => {
                 this.setState({ orders: data.data });
-                console.log(this.state.data.orders)
+
             }).catch(err => {
                 console.log(err);
                 // Swal.fire(
@@ -41,8 +41,8 @@ export default class AdminOrderPage extends Component {
                 <div className="heading">
                     <div className="column-2">Order ID</div>
                     <div className="column-2">Item</div>
+
                     <div className="column-2">Units Ordered</div>
-                    <div className="column-2">Ordered Units</div>
                     <div className="column-2">Ordered Date</div>
                     <div className="column-2">Expected date of receipt</div>
                     <div className="column-2">Funder(select all that apply)</div>
@@ -60,17 +60,17 @@ export default class AdminOrderPage extends Component {
                     return (
                         <div className="district-row" key={index}>
                             <div className="column-2">{order.orderId}</div>
-                            <div className="column-2">{order.Item}</div>
+                            <div className="column-2">{order.material}</div>
                             <div className="column-2">{order.orderedUnits}</div>
                             <div className="column-2">{order.orderedDate}</div>
-                            <div className="column-2">{order.expectedDate}</div>
+                            <div className="column-2">{order.expectedDateOfReceipt}</div>
                             <div className="column-2">{order.funder}</div>
-                            <div className="column-2">{order.orderValue}</div>
-                            <div className="column-2">{order.comments}</div>
-                            <div className="column-2">{order.districtPreference}</div>
-                            <div className="column-2">{order.receiptStatus}</div>
-                            <div className="column-2">{order.dateOfReciept}</div>
-                            <div className="column-2">{order.unitsRecieved}</div>
+                            <div className="column-2">{order.amount}</div>
+                            <div className="column-2">{order.comment}</div>
+                            <div className="column-2">{order.district}</div>
+                            <div className="column-2">{order.status}</div>
+                            <div className="column-2">{order.dateOfReceipt}</div>
+                            <div className="column-2">{order.receivedUnits}</div>
 
                         </div>
                     )
