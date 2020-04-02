@@ -21,7 +21,6 @@ import ManageSingleOrderPage from './components/ManageSingleOrderPage';
 import ProcurerRequestPage from './components/ProcurerRequestPage';
 import ManageSingleRequestPage from './components/ManageSingleRequestPage';
 
-
 const history = createBrowserHistory();
 
 const readCookie = require('./cookie.js').readCookie;
@@ -29,125 +28,138 @@ const eraseCookie = require('./cookie.js').eraseCookie;
 const createCookie = require('./cookie.js').createCookie;
 
 const DefaultAppLayout = ({ component: Component, ...rest }) => {
-    return (
-        <Route {...rest} render={matchProps => (
-            <>
-                <TopMenu logoutUser={rest.logoutUser} userData={rest.userData} />
-                <Component {...matchProps} userData={rest.userData} logoutUser={rest.logoutUser} />
-            </>
-        )} />
-    )
+	return (
+		<Route {...rest} render={matchProps => (
+			<>
+				<TopMenu logoutUser={rest.logoutUser} userData={rest.userData} />
+				<Component {...matchProps} userData={rest.userData} logoutUser={rest.logoutUser} />
+			</>
+		)} />
+	)
 };
 
 const LandingPageLayout = ({ component: Component, ...rest }) => {
-    return (
-        <Route {...rest} render={matchProps => (
-            <Component {...matchProps} userData={rest.userData} logoutUser={rest.logoutUser} />
-        )} />
-    )
+	return (
+		<Route {...rest} render={matchProps => (
+			<Component {...matchProps} userData={rest.userData} logoutUser={rest.logoutUser} />
+		)} />
+	)
 };
 
 export default class Routes extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            loaded: false,
-            userData: null
-        }
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+			loaded: false,
+			userData: null
+		}
+	}
 
-    componentDidMount() {
-        if (readCookie('userData') !== null) {
-            this.setState({ userData: JSON.parse(readCookie('userData')), loaded: true });
-        } else {
-            eraseCookie('userData');
-            eraseCookie('access_token');
-            eraseCookie('refresh_token');
-            this.setState({ userData: null, loaded: true });
-        }
-    }
+	componentDidMount() {
+		if (readCookie('userData') !== null) {
+			console.log(JSON.parse(readCookie('userData')))
+			this.setState({ userData: JSON.parse(readCookie('userData')), loaded: true });
+		} else {
+			eraseCookie('userData');
+			eraseCookie('access_token');
+			eraseCookie('refresh_token');
+			this.setState({ userData: null, loaded: true });
+		}
+	}
 
-    logoutUser = () => {
-        fetch(apiBaseUrl + '/logout', {
-            method: "POST",
-            headers: {
-                'Auth': readCookie('access_token')
-            },
-            body: JSON.stringify({ refresh_token: readCookie('refresh_token') })
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            eraseCookie('userData');
-            eraseCookie('access_token');
-            eraseCookie('refresh_token');
-            this.setState({ userData: null });
-        }).catch((error) => {
-            console.log('There has been a problem with your fetch operation: ' + error.message);
-        });
-    };
+	logoutUser = () => {
+		fetch(apiBaseUrl + '/logout', {
+			method: "GET",
+			headers: {
+				'Auth': readCookie('access_token')
+			}
+		}).then((response) => {
+			return response.json();
+		}).then((data) => {
+			eraseCookie('userData');
+			eraseCookie('access_token');
+			eraseCookie('refresh_token');
+			this.setState({ userData: null });
+		}).catch((error) => {
+			console.log('There has been a problem with your fetch operation: ' + error.message);
+		});
+	};
 
-    render() {
-        if (this.state.loaded) {
-            if (this.state.userData !== null) {
-                return (
-                    <Router history={history}>
-                        <Switch>
-                            <Redirect exact from="/" to="/maharashtra" />
-                            <DefaultAppLayout exact path="/dashboard" component={DashboardPage}
-                                userData={this.state.userData} logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/add-material" component={AddMaterialPage}
-                                userData={this.state.userData} logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/edit-material/:materialId" component={AddMaterialPage}
-                                userData={this.state.userData} logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/manage-materials" component={ManageMaterialsPage}
-                                userData={this.state.userData} logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/manage-material/:materialId"
-                                component={ManageSingleMaterialPage} userData={this.state.userData}
-                                logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/manage-districts" component={ManageDistrictsPage}
-                                userData={this.state.userData} logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/manage-district/:districtId"
-                                component={ManageSingleDistrictPage} userData={this.state.userData}
-                                logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/procurer-allocations" component={ProcurerAllocationPage}
-                                userData={this.state.userData} logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/procurer-allocation/:districtId"
-                                component={ManageSingleAllocationPage} userData={this.state.userData}
-                                logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/procurer-orders" component={ProcurerOrderPage}
-                                userData={this.state.userData} logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/procurer-order/:districtId"
-                                component={ManageSingleOrderPage} userData={this.state.userData}
-                                logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/procurer-requests" component={ProcurerRequestPage}
-                                userData={this.state.userData} logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/procurer-request/:districtId"
-                                component={ManageSingleRequestPage} userData={this.state.userData}
-                                logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/manage-users" component={ManageUsersPage}
-                                userData={this.state.userData} logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/fulfilments/:requirementId" component={ManageFulfilmentsPage}
-                                userData={this.state.userData} logoutUser={this.logoutUser} />
-                            <LandingPageLayout exact path="/:state" component={LandingPage}
-                                userData={this.state.userData} logoutUser={this.logoutUser} />
-                            <Redirect path="*" to="/maharashtra" />
-                        </Switch>
-                    </Router>
-                )
-            } else {
-                return (
-                    <Router history={history}>
-                        <Switch>
-                            <Redirect exact from="/" to="/maharashtra" />
-                            <Route exact path="/login" component={LoginPage} />
-                            <Route exact path="/:state" component={LandingPage} />
-                            <Redirect path="*" to="/maharashtra" />
-                        </Switch>
-                    </Router>
-                )
-            }
-        } else {
-            return null;
-        }
-    }
+	render() {
+		if(this.state.loaded) {
+			if(this.state.userData !== null) {
+				if(this.state.userData.role.name === "REQUESTOR") {
+					return (
+						<Router history={history}>
+							<Switch>
+								<Redirect exact from="/" to="/maharashtra" />
+								<DefaultAppLayout exact path="/dashboard" component={DashboardPage}
+									userData={this.state.userData} logoutUser={this.logoutUser} />
+								<Redirect path="*" to="/dashboard" />
+							</Switch>
+						</Router>
+					)
+				} else if(this.state.userData.role.label === 'DHS (Directorate of Health Services)') {
+					return (
+						<Router history={history}>
+							<Switch>
+								<Redirect exact from="/" to="/maharashtra" />
+								<DefaultAppLayout exact path="/dashboard" component={DashboardPage}
+									userData={this.state.userData} logoutUser={this.logoutUser} />
+								<DefaultAppLayout exact path="/add-material" component={AddMaterialPage}
+									userData={this.state.userData} logoutUser={this.logoutUser} />
+								<DefaultAppLayout exact path="/edit-material/:materialId" component={AddMaterialPage}
+									userData={this.state.userData} logoutUser={this.logoutUser} />
+								<DefaultAppLayout exact path="/manage-materials" component={ManageMaterialsPage}
+									userData={this.state.userData} logoutUser={this.logoutUser} />
+								<DefaultAppLayout exact path="/manage-material/:materialId"
+									component={ManageSingleMaterialPage} userData={this.state.userData}
+									logoutUser={this.logoutUser} />
+								<DefaultAppLayout exact path="/manage-districts" component={ManageDistrictsPage}
+									userData={this.state.userData} logoutUser={this.logoutUser} />
+								<DefaultAppLayout exact path="/manage-district/:districtId"
+									component={ManageSingleDistrictPage} userData={this.state.userData}
+									logoutUser={this.logoutUser} />
+								<DefaultAppLayout exact path="/procurer-allocations" component={ProcurerAllocationPage}
+									userData={this.state.userData} logoutUser={this.logoutUser} />
+								<DefaultAppLayout exact path="/procurer-allocation/:districtId"
+									component={ManageSingleAllocationPage} userData={this.state.userData}
+									logoutUser={this.logoutUser} />
+								<DefaultAppLayout exact path="/procurer-orders" component={ProcurerOrderPage}
+									userData={this.state.userData} logoutUser={this.logoutUser} />
+								<DefaultAppLayout exact path="/procurer-order/:districtId"
+									component={ManageSingleOrderPage} userData={this.state.userData}
+									logoutUser={this.logoutUser} />
+								<DefaultAppLayout exact path="/procurer-requests" component={ProcurerRequestPage}
+									userData={this.state.userData} logoutUser={this.logoutUser} />
+								<DefaultAppLayout exact path="/procurer-request/:districtId"
+									component={ManageSingleRequestPage} userData={this.state.userData}
+									logoutUser={this.logoutUser} />
+								<DefaultAppLayout exact path="/manage-users" component={ManageUsersPage}
+									userData={this.state.userData} logoutUser={this.logoutUser} />
+								<DefaultAppLayout exact path="/fulfilments/:requirementId" component={ManageFulfilmentsPage}
+									userData={this.state.userData} logoutUser={this.logoutUser} />
+								<LandingPageLayout exact path="/:state" component={LandingPage}
+									userData={this.state.userData} logoutUser={this.logoutUser} />
+								<Redirect path="*" to="/dashboard" />
+							</Switch>
+						</Router>
+					)
+				} else return null;
+			} else {
+				return (
+					<Router history={history}>
+						<Switch>
+							<Redirect exact from="/" to="/maharashtra" />
+							<Route exact path="/login" component={LoginPage} />
+							<Route exact path="/:state" component={LandingPage} />
+							<Redirect path="*" to="/maharashtra" />
+						</Switch>
+					</Router>
+				)
+			}
+		} else {
+			return null;
+		}
+	}
 }
