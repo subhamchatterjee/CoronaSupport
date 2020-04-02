@@ -20,8 +20,8 @@ export default class TopMenu extends Component {
         else if (pathname === '/DORequestPage') route = 'DORequestPage';
         else if (pathname === '/DOReceiveItems') route = 'DOReceiveItems';
         else if (pathname === '/DhsRequestPage') route = 'DhsRequestPage';
-        else if (pathname === '/AdminViewInventory') route = 'AdminViewInventory';
-        else if (pathname === '/HaffkineViewInventory') route = 'HaffkineViewInventory';
+        else if (pathname === '/HaffkineAllocateItems') route = 'HaffkineAllocateItems';
+
         else if (pathname === '/manage-materials') route = 'Materials';
         else if (pathname === '/manage-districts') route = 'Districts';
         else if (pathname === '/procurer-allocations') route = 'Procurers';
@@ -59,17 +59,16 @@ export default class TopMenu extends Component {
                             href={window.location.pathname === '/DOdashboard' ? null : '/DOdashboard'}>DODashboard</a>
                         <a className={this.state.route === "DHS1DashboardPage" ? "menu-item selected" : "menu-item"}
                             href={window.location.pathname === '/DHS1DashboardPage' ? null : '/DHS1DashboardPage'}>DHS1DashboardPage</a>
-                        <a className={this.state.route === "DORequestPage" ? "menu-item selected" : "menu-item"}
+                        {/* <a className={this.state.route === "DORequestPage" ? "menu-item selected" : "menu-item"}
                             href={window.location.pathname === '/DORequestPage' ? null : '/DORequestPage'}>DORequestPage</a>
                         <a className={this.state.route === "DOReceiveItems" ? "menu-item selected" : "menu-item"}
                             href={window.location.pathname === '/DOReceiveItems' ? null : '/DOReceiveItems'}>DORecieveItems</a>
                         <a className={this.state.route === "DhsRequestPage" ? "menu-item selected" : "menu-item"}
-                            href={window.location.pathname === '/DhsRequestPage' ? null : '/DhsRequestPage'}>DhsRequestPage</a>
-                        <a className={this.state.route === "AdminViewInventory" ? "menu-item selected" : "menu-item"}
-                            href={window.location.pathname === '/AdminViewInventory' ? null : '/AdminViewInventory'}>AdminViewInventory</a>
+                            href={window.location.pathname === '/DhsRequestPage' ? null : '/DhsRequestPage'}>DhsRequestPage</a> */}
 
-                        <a className={this.state.route === "HaffkineViewInventory" ? "menu-item selected" : "menu-item"}
-                            href={window.location.pathname === '/HaffkineViewInventory' ? null : '/HaffkineViewInventory'}>HaffkineViewInventory</a>
+
+                        <a className={this.state.route === "HaffkineAllocateItems" ? "menu-item selected" : "menu-item"}
+                            href={window.location.pathname === '/HaffkineAllocateItems' ? null : '/HaffkineAllocateItems'}>HaffkineAllocateItems</a>
                         <a className={this.state.route === "Materials" ? "menu-item selected" : "menu-item"}
                             href={window.location.pathname === '/manage-materials' ? null : '/manage-materials'}>Manage
                             Materials</a>

@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { apiBaseUrl } from './config.jsx'
 
-export default class HaffkineViewInventory extends Component {
+export default class HaffkineAllocateItems extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Inventory: []
+            Allocations: []
         }
     }
 
     componentDidMount() {
-        fetch(apiBaseUrl + '/api/v1/inventory', {
+        fetch(apiBaseUrl + '/api/v1/allocations', {
             method: 'GET',
             // headers: authHeader,
             headers: {
@@ -19,8 +19,8 @@ export default class HaffkineViewInventory extends Component {
             }
         }).then(data => data.json())
             .then(data => {
-                this.setState({ Inventory: data.data });
-                console.log(this.state.data.orders)
+                this.setState({ Allocations: data.data });
+
             }).catch(err => {
                 console.log(err);
                 // Swal.fire(
@@ -32,7 +32,7 @@ export default class HaffkineViewInventory extends Component {
     }
 
 
-    Inventories = (districtId) => {
+    Allocation = (districtId) => {
         window.location.pathname = "/procurer-order/" + districtId;
     };
 
@@ -40,30 +40,36 @@ export default class HaffkineViewInventory extends Component {
 
         return (
             <div className="manage-districts-page">
-                <h2 className="text-center">VIEW INVENTORY</h2>
+                <h2 className="text-center">Allocate Items</h2>
                 <div className="heading">
 
-                    <div className="column-2">Item</div>
-                    <div className="column-2">Units Received</div>
-                    <div className="column-2">Units Issued</div>
-                    <div className="column-2">Balance Units</div>
-                    <div className="column-2">Issue Units</div>
+                    <div className="column-2">Units</div>
+                    <div className="column-2">Districts</div>
+                    <div className="column-2">Date of Allocation</div>
+                    <div className="column-2">Status</div>
+                    <div className="column-2">Dispatch ID</div>
+                    <div className="column-2">Dispatch Date</div>
+                    <div className="column-2">Comments</div>
+                    <div className="column-2">Dispatch</div>
 
                 </div>
-                {!this.state.Inventory.length ? (
+                {!this.state.Allocations.length ? (
                     <div className="no-districts">Inventories not found</div>
                 ) : (null)}
-                {this.state.Inventory.map((Inventories, index) => {
+                {this.state.Allocations.map((Allocation, index) => {
                     return (
                         <div className="district-row" key={index}>
-                            <div className="column-2">{Inventories.name}</div>
-                            <div className="column-2">{Inventories.unitsReceived}</div>
-                            <div className="column-2">{Inventories.unitsIssued}</div>
-                            <div className="column-2">{Inventories.balanceUnits}</div>
+                            <div className="column-2">{Allocation.units}</div>
+                            <div className="column-2">{Allocation.district}</div>
+                            <div className="column-2">{Allocation.allocationedDate}</div>
+                            <div className="column-2">{Allocation.status}</div>
+                            <div className="column-2">{Allocation.dispatchId}</div>
+                            <div className="column-2">{Allocation.dispatchedDate}</div>
+                            <div className="column-2">{Allocation.comment}</div>
                             <div className="column-2">
 
                                 <button className="btn manage-district-btn"
-                                    onClick={this.Inventories.bind(this, Inventories._id)}>Allocate
+                                    onClick={this.Allocation.bind(this, Allocation._id)}>Dispatch
                                 </button>
                             </div>
 

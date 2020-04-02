@@ -23,11 +23,10 @@ import ProcurerOrderPage from './components/ProcurerOrderPage';
 import ManageSingleOrderPage from './components/ManageSingleOrderPage';
 import ProcurerRequestPage from './components/ProcurerRequestPage';
 import ManageSingleRequestPage from './components/ManageSingleRequestPage';
-import HaffkineViewInventory from './components/HaffkineViewInventory';
+import HaffkineAllocateItems from './components/HaffkineAllocateItems';
 import DORequestPage from './components/DORequestPage';
 import DOReceiveItems from './components/DOReceiveItems';
 import DhsRequestPage from './components/DhsRequestPage';
-import AdminViewInventory from './components/AdminViewInventory';
 
 
 const history = createBrowserHistory();
@@ -113,13 +112,12 @@ export default class Routes extends Component {
                                 userData={this.state.userData} logoutUser={this.logoutUser} />
                             <DefaultAppLayout exact path="/DhsRequestPage" component={DhsRequestPage}
                                 userData={this.state.userData} logoutUser={this.logoutUser} />
-                            <DefaultAppLayout exact path="/AdminViewInventory" component={AdminViewInventory}
+                            <DefaultAppLayout exact path="/HaffkineAllocateItems" component={HaffkineAllocateItems}
                                 userData={this.state.userData} logoutUser={this.logoutUser} />
 
 
 
-                            <DefaultAppLayout exact path="/HaffkineViewInventory" component={HaffkineViewInventory}
-                                userData={this.state.userData} logoutUser={this.logoutUser} />
+
 
                             <DefaultAppLayout exact path="/add-material" component={AddMaterialPage}
                                 userData={this.state.userData} logoutUser={this.logoutUser} />
