@@ -22,6 +22,10 @@ export default class TopMenu extends Component {
 		else if (pathname === '/request-items') route = 'Request Items';
 		else if (pathname === '/receive-items') route = 'Receive Items';
 		else if (pathname === '/manage-requests') route = 'Manage Requests';
+		else if (pathname === '/DORequest') route = 'DORequest';
+		else if (pathname === '/HaffkineReceive') route = 'HaffkineReceive';
+		else if (pathname === '/HaffkineAllocateItems') route = 'HaffkineAllocateItems';
+		else if (pathname === '/HaffkineViewInventory') route = 'HaffkineViewInventory';
 		else if (pathname === '/create-material') route = 'Create Material';
 		else if (pathname === '/declare-placed-orders') route = 'Declare Placed Orders';
 
@@ -53,47 +57,67 @@ export default class TopMenu extends Component {
 
 						{this.props.userData.role.name === "REQUESTOR" ? (
 							<a className={this.state.route === "Request Items" ? "menu-item selected" : "menu-item"}
-							href={window.location.pathname === '/request-items' ? null : '/request-items'}>Request Items</a>
+								href={window.location.pathname === '/request-items' ? null : '/request-items'}>Request Items</a>
 						) : (null)}
 
 						{this.props.userData.role.name === "REQUESTOR" ? (
 							<a className={this.state.route === "Receive Items" ? "menu-item selected" : "menu-item"}
-							href={window.location.pathname === '/receive-items' ? null : '/receive-items'}>Receive Items</a>
+								href={window.location.pathname === '/receive-items' ? null : '/receive-items'}>Receive Items</a>
 						) : (null)}
 
 						{this.props.userData.role.name === "APPROVER" ? (
 							<a className={this.state.route === "Manage Requests" ? "menu-item selected" : "menu-item"}
-							href={window.location.pathname === '/manage-requests' ? null : '/manage-requests'}>Manage Requests</a>
+								href={window.location.pathname === '/manage-requests' ? null : '/manage-requests'}>Manage Requests</a>
+						) : (null)}
+
+						{this.props.userData.role.name === "APPROVER" ? (
+							<a className={this.state.route === "DORequest" ? "menu-item selected" : "menu-item"}
+								href={window.location.pathname === '/DORequest' ? null : '/DORequest'}>DORequest</a>
+						) : (null)}
+
+						{this.props.userData.role.name === "APPROVER" ? (
+							<a className={this.state.route === "HaffkineReceive" ? "menu-item selected" : "menu-item"}
+								href={window.location.pathname === '/HaffkineReceive' ? null : '/HaffkineReceive'}>HaffkineReceive</a>
+						) : (null)}
+
+						{this.props.userData.role.name === "APPROVER" ? (
+							<a className={this.state.route === "HaffkineAllocateItems" ? "menu-item selected" : "menu-item"}
+								href={window.location.pathname === '/HaffkineAllocateItems' ? null : '/HaffkineAllocateItems'}>HaffkineAllocateItems</a>
+						) : (null)}
+
+						{this.props.userData.role.name === "APPROVER" ? (
+							<a className={this.state.route === "HaffkineViewInventory" ? "menu-item selected" : "menu-item"}
+								href={window.location.pathname === '/HaffkineViewInventory' ? null : '/HaffkineViewInventory'}>HaffkineViewInventory</a>
 						) : (null)}
 
 						{this.props.userData.role.name === "FUNDRAISER" ? (
 							<a className={this.state.route === "Create Material" ? "menu-item selected" : "menu-item"}
-							href={window.location.pathname === '/create-material' ? null : '/create-material'}>Create Material</a>
+								href={window.location.pathname === '/create-material' ? null : '/create-material'}>Create Material</a>
 						) : (null)}
 
 						{this.props.userData.role.name === "FUNDRAISER" ? (
 							<a className={this.state.route === "Declare Placed Orders" ? "menu-item selected" : "menu-item"}
-							href={window.location.pathname === '/declare-placed-orders' ? null : '/declare-placed-orders'}>Declare Placed Orders</a>
+								href={window.location.pathname === '/declare-placed-orders' ? null : '/declare-placed-orders'}>Declare Placed Orders</a>
 						) : (null)}
 
 						{this.props.userData.role.name === "PROCURER" ? (
 							<a className={this.state.route === "Procurers" ? "menu-item selected" : "menu-item"}
-							href={window.location.pathname === '/procurer-allocations' ? null : '/procurer-allocations'}>Allocation</a>
+								href={window.location.pathname === '/procurer-allocations' ? null : '/procurer-allocations'}>Allocation</a>
 						) : (null)}
 
 						{this.props.userData.role.name === "PROCURER" ? (
 							<a className={this.state.route === "Orders" ? "menu-item selected" : "menu-item"}
-							href={window.location.pathname === '/procurer-orders' ? null : '/procurer-orders'}>Orders</a>
+								href={window.location.pathname === '/procurer-orders' ? null : '/procurer-orders'}>Orders</a>
 						) : (null)}
 
 						{this.props.userData.role.name === "PROCURER" ? (
 							<a className={this.state.route === "Requests" ? "menu-item selected" : "menu-item"}
-							href={window.location.pathname === '/procurer-requests' ? null : '/procurer-requests'}>Requests</a>
+								href={window.location.pathname === '/procurer-requests' ? null : '/procurer-requests'}>Requests</a>
 						) : (null)}
 
 						{this.props.userData.role.name === "PROCURER" ? (
 							<a className={this.state.route === "Users" ? "menu-item selected" : "menu-item"}
-							href={window.location.pathname === '/manage-users' ? null : '/manage-users'}>Manage Users</a>
+								href={window.location.pathname === '/manage-users' ? null : '/manage-users'}>Manage Users</a>
 						) : (null)}
 					</div>
 				</div>

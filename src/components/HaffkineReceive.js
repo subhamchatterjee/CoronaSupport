@@ -31,7 +31,9 @@ export default class HaffkineReceive extends Component {
             });
     }
 
-
+    HaffkineReceive = (districtId) => {
+        window.location.pathname = "/procurer-request/" + districtId;
+    };
 
     render() {
 
@@ -52,6 +54,7 @@ export default class HaffkineReceive extends Component {
                     <div className="column-2">Receipt status(Haffkine)</div>
                     <div className="column-2">Date of Receipt</div>
                     <div className="column-2">Units Recieved</div>
+                    <div className="column-2">Action</div>
                 </div>
                 {!this.state.orders.length ? (
                     <div className="no-districts">Order Listings not found</div>
@@ -71,6 +74,11 @@ export default class HaffkineReceive extends Component {
                             <div className="column-2">{order.status}</div>
                             <div className="column-2">{order.dateOfReceipt}</div>
                             <div className="column-2">{order.receivedUnits}</div>
+                            <div className="column-2">
+                                <button className="btn manage-district-btn"
+                                    onClick={this.HaffkineReceive.bind(this, order._id)}>Manage
+                                </button>
+                            </div>
 
                         </div>
                     )

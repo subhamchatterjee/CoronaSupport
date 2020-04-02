@@ -14,6 +14,9 @@ import DOReceiveItems from './components/DOReceiveItems';
 
 import DHS1DashboardPage from './components/DHS1DashboardPage';
 import DhsRequest from './components/DhsRequest';
+import HaffkineReceive from './components/HaffkineReceive';
+import HaffkineAllocateItems from './components/HaffkineAllocateItems';
+import HaffkineViewInventory from './components/HaffkineViewInventory';
 
 import AddMaterialPage from './components/AddMaterialPage';
 import AdminOrders from './components/AdminOrders';
@@ -38,67 +41,67 @@ const eraseCookie = require('./cookie.js').eraseCookie;
 const createCookie = require('./cookie.js').createCookie;
 
 const DefaultAppLayout = ({ component: Component, ...rest }) => {
-	return (
-		<Route {...rest} render={matchProps => (
-			<>
-				<TopMenu logoutUser={rest.logoutUser} userData={rest.userData} />
-				<Component {...matchProps} userData={rest.userData} logoutUser={rest.logoutUser} />
-			</>
-		)} />
-	)
+  return (
+    <Route {...rest} render={matchProps => (
+      <>
+        <TopMenu logoutUser={rest.logoutUser} userData={rest.userData} />
+        <Component {...matchProps} userData={rest.userData} logoutUser={rest.logoutUser} />
+      </>
+    )} />
+  )
 };
 
 const LandingPageLayout = ({ component: Component, ...rest }) => {
-	return (
-		<Route {...rest} render={matchProps => (
-			<Component {...matchProps} userData={rest.userData} logoutUser={rest.logoutUser} />
-		)} />
-	)
+  return (
+    <Route {...rest} render={matchProps => (
+      <Component {...matchProps} userData={rest.userData} logoutUser={rest.logoutUser} />
+    )} />
+  )
 };
 
 export default class Routes extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			loaded: false,
-			userData: null
-		}
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      loaded: false,
+      userData: null
+    }
+  }
 
-	componentDidMount() {
-		if (readCookie('userData') !== null) {
-			console.log(JSON.parse(readCookie('userData')))
-			this.setState({ userData: JSON.parse(readCookie('userData')), loaded: true });
-		} else {
-			eraseCookie('userData');
-			eraseCookie('access_token');
-			eraseCookie('refresh_token');
-			this.setState({ userData: null, loaded: true });
-		}
-	}
+  componentDidMount() {
+    if (readCookie('userData') !== null) {
+      console.log(JSON.parse(readCookie('userData')))
+      this.setState({ userData: JSON.parse(readCookie('userData')), loaded: true });
+    } else {
+      eraseCookie('userData');
+      eraseCookie('access_token');
+      eraseCookie('refresh_token');
+      this.setState({ userData: null, loaded: true });
+    }
+  }
 
-	logoutUser = () => {
-		fetch(apiBaseUrl + '/logout', {
-			method: "GET",
-			headers: {
-				'Auth': readCookie('access_token')
-			}
-		}).then((response) => {
-			return response.json();
-		}).then((data) => {
-			eraseCookie('userData');
-			eraseCookie('access_token');
-			eraseCookie('refresh_token');
-			this.setState({ userData: null });
-		}).catch((error) => {
-			console.log('There has been a problem with your fetch operation: ' + error.message);
-		});
-	};
+  logoutUser = () => {
+    fetch(apiBaseUrl + '/logout', {
+      method: "GET",
+      headers: {
+        'Auth': readCookie('access_token')
+      }
+    }).then((response) => {
+      return response.json();
+    }).then((data) => {
+      eraseCookie('userData');
+      eraseCookie('access_token');
+      eraseCookie('refresh_token');
+      this.setState({ userData: null });
+    }).catch((error) => {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+    });
+  };
 
-	render() {
-		if(this.state.loaded) {
-			if(this.state.userData !== null) {
-				if(this.state.userData.role.name === "REQUESTOR") {
+  render() {
+    if (this.state.loaded) {
+      if (this.state.userData !== null) {
+        if (this.state.userData.role.name === "REQUESTOR") {
           return (
             <Router history={history}>
               <Switch>
@@ -115,7 +118,7 @@ export default class Routes extends Component {
               </Switch>
             </Router>
           )
-        } else if(this.state.userData.role.name === "APPROVER") {
+        } else if (this.state.userData.role.name === "APPROVER") {
           return (
             <Router history={history}>
               <Switch>
@@ -124,13 +127,21 @@ export default class Routes extends Component {
                   userData={this.state.userData} logoutUser={this.logoutUser} />
                 <DefaultAppLayout exact path="/manage-requests" component={DhsRequest}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
+                <DefaultAppLayout exact path="/HaffkineReceive" component={HaffkineReceive}
+                  userData={this.state.userData} logoutUser={this.logoutUser} />
+                <DefaultAppLayout exact path="/HaffkineAllocateItems" component={HaffkineAllocateItems}
+                  userData={this.state.userData} logoutUser={this.logoutUser} />
+                <DefaultAppLayout exact path="/HaffkineViewInventory" component={HaffkineViewInventory}
+                  userData={this.state.userData} logoutUser={this.logoutUser} />
+                <DefaultAppLayout exact path="/DORequest" component={DORequest}
+                  userData={this.state.userData} logoutUser={this.logoutUser} />
                 <LandingPageLayout exact path="/:state" component={LandingPage}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
                 <Redirect path="*" to="/dashboard" />
               </Switch>
             </Router>
           )
-        } else if(this.state.userData.role.name === "FUNDRAISER") {
+        } else if (this.state.userData.role.name === "FUNDRAISER") {
           return (
             <Router history={history}>
               <Switch>
@@ -192,20 +203,20 @@ export default class Routes extends Component {
             </Router>
           )
         }
-			} else {
-				return (
-					<Router history={history}>
-						<Switch>
-							<Redirect exact from="/" to="/maharashtra" />
-							<Route exact path="/login" component={LoginPage} />
-							<Route exact path="/:state" component={LandingPage} />
-							<Redirect path="*" to="/maharashtra" />
-						</Switch>
-					</Router>
-				)
-			}
-		} else {
-			return null;
-		}
-	}
+      } else {
+        return (
+          <Router history={history}>
+            <Switch>
+              <Redirect exact from="/" to="/maharashtra" />
+              <Route exact path="/login" component={LoginPage} />
+              <Route exact path="/:state" component={LandingPage} />
+              <Redirect path="*" to="/maharashtra" />
+            </Switch>
+          </Router>
+        )
+      }
+    } else {
+      return null;
+    }
+  }
 }
