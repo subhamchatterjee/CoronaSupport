@@ -13,11 +13,11 @@ export default class DORequestPage extends Component {
     }
 
     componentDidMount() {
-        fetch(process.env.REACT_APP_API_URL + '/api/v1/requirements', {
+        fetch(apiBaseUrl + '/api/v1/requirements', {
             method: 'GET',
             // headers: authHeader,
             headers: {
-                'Auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlN2ZiNmZjODY5ZjExNmY0ZjljNTdkMSIsImlhdCI6MTU4NTYyOTc2MiwiZXhwIjoxNTg4MjIxNzYyfQ.0KhUsFtn73yNq712KVKuHHl4zKlF2Q5B1ODm1lLu03w',
+                'Auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlODM3OTNmNzkwZmM0NTk5MDQ5NWQyZSIsImlhdCI6MTU4NTY3NDgwMSwiZXhwIjoxNTg4MjY2ODAxfQ.8Vh83pZiHERA04EbOwb_MAV2-kLBQcLoBh58SJ_z2EA',
                 'Content-Type': 'application/json'
             }
 
