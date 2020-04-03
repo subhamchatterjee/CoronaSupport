@@ -22,7 +22,6 @@ export default class TopMenu extends Component {
 		else if (pathname === '/request-items') route = 'Request Items';
 		else if (pathname === '/receive-items') route = 'Receive Items';
 		else if (pathname === '/manage-requests') route = 'Manage Requests';
-		else if (pathname === '/DORequest') route = 'DORequest';
 		else if (pathname === '/HaffkineReceive') route = 'HaffkineReceive';
 		else if (pathname === '/HaffkineAllocateItems') route = 'HaffkineAllocateItems';
 		else if (pathname === '/HaffkineViewInventory') route = 'HaffkineViewInventory';
@@ -70,10 +69,7 @@ export default class TopMenu extends Component {
 								href={window.location.pathname === '/manage-requests' ? null : '/manage-requests'}>Manage Requests</a>
 						) : (null)}
 
-						{this.props.userData.role.name === "APPROVER" ? (
-							<a className={this.state.route === "DORequest" ? "menu-item selected" : "menu-item"}
-								href={window.location.pathname === '/DORequest' ? null : '/DORequest'}>DORequest</a>
-						) : (null)}
+
 
 						{this.props.userData.role.name === "APPROVER" ? (
 							<a className={this.state.route === "HaffkineReceive" ? "menu-item selected" : "menu-item"}

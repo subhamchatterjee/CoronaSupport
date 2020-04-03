@@ -2,28 +2,23 @@ import React, { Component } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { apiBaseUrl } from './components/config.jsx'
-
 import TopMenu from './components/TopMenu';
 import LoginPage from './components/LoginPage';
 import LandingPage from './components/LandingPage';
 import DashboardPage from './components/DashboardPage';
-
 import DODashboardPage from './components/DODashboardPage';
 import DORequest from './components/DORequest';
 import DOReceiveItems from './components/DOReceiveItems';
-
 import DHS1DashboardPage from './components/DHS1DashboardPage';
 import DhsRequest from './components/DhsRequest';
 import HaffkineReceive from './components/HaffkineReceive';
+
 import HaffkineAllocateItems from './components/HaffkineAllocateItems';
 import HaffkineViewInventory from './components/HaffkineViewInventory';
-
 import AddMaterialPage from './components/AddMaterialPage';
 import AdminOrders from './components/AdminOrders';
-
 import ManageUsersPage from './components/ManageUsersPage';
 import ManageDistrictsPage from './components/ManageDistrictsPage';
-import ManageMaterialsPage from './components/ManageMaterialsPage';
 import ManageFulfilmentsPage from './components/ManageFulfilmentsPage';
 import ManageSingleMaterialPage from './components/ManageSingleMaterialPage';
 import ManageSingleDistrictPage from './components/ManageSingleDistrictPage';
@@ -129,12 +124,12 @@ export default class Routes extends Component {
                   userData={this.state.userData} logoutUser={this.logoutUser} />
                 <DefaultAppLayout exact path="/HaffkineReceive" component={HaffkineReceive}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
+
                 <DefaultAppLayout exact path="/HaffkineAllocateItems" component={HaffkineAllocateItems}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
                 <DefaultAppLayout exact path="/HaffkineViewInventory" component={HaffkineViewInventory}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/DORequest" component={DORequest}
-                  userData={this.state.userData} logoutUser={this.logoutUser} />
+
                 <LandingPageLayout exact path="/:state" component={LandingPage}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
                 <Redirect path="*" to="/dashboard" />
