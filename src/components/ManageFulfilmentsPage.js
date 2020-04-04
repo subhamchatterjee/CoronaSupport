@@ -2,12 +2,11 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import React, {Component} from 'react';
 import {DatePicker, Select} from 'antd';
+import {apiBaseUrl} from './config.jsx';
 import enUS from 'antd/lib/locale-provider/en_US';
-import {apiBaseUrl} from './config.jsx'
 
 const {Option} = Select;
 const readCookie = require('../cookie.js').readCookie;
-
 
 moment.locale('en');
 

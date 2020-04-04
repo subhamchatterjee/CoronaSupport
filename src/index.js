@@ -7,10 +7,10 @@ import 'antd/dist/antd.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 ReactDOM.render(
-    <React.StrictMode>
-        <Routes/>
-    </React.StrictMode>,
-    document.getElementById('root')
+  <React.StrictMode>
+    <Routes />
+  </React.StrictMode>,
+  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -3,7 +3,6 @@ import { Select } from 'antd';
 import Swal from 'sweetalert2';
 import React, { Component } from 'react';
 import { authHeader } from '../helper/auth-header';
-import { apiBaseUrl } from './config.jsx'
 
 const { Option } = Select;
 const readCookie = require('../cookie.js').readCookie;
@@ -21,38 +20,38 @@ export default class DORequest extends Component {
 	componentDidMount() {
 		this.getRequests();
 
-		fetch(apiBaseUrl + '/materials', {
+		fetch(process.env.REACT_APP_API_URL + '/materials', {
 			method: 'GET'
 		}).then(data => data.json())
-			.then(data => {
-				if (data.status === 'ok') this.setState({ materials: data.material });
-			}).catch(err => {
-				console.log(err);
-				// Swal.fire(
-				//   'Oops!',
-				//   'An error occured! Please try again in sometime.',
-				//   'error'
-				// );
-			});
+		.then(data => {
+			if(data.status === 'ok') this.setState({ materials: data.material });
+		}).catch(err => {
+			console.log(err);
+			// Swal.fire(
+			//   'Oops!',
+			//   'An error occured! Please try again in sometime.',
+			//   'error'
+			// );
+		});
 	}
 
 	getRequests = () => {
-		fetch(apiBaseUrl + '/api/v1/requirements', {
+		fetch(process.env.REACT_APP_API_URL + '/api/v1/requirements', {
 			method: 'GET',
 			headers: {
 				'Auth': readCookie('access_token')
 			}
 		}).then(data => data.json())
-			.then(data => {
-				if (data.status === 'ok') this.setState({ requests: data.data, newRequestId: null });
-			}).catch(err => {
-				console.log(err);
-				// Swal.fire(
-				//   'Oops!',
-				//   'An error occured! Please try again in sometime.',
-				//   'error'
-				// );
-			});
+		.then(data => {
+			if(data.status === 'ok') this.setState({ requests: data.data, newRequestId: null });
+		}).catch(err => {
+			console.log(err);
+			// Swal.fire(
+			//   'Oops!',
+			//   'An error occured! Please try again in sometime.',
+			//   'error'
+			// );
+		});
 	}
 
 	addRequest = () => {
@@ -69,7 +68,7 @@ export default class DORequest extends Component {
 
 	handleNewReqChange = (index, type, value) => {
 		let requests = this.state.requests;
-		if (type === 'required_qnty') value = parseInt(value.target.value);
+		if(type === 'required_qnty') value = parseInt(value.target.value);
 		requests[index][type] = value;
 		this.setState({ requests });
 	}
@@ -81,11 +80,11 @@ export default class DORequest extends Component {
 			districtId: this.state.requests[0].districtId
 		}, error = false;
 
-		if (!this.state.requests[0].materialId) error = 'material';
-		else if (!this.state.requests[0].required_qnty) error = 'required_qnty';
+		if(!this.state.requests[0].materialId) error = 'material';
+		else if(!this.state.requests[0].required_qnty) error = 'required_qnty';
 
 		if (!error) {
-			fetch(apiBaseUrl + '/api/v1/requirement', {
+			fetch(process.env.REACT_APP_API_URL + '/api/v1/requirement', {
 				method: 'POST',
 				headers: {
 					'Auth': readCookie('access_token'),
@@ -93,19 +92,19 @@ export default class DORequest extends Component {
 				},
 				body: JSON.stringify(request)
 			}).then(data => data.json())
-				.then(data => {
-					this.setState({ newRequestId: null });
-					this.getRequests();
-					Swal.fire({ title: 'Request successfully added.', type: 'success' });
-				}).catch(err => {
-					console.log(err);
-					this.setState({ newRequestId: null });
-					// Swal.fire(
-					//   'Oops!',
-					//   'An error occured! Please try again in sometime.',
-					//   'error'
-					// );
-				});
+			.then(data => {
+				this.setState({ newRequestId: null });
+				this.getRequests();
+				Swal.fire({ title: 'Request successfully added.', type: 'success' });
+			}).catch(err => {
+				console.log(err);
+				this.setState({ newRequestId: null });
+				// Swal.fire(
+				//   'Oops!',
+				//   'An error occured! Please try again in sometime.',
+				//   'error'
+				// );
+			});
 		} else {
 			if (error === 'material') Swal.fire('', 'Please select a correct Material', 'error');
 			else if (error === 'required_qnty') Swal.fire('', 'Please enter correct requested units', 'error');
@@ -122,10 +121,10 @@ export default class DORequest extends Component {
 							<i className="fas fa-check"></i>Save Request
 						</button>
 					) : (
-							<button className="btn btn-alt add-button" onClick={this.addRequest}>
-								<i className="fas fa-plus"></i>Add Request
-							</button>
-						)}
+						<button className="btn btn-alt add-button" onClick={this.addRequest}>
+							<i className="fas fa-plus"></i>Add Request
+						</button>
+					)}
 				</div>
 				<div className="heading">
 					<div className="column column-1">Item</div>
@@ -138,7 +137,6 @@ export default class DORequest extends Component {
 				{!this.state.requests.length ? (
 					<div className="no-items">Requested Items not found</div>
 				) : (null)}
-
 				{this.state.requests.map((request, index) => {
 					return (
 						<div className="item-row" key={index}>
@@ -165,7 +163,6 @@ export default class DORequest extends Component {
 						</div>
 					)
 				})}
-
 			</div>
 		);
 	}

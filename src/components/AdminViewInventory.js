@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { apiBaseUrl } from './config.jsx'
 
-export default class AdminViewInventory extends Component {
+export default class AdminViewInventoryPage extends Component {
     constructor(props) {
         super(props);
         this.state = {

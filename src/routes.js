@@ -2,32 +2,36 @@ import React, { Component } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { apiBaseUrl } from './components/config.jsx'
+
 import TopMenu from './components/TopMenu';
 import LoginPage from './components/LoginPage';
 import LandingPage from './components/LandingPage';
 import DashboardPage from './components/DashboardPage';
+
 import DODashboardPage from './components/DODashboardPage';
 import DORequest from './components/DORequest';
 import DOReceiveItems from './components/DOReceiveItems';
+
 import DHS1DashboardPage from './components/DHS1DashboardPage';
 import DhsRequest from './components/DhsRequest';
-import HaffkineReceive from './components/HaffkineReceive';
 
-import HaffkineAllocateItems from './components/HaffkineAllocateItems';
-import HaffkineViewInventory from './components/HaffkineViewInventory';
 import AddMaterialPage from './components/AddMaterialPage';
 import AdminOrders from './components/AdminOrders';
+import AdminViewInventory from './components/AdminViewInventory';
 import ManageUsersPage from './components/ManageUsersPage';
+
+import ProcurerReceiveItems from './components/ProcurerReceiveItems';
+
+import ProcurerRequestPage from './components/ProcurerRequestPage';
+import ProcurerViewInventory from './components/ProcurerViewInventory';
+import ProcurerAllocationPage from './components/ProcurerAllocationPage';
+import ManageSingleAllocationPage from './components/ManageSingleAllocationPage';
+
 import ManageDistrictsPage from './components/ManageDistrictsPage';
+import ManageMaterialsPage from './components/ManageMaterialsPage';
 import ManageFulfilmentsPage from './components/ManageFulfilmentsPage';
 import ManageSingleMaterialPage from './components/ManageSingleMaterialPage';
 import ManageSingleDistrictPage from './components/ManageSingleDistrictPage';
-import ProcurerAllocationPage from './components/ProcurerAllocationPage';
-import ManageSingleAllocationPage from './components/ManageSingleAllocationPage';
-import ProcurerOrderPage from './components/ProcurerOrderPage';
-import ManageSingleOrderPage from './components/ManageSingleOrderPage';
-import ProcurerRequestPage from './components/ProcurerRequestPage';
-import ManageSingleRequestPage from './components/ManageSingleRequestPage';
 
 const history = createBrowserHistory();
 
@@ -94,9 +98,9 @@ export default class Routes extends Component {
   };
 
   render() {
-    if (this.state.loaded) {
-      if (this.state.userData !== null) {
-        if (this.state.userData.role.name === "REQUESTOR") {
+    if(this.state.loaded) {
+      if(this.state.userData !== null) {
+        if(this.state.userData.role.name === "REQUESTOR") {
           return (
             <Router history={history}>
               <Switch>
@@ -113,7 +117,7 @@ export default class Routes extends Component {
               </Switch>
             </Router>
           )
-        } else if (this.state.userData.role.name === "APPROVER") {
+        } else if(this.state.userData.role.name === "APPROVER") {
           return (
             <Router history={history}>
               <Switch>
@@ -122,21 +126,13 @@ export default class Routes extends Component {
                   userData={this.state.userData} logoutUser={this.logoutUser} />
                 <DefaultAppLayout exact path="/manage-requests" component={DhsRequest}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/HaffkineReceive" component={HaffkineReceive}
-                  userData={this.state.userData} logoutUser={this.logoutUser} />
-
-                <DefaultAppLayout exact path="/HaffkineAllocateItems" component={HaffkineAllocateItems}
-                  userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/HaffkineViewInventory" component={HaffkineViewInventory}
-                  userData={this.state.userData} logoutUser={this.logoutUser} />
-
                 <LandingPageLayout exact path="/:state" component={LandingPage}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
                 <Redirect path="*" to="/dashboard" />
               </Switch>
             </Router>
           )
-        } else if (this.state.userData.role.name === "FUNDRAISER") {
+        } else if(this.state.userData.role.name === "FUNDRAISER") {
           return (
             <Router history={history}>
               <Switch>
@@ -145,7 +141,13 @@ export default class Routes extends Component {
                   userData={this.state.userData} logoutUser={this.logoutUser} />
                 <DefaultAppLayout exact path="/create-material" component={AddMaterialPage}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
+                <DefaultAppLayout exact path="/edit-material/:materialId" component={AddMaterialPage}
+                  userData={this.state.userData} logoutUser={this.logoutUser} />
                 <DefaultAppLayout exact path="/declare-placed-orders" component={AdminOrders}
+                  userData={this.state.userData} logoutUser={this.logoutUser} />
+                <DefaultAppLayout exact path="/view-inventory" component={AdminViewInventory}
+                  userData={this.state.userData} logoutUser={this.logoutUser} />
+                <DefaultAppLayout exact path="/manage-users" component={ManageUsersPage}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
                 <LandingPageLayout exact path="/:state" component={LandingPage}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
@@ -158,39 +160,17 @@ export default class Routes extends Component {
             <Router history={history}>
               <Switch>
                 <Redirect exact from="/" to="/maharashtra" />
-                <DefaultAppLayout exact path="/add-material" component={AddMaterialPage}
+                <DefaultAppLayout exact path="/dashboard" component={DashboardPage}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/edit-material/:materialId" component={AddMaterialPage}
+                <DefaultAppLayout exact path="/receive-items" component={ProcurerReceiveItems}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/manage-materials" component={ManageMaterialsPage}
+                <DefaultAppLayout exact path="/view-inventory" component={ProcurerViewInventory}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/manage-material/:materialId"
-                  component={ManageSingleMaterialPage} userData={this.state.userData}
+                <DefaultAppLayout exact path="/allocate-items" component={ProcurerAllocationPage}
+                  userData={this.state.userData} logoutUser={this.logoutUser} />
+                <DefaultAppLayout exact path="/allocate-items/:materialId"
+                  component={ProcurerAllocationPage} userData={this.state.userData}
                   logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/manage-districts" component={ManageDistrictsPage}
-                  userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/manage-district/:districtId"
-                  component={ManageSingleDistrictPage} userData={this.state.userData}
-                  logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/procurer-allocations" component={ProcurerAllocationPage}
-                  userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/procurer-allocation/:districtId"
-                  component={ManageSingleAllocationPage} userData={this.state.userData}
-                  logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/procurer-orders" component={ProcurerOrderPage}
-                  userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/procurer-order/:districtId"
-                  component={ManageSingleOrderPage} userData={this.state.userData}
-                  logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/procurer-requests" component={ProcurerRequestPage}
-                  userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/procurer-request/:districtId"
-                  component={ManageSingleRequestPage} userData={this.state.userData}
-                  logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/manage-users" component={ManageUsersPage}
-                  userData={this.state.userData} logoutUser={this.logoutUser} />
-                <DefaultAppLayout exact path="/fulfilments/:requirementId" component={ManageFulfilmentsPage}
-                  userData={this.state.userData} logoutUser={this.logoutUser} />
                 <LandingPageLayout exact path="/:state" component={LandingPage}
                   userData={this.state.userData} logoutUser={this.logoutUser} />
                 <Redirect path="*" to="/dashboard" />
